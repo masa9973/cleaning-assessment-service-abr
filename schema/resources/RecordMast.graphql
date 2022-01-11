@@ -1,0 +1,17 @@
+type RecordMast {
+    recordID: ID!
+    cleanerID: ID!
+    room: String!
+    startAt: AWSTimestamp!
+    finishedAt: AWSTimestamp!
+    createdAt: AWSTimestamp!
+}
+
+input RecordMastInput {
+    recordID: ID!
+    cleanerID: ID!
+    room: String!
+    startAt: AWSTimestamp!
+    finishedAt: AWSTimestamp!
+    createdAt: AWSTimestamp!
+}

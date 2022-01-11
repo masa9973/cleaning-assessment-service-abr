@@ -1,0 +1,19 @@
+type UserMast {
+    userID: ID!
+    name: String!
+    email: String!
+    userIcon: S3Object
+    role: String!
+    createdAt: AWSTimestamp!
+    updatedAt: AWSTimestamp!
+}
+
+input UserMastInput {
+    userID: ID!
+    name: String!
+    email: String!
+    userIcon: S3ObjectInput
+    role: String!
+    createdAt: AWSTimestamp!
+    updatedAt: AWSTimestamp!
+}

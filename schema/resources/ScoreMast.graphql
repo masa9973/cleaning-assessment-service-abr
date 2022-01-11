@@ -1,0 +1,15 @@
+type  ScoreMast {
+    recordID: ID!
+    scoreID: ID!
+    scorerUserID: ID!
+    score: Int!
+    createdAt: AWSTimestamp!
+}
+
+input ScoreMastInput {
+    recordID: ID!
+    scoreID: ID!
+    scorerUserID: ID!
+    score: Int!
+    createdAt: AWSTimestamp!
+}

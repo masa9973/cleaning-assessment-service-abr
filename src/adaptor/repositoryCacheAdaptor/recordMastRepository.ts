@@ -1,0 +1,71 @@
+import { compareNumDesc, IRecordMastRepository } from '../..';
+import { RecordMast, Scalars } from '../../entities';
+
+type UserCache = {
+    [userID: string]:
+        | {
+              [recordID: string]: RecordMast;
+          }
+        | undefined;
+};
+type RecordCache = {
+    [recordID: string]: RecordMast | 'blanc' | undefined;
+};
+
+export class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
+    private userCache: UserCache = {};
+    private recordCache: RecordCache = {};
+
+    constructor(private repository: IRecordMastRepository) {}
+
+    async addRecord(input: RecordMast): Promise<RecordMast> {
+        const res = await this.repository.addRecord(input);
+        this.addCacheEach(res.recordID, res);
+        return res;
+    }
+
+    async fetchRecordsByCleanerID(userID: string): Promise<RecordMast[]> {
+        const cache = this.fetchRecords(userID);
+        if (cache) return cache;
+        const res = await this.repository.fetchRecordsByCleanerID(userID);
+        this.addCacheBulk(userID, res);
+        return res.sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
+    }
+
+    // ===============================================================
+    //
+    // private
+    //
+    // ===============================================================
+
+    private addCacheEach(recordID: Scalars['ID'], record: RecordMast | null) {
+        this.recordCache[recordID] = record || 'blanc';
+        if (!record) return;
+        const userCache = this.userCache[record.cleanerID];
+        if (userCache) {
+            userCache[recordID] = record;
+        }
+    }
+
+    private addCacheBulk(userID: Scalars['ID'], records: RecordMast[]) {
+        this.userCache[userID] = {};
+        for (const record of records) {
+            this.addCacheEach(record.recordID, record);
+        }
+    }
+
+    private fetchRecord(recordID: Scalars['ID']) {
+        return this.recordCache[recordID];
+    }
+
+    private fetchRecords(userID: Scalars['ID']) {
+        const userCache = this.userCache[userID];
+        if (!userCache) return null;
+        return Object.keys(userCache)
+            .map((key) => {
+                return userCache[key];
+            })
+            // .filter((item) => !item.deletedAt)
+            .sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
+    }
+}

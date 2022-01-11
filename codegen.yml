@@ -1,0 +1,27 @@
+overwrite: true
+schema:
+  - './schema/**/*.graphql'
+documents: null
+config:
+  namingConvention: keep
+  scalars:
+    AWSDate: string
+    AWSDateTime: string
+    AWSTimestamp: number
+    AWSTime: string
+    AWSEmail: string
+    AWSJSON: string
+    AWSURL: string
+    AWSPhone: string
+    AWSIPAdress: string
+generates:
+  src/entities/type.ts:
+    plugins:
+      - add:
+          content: '/* tslint:disable */'
+      - 'typescript'
+    config:
+      skipTypename: true
+  dist/schema.graphql:
+    plugins:
+      - 'schema-ast'

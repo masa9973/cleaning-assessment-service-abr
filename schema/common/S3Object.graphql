@@ -1,0 +1,13 @@
+type S3Object {
+    url: AWSURL!
+    bucket: String!
+    key: String!
+    region: String!
+}
+
+input S3ObjectInput {
+    url: AWSURL!
+    bucket: String!
+    key: String!
+    region: String!
+}
