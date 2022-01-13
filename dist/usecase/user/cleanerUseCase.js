@@ -34,12 +34,11 @@ class CleanerUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         else {
-            if (this.modelFactory.UserModel(me).role === 'cleaner') {
-                const userID = this.modelFactory.UserModel(me).userID;
-                return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0), {
-                    isNew: true,
-                });
-            }
+            // if (this.modelFactory.UserModel(me).role === 'cleaner') {}
+            const userID = this.modelFactory.UserModel(me).userID;
+            return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0), {
+                isNew: true,
+            });
         }
     }
 }

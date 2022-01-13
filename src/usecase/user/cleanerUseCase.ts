@@ -4,11 +4,8 @@ import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
 
 export class CleanerUsecase {
-    constructor(
-        private repositoryContainer: RepositoryContainer,
-        private modelFactory: ModelFactory,
-    ) {}
-    
+    constructor(private repositoryContainer: RepositoryContainer, private modelFactory: ModelFactory) {}
+
     async fetchMyUserModel() {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -31,17 +28,16 @@ export class CleanerUsecase {
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
-    async createNewRecord() {
+    async createNewRecord(): Promise<RecordMast> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            if (this.modelFactory.UserModel(me).role === 'cleaner') {
-                const userID = this.modelFactory.UserModel(me).userID;
-                return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0), {
-                    isNew: true,
-                });
-            }
+            // if (this.modelFactory.UserModel(me).role === 'cleaner') {}
+            const userID = this.modelFactory.UserModel(me).userID;
+            return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0), {
+                isNew: true,
+            });
         }
     }
 }
