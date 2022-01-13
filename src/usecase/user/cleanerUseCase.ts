@@ -28,7 +28,7 @@ export class CleanerUsecase {
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
-    async createNewRecord(): Promise<RecordMast> {
+    async createNewRecord(): Promise<RecordModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
