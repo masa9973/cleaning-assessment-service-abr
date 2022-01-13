@@ -28,6 +28,7 @@ class CleanerUsecase {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUser();
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // 新しいコメントを作成
     async createNewRecord() {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -40,6 +41,11 @@ class CleanerUsecase {
                 isNew: true,
             });
         }
+    }
+    // 全レコードを取得
+    async fetchAllRecord() {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
+        return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
 }
 exports.CleanerUsecase = CleanerUsecase;

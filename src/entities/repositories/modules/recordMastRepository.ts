@@ -5,4 +5,6 @@ export interface IRecordMastRepository {
     // updateRecordMast(input: RecordMast): Promise<RecordMast>
     fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordMast[]>
     // fetchRecordByRecordID(recordID: Scalars['ID']): Promise<RecordMast>
+    // fetchAllRecordsUnscored()も検討
+    fetchAllRecords(): Promise<RecordMast[]>
 }

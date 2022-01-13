@@ -23,11 +23,13 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
+
     async fetchAllUser() {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUser();
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
+    // 新しいコメントを作成
     async createNewRecord(): Promise<RecordModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -39,5 +41,11 @@ export class CleanerUsecase {
                 isNew: true,
             });
         }
+    }
+
+    // 全レコードを取得
+    async fetchAllRecord() {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
+        return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 }
