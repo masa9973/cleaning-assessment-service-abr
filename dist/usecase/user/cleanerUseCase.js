@@ -43,7 +43,7 @@ class CleanerUsecase {
         }
     }
     // 全レコードを取得
-    async fetchAllRecord() {
+    async fetchAllRecords() {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
