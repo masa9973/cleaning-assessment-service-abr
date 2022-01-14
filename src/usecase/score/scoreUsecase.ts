@@ -11,7 +11,7 @@ export class ScoreUsecase {
     ) {}
     
     /* 新しいスコアを作成 */
-    async createNewScore() {
+    async createNewScore(): Promise<ScoreModel> {
         // 自分しか評価ができないのはいいんだけど、清掃者も評価ができてしまう
         // role === managerをやりたい
 
@@ -19,13 +19,13 @@ export class ScoreUsecase {
         if (!me)  {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            if (this.modelFactory.UserModel(me).role === 'manager') {
+            // if (this.modelFactory.UserModel(me).role === 'manager') {
 
                 const userID = this.modelFactory.UserModel(me).userID;
                 return this.modelFactory.ScoreModel(ScoreModel.getBlanc(this.recordModel.recordID, userID, 0), {
                     isNew: true,
                 });
-            }
+            // }
         }
     }
 }

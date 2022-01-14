@@ -19,12 +19,12 @@ class ScoreUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         else {
-            if (this.modelFactory.UserModel(me).role === 'manager') {
-                const userID = this.modelFactory.UserModel(me).userID;
-                return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0), {
-                    isNew: true,
-                });
-            }
+            // if (this.modelFactory.UserModel(me).role === 'manager') {
+            const userID = this.modelFactory.UserModel(me).userID;
+            return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0), {
+                isNew: true,
+            });
+            // }
         }
     }
 }

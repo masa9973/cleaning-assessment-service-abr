@@ -6,5 +6,5 @@ export declare class ScoreUsecase {
     private modelFactory;
     private recordModel;
     constructor(repositoryContainer: RepositoryContainer, modelFactory: ModelFactory, recordModel: RecordModel);
-    createNewScore(): Promise<ScoreModel | undefined>;
+    createNewScore(): Promise<ScoreModel>;
 }
