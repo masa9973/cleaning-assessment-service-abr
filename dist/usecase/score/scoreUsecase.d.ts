@@ -7,4 +7,5 @@ export declare class ScoreUsecase {
     private recordModel;
     constructor(repositoryContainer: RepositoryContainer, modelFactory: ModelFactory, recordModel: RecordModel);
     createNewScore(): Promise<ScoreModel>;
+    fetchRecordsByCleanerID(): Promise<RecordModel[]>;
 }

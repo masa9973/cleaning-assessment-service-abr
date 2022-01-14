@@ -47,5 +47,9 @@ class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    async fetchRecordsByCleanerID(userID) {
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
+        return records.map((item) => this.modelFactory.RecordModel(item));
+    }
 }
 exports.CleanerUsecase = CleanerUsecase;

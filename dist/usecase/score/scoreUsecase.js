@@ -27,5 +27,11 @@ class ScoreUsecase {
             // }
         }
     }
+    // recordわかってるならいらん気がする
+    async fetchRecordsByCleanerID() {
+        const cleanerID = this.recordModel.cleanerID;
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(cleanerID);
+        return records.map((item) => this.modelFactory.RecordModel(item));
+    }
 }
 exports.ScoreUsecase = ScoreUsecase;

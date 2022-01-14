@@ -48,4 +48,9 @@ export class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
+
+    async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
+        return records.map((item) => this.modelFactory.RecordModel(item))
+    }
 }

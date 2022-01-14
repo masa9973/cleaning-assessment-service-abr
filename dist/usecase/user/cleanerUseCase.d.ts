@@ -10,4 +10,5 @@ export declare class CleanerUsecase {
     fetchAllUser(): Promise<import("../../entities").UserModel[]>;
     createNewRecord(): Promise<RecordModel>;
     fetchAllRecords(): Promise<RecordModel[]>;
+    fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]>;
 }
