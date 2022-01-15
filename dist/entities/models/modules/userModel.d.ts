@@ -1,5 +1,4 @@
 import { UserMast } from '../..';
-import { RecordModel } from './recordModel';
 import { BaseModel } from './_baseModel';
 export declare class UserModel extends BaseModel<UserMast> {
     get userID(): string;
@@ -22,10 +21,4 @@ export declare class UserModel extends BaseModel<UserMast> {
      * ユーザー情報を新規登録、または更新する
      */
     register(): Promise<void>;
-    /**
-     * このユーザーの清掃記録を取得する
-     * managerの清掃記録も見れる→cleanerModelに実装すべき？
-     * @returns
-     */
-    fetchMyRecords(): Promise<RecordModel[]>;
 }

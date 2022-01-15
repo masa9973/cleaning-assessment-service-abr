@@ -1,85 +1,87 @@
 "use strict";
-// import { compareNumDesc, IRecordMastRepository } from '../..';
-// import { RecordMast, Scalars } from '../../entities';
-// type UserCache = {
-//     [userID: string]:
-//         | {
-//               [recordID: string]: RecordMast;
-//           }
-//         | undefined;
-// };
-// type RecordCache = {
-//     [recordID: string]: RecordMast | 'blanc' | undefined;
-// };
-// export class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
-//     private userCache: UserCache = {};
-//     private recordCache: RecordCache = {};
-//     private recordAllCache: RecordCache | null = null;
-//     constructor(private repository: IRecordMastRepository) {}
-//     async addRecord(input: RecordMast): Promise<RecordMast> {
-//         const res = await this.repository.addRecord(input);
-//         this.addCacheEach(res.recordID, res);
-//         return res;
-//     }
-//     async fetchRecordsByCleanerID(userID: string): Promise<RecordMast[]> {
-//         const cache = this.fetchRecords(userID);
-//         if (cache) return cache;
-//         const res = await this.repository.fetchRecordsByCleanerID(userID);
-//         this.addCacheBulk(userID, res);
-//         return res.sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-//     }
-//     async fetchAllRecords(): Promise<RecordMast[]> {
-//         const cache = this.fetchCacheRecordsAll();
-//         if (cache) return cache;
-//         const res = await this.repository.fetchAllRecords();
-//         this.updateCacheBulk(res);
-//         return res;
-//     }
-//     // ===============================================================
-//     //
-//     // private
-//     //
-//     // ===============================================================
-//     private addCacheEach(recordID: Scalars['ID'], record: RecordMast | null) {
-//         this.recordCache[recordID] = record || 'blanc';
-//         if (!record) return;
-//         const userCache = this.userCache[record.cleanerID];
-//         if (userCache) {
-//             userCache[recordID] = record;
-//         }
-//     }
-//     private addCacheBulk(userID: Scalars['ID'], records: RecordMast[]) {
-//         this.userCache[userID] = {};
-//         for (const record of records) {
-//             this.addCacheEach(record.recordID, record);
-//         }
-//     }
-//     private updateCacheEach()
-//     private updateCacheBulk(records: RecordMast[]) {
-//         this.recordAllCache = {};
-//         for (const record of records) {
-//             this.updateCacheEach(record.recordID, record);
-//         }
-//     }
-//     private fetchRecord(recordID: Scalars['ID']) {
-//         return this.recordCache[recordID];
-//     }
-//     private fetchRecords(userID: Scalars['ID']) {
-//         const userCache = this.userCache[userID];
-//         if (!userCache) return null;
-//         return Object.keys(userCache)
-//             .map((key) => {
-//                 return userCache[key];
-//             })
-//             // .filter((item) => !item.deletedAt)
-//             .sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-//     }
-//     private fetchCacheRecordsAll() {
-//         if (!this.recordAllCache) return null;
-//         return Object.keys(this.recordAllCache)
-//         .map((key) => {
-//             return this.recordAllCache![key]! as RecordMast;
-//         })
-//         .sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-//     }
-// }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RecordMastRepositoryCacheAdaptor = void 0;
+const __1 = require("../..");
+class RecordMastRepositoryCacheAdaptor {
+    constructor(repository) {
+        this.repository = repository;
+        this.userCache = {};
+        this.recordCache = {};
+        this.recordAllCache = null;
+    }
+    async addRecord(input) {
+        const res = await this.repository.addRecord(input);
+        this.addCacheEach(res.recordID, res);
+        return res;
+    }
+    async fetchRecordsByCleanerID(userID) {
+        const cache = this.fetchRecords(userID);
+        if (cache)
+            return cache;
+        const res = await this.repository.fetchRecordsByCleanerID(userID);
+        this.addCacheBulk(userID, res);
+        return res.sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    async fetchAllRecords() {
+        const cache = this.fetchCacheRecordsAll();
+        if (cache)
+            return cache;
+        const res = await this.repository.fetchAllRecords();
+        this.updateCacheBulk(res);
+        return res;
+    }
+    // ===============================================================
+    //
+    // private
+    //
+    // ===============================================================
+    addCacheEach(recordID, record) {
+        this.recordCache[recordID] = record || 'blanc';
+        if (!record)
+            return;
+        const userCache = this.userCache[record.cleanerID];
+        if (userCache) {
+            userCache[recordID] = record;
+        }
+    }
+    addCacheBulk(userID, records) {
+        this.userCache[userID] = {};
+        for (const record of records) {
+            this.addCacheEach(record.recordID, record);
+        }
+    }
+    updateCacheEach(recordID, record) {
+        this.recordCache[recordID] = record || 'blanc';
+        if (this.recordAllCache && record) {
+            this.recordAllCache[recordID] = record;
+        }
+    }
+    updateCacheBulk(records) {
+        this.recordAllCache = {};
+        for (const record of records) {
+            this.updateCacheEach(record.recordID, record);
+        }
+    }
+    // ここの仕組みあんまよくわかってない
+    fetchRecords(userID) {
+        const userCache = this.userCache[userID];
+        if (!userCache)
+            return null;
+        return Object.keys(userCache)
+            .map((key) => {
+            return userCache[key];
+        })
+            // .filter((item) => !item.deletedAt)
+            .sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    fetchCacheRecordsAll() {
+        if (!this.recordAllCache)
+            return null;
+        return Object.keys(this.recordAllCache)
+            .map((key) => {
+            return this.recordAllCache[key];
+        })
+            .sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+}
+exports.RecordMastRepositoryCacheAdaptor = RecordMastRepositoryCacheAdaptor;

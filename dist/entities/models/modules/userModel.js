@@ -79,14 +79,5 @@ class UserModel extends _baseModel_1.BaseModel {
             this.isNew = false;
         }
     }
-    /**
-     * このユーザーの清掃記録を取得する
-     * managerの清掃記録も見れる→cleanerModelに実装すべき？
-     * @returns
-     */
-    async fetchMyRecords() {
-        const res = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
-        return res.map((item) => this.modelFactory.RecordModel(item));
-    }
 }
 exports.UserModel = UserModel;
