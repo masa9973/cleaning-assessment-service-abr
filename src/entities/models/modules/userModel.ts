@@ -78,20 +78,4 @@ export class UserModel extends BaseModel<UserMast> {
             this.isNew = false;
         }
     }
-    /**
-     * このユーザーの清掃記録を取得する
-     * managerの清掃記録も見れる→cleanerModelに実装すべき？
-     * @returns
-     */
-    async fetchMyRecords(): Promise<RecordModel[]> {
-        const res = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID)
-        return res.map((item) => this.modelFactory.RecordModel(item))
-    }
-
-    // PostModelを参考
-    //  async fetchMyPosts(): Promise<PostModel[]> {
-    //     const res = await this.repositoryContainer.postMastRepository.fetchPostsByOwnerUserID(this.userID);
-    //     return res.map((item) => this.modelFactory.PostModel(item));
-    // }
-
 }

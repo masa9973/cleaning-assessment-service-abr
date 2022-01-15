@@ -23,13 +23,12 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
-
     async fetchAllUser() {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUser();
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
-    // 新しいコメントを作成
+    // 新しいレコードを作成
     async createNewRecord(): Promise<RecordModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -49,6 +48,7 @@ export class CleanerUsecase {
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
+    // 任意のユーザーのレコードを取得
     async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item))
