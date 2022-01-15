@@ -18,7 +18,7 @@ export class ScoreUsecase {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me)  {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        } else {
+        }
             // if (this.modelFactory.UserModel(me).role === 'manager') {
 
                 const userID = this.modelFactory.UserModel(me).userID;
@@ -26,6 +26,5 @@ export class ScoreUsecase {
                     isNew: true,
                 });
             // }
-        }
     }
 }
