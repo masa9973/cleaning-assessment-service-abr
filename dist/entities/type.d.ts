@@ -40,6 +40,7 @@ export declare type RecordMast = {
     startAt: Scalars['AWSTimestamp'];
     finishedAt: Scalars['AWSTimestamp'];
     createdAt: Scalars['AWSTimestamp'];
+    ifScored?: Maybe<Scalars['Boolean']>;
 };
 export declare type RecordMastInput = {
     recordID: Scalars['ID'];
@@ -48,6 +49,7 @@ export declare type RecordMastInput = {
     startAt: Scalars['AWSTimestamp'];
     finishedAt: Scalars['AWSTimestamp'];
     createdAt: Scalars['AWSTimestamp'];
+    ifScored?: Maybe<Scalars['Boolean']>;
 };
 export declare enum Role {
     manager = "manager",

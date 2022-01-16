@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import { ErrorCode, RecordMast, RepositoryContainer, Role, Scalars } from '../../entities';
 import { ModelFactory } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';

@@ -30,6 +30,7 @@ type RecordMast {
   startAt: AWSTimestamp!
   finishedAt: AWSTimestamp!
   createdAt: AWSTimestamp!
+  ifScored: Boolean
 }
 
 input RecordMastInput {
@@ -39,6 +40,7 @@ input RecordMastInput {
   startAt: AWSTimestamp!
   finishedAt: AWSTimestamp!
   createdAt: AWSTimestamp!
+  ifScored: Boolean
 }
 
 enum Role {

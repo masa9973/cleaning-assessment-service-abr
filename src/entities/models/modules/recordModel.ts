@@ -4,7 +4,10 @@ import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
 export class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], room: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp']): RecordMast {
+    static getBlanc(cleanerID: Scalars['ID'], 
+                    room: Scalars['String'], 
+                    startAt: Scalars['AWSTimestamp'], 
+                    finishedAt: Scalars['AWSTimestamp']): RecordMast {
         return {
             recordID: generateUUID(),
             cleanerID,
@@ -12,7 +15,7 @@ export class RecordModel extends BaseModel<RecordMast> {
             room,
             startAt,
             finishedAt,
-        }
+        };
     }
 
     // ============================================
@@ -48,6 +51,12 @@ export class RecordModel extends BaseModel<RecordMast> {
     set finishedAt(input: number) {
         this.mast.finishedAt = input;
     }
+    get ifScored() {
+        return this.mast.ifScored || false;
+    }
+    set ifScored(input: boolean) {
+        this.mast.ifScored = input;
+    }
     /* 清掃記録の登録を行う */
     async register() {
         this.mast.createdAt = new Date().getTime();
@@ -59,5 +68,4 @@ export class RecordModel extends BaseModel<RecordMast> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
-       
 }

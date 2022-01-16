@@ -47,6 +47,12 @@ class RecordModel extends _baseModel_1.BaseModel {
     set finishedAt(input) {
         this.mast.finishedAt = input;
     }
+    get ifScored() {
+        return this.mast.ifScored || false;
+    }
+    set ifScored(input) {
+        this.mast.ifScored = input;
+    }
     /* 清掃記録の登録を行う */
     async register() {
         this.mast.createdAt = new Date().getTime();
