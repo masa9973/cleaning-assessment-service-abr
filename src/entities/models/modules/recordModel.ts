@@ -55,8 +55,8 @@ export class RecordModel extends BaseModel<RecordMast> {
     }
 
     /* 評価の取得を行う */
-    async fetchScores(): Promise<ScoreModel[]> {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(this.recordID);
+    async fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]> {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
        

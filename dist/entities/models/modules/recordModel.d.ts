@@ -13,5 +13,5 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     get finishedAt(): number;
     set finishedAt(input: number);
     register(): Promise<void>;
-    fetchScores(): Promise<ScoreModel[]>;
+    fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]>;
 }

@@ -14,6 +14,7 @@ export class ScoreUsecase {
     async createNewScore(): Promise<ScoreModel> {
         // 自分しか評価ができないのはいいんだけど、清掃者も評価ができてしまう
         // role === managerをやりたい
+        // 表示できるページで分けたらいいんじゃねえか
 
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me)  {

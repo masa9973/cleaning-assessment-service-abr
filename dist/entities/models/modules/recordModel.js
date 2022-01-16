@@ -53,8 +53,8 @@ class RecordModel extends _baseModel_1.BaseModel {
         this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
     }
     /* 評価の取得を行う */
-    async fetchScores() {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(this.recordID);
+    async fetchScoresByRecordID(recordID) {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
 }

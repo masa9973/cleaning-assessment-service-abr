@@ -14,6 +14,7 @@ class ScoreUsecase {
     async createNewScore() {
         // 自分しか評価ができないのはいいんだけど、清掃者も評価ができてしまう
         // role === managerをやりたい
+        // 表示できるページで分けたらいいんじゃねえか
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
