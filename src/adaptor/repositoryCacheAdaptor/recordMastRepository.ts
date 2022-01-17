@@ -25,6 +25,12 @@ export class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
         return res;
     }
 
+    async updateRecordMast(input: RecordMast): Promise<RecordMast> {
+        const res = await this.repository.updateRecordMast(input);
+        this.updateCacheEach(res.recordID, res);
+        return res;
+    }
+
     async fetchRecordsByCleanerID(userID: string): Promise<RecordMast[]> {
         const cache = this.fetchRecords(userID);
         if (cache) return cache;

@@ -68,6 +68,7 @@ export class RecordModel extends BaseModel<RecordMast> {
     }
 
     async switchIfScored() {
-        this.ifScored = true
+        this.mast.ifScored = true
+        this.mast = await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast)
     }
 }
