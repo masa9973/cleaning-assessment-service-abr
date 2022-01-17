@@ -7,6 +7,7 @@ export declare class RecordMastRepositoryCacheAdaptor implements IRecordMastRepo
     private recordAllCache;
     constructor(repository: IRecordMastRepository);
     addRecord(input: RecordMast): Promise<RecordMast>;
+    updateRecordMast(input: RecordMast): Promise<RecordMast>;
     fetchRecordsByCleanerID(userID: string): Promise<RecordMast[]>;
     fetchAllRecords(): Promise<RecordMast[]>;
     private addCacheEach;

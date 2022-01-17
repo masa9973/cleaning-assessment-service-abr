@@ -14,6 +14,11 @@ class RecordMastRepositoryCacheAdaptor {
         this.addCacheEach(res.recordID, res);
         return res;
     }
+    async updateRecordMast(input) {
+        const res = await this.repository.updateRecordMast(input);
+        this.updateCacheEach(res.recordID, res);
+        return res;
+    }
     async fetchRecordsByCleanerID(userID) {
         const cache = this.fetchRecords(userID);
         if (cache)
