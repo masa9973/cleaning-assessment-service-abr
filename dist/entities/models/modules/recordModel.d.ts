@@ -16,4 +16,5 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     set ifScored(input: boolean);
     register(): Promise<void>;
     fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]>;
+    switchIfScored(): Promise<void>;
 }

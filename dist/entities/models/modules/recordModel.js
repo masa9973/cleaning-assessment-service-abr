@@ -64,5 +64,8 @@ class RecordModel extends _baseModel_1.BaseModel {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
+    async switchIfScored() {
+        this.ifScored = true;
+    }
 }
 exports.RecordModel = RecordModel;
