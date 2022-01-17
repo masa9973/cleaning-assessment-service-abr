@@ -56,6 +56,7 @@ class RecordModel extends _baseModel_1.BaseModel {
     /* 清掃記録の登録を行う */
     async register() {
         this.mast.createdAt = new Date().getTime();
+        this.mast.ifScored = false;
         this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
     }
     /* 評価の取得を行う */

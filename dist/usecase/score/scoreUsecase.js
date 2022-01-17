@@ -21,6 +21,7 @@ class ScoreUsecase {
         }
         // if (this.modelFactory.UserModel(me).role === 'manager') {
         const userID = this.modelFactory.UserModel(me).userID;
+        this.recordModel.ifScored = true;
         return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0), {
             isNew: true,
         });

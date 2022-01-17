@@ -4,10 +4,7 @@ import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
 export class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], 
-                    room: Scalars['String'], 
-                    startAt: Scalars['AWSTimestamp'], 
-                    finishedAt: Scalars['AWSTimestamp']): RecordMast {
+    static getBlanc(cleanerID: Scalars['ID'], room: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp']): RecordMast {
         return {
             recordID: generateUUID(),
             cleanerID,
@@ -60,6 +57,7 @@ export class RecordModel extends BaseModel<RecordMast> {
     /* 清掃記録の登録を行う */
     async register() {
         this.mast.createdAt = new Date().getTime();
+        this.mast.ifScored = false;
         this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
     }
 
