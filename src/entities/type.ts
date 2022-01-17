@@ -44,7 +44,8 @@ export type RecordMast = {
   startAt: Scalars['AWSTimestamp'];
   finishedAt: Scalars['AWSTimestamp'];
   createdAt: Scalars['AWSTimestamp'];
-  ifScored?: Maybe<Scalars['Boolean']>;
+  ifScored: Scalars['Boolean'];
+  cleaningTime: Scalars['Int'];
 };
 
 export type RecordMastInput = {
@@ -54,7 +55,8 @@ export type RecordMastInput = {
   startAt: Scalars['AWSTimestamp'];
   finishedAt: Scalars['AWSTimestamp'];
   createdAt: Scalars['AWSTimestamp'];
-  ifScored?: Maybe<Scalars['Boolean']>;
+  ifScored: Scalars['Boolean'];
+  cleaningTime: Scalars['Int'];
 };
 
 export enum Role {

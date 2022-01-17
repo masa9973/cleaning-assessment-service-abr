@@ -37,7 +37,7 @@ class CleanerUsecase {
         else {
             // if (this.modelFactory.UserModel(me).role === 'cleaner') {}
             const userID = this.modelFactory.UserModel(me).userID;
-            return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0), {
+            return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0, 0), {
                 isNew: true,
             });
         }

@@ -5,7 +5,8 @@ type RecordMast {
     startAt: AWSTimestamp!
     finishedAt: AWSTimestamp!
     createdAt: AWSTimestamp!
-    ifScored: Boolean
+    ifScored: Boolean!
+    cleaningTime: Int!
 }
 
 input RecordMastInput {
@@ -15,5 +16,6 @@ input RecordMastInput {
     startAt: AWSTimestamp!
     finishedAt: AWSTimestamp!
     createdAt: AWSTimestamp!
-    ifScored: Boolean
+    ifScored: Boolean!
+    cleaningTime: Int!
 }
