@@ -33,10 +33,18 @@ export declare enum ErrorCode {
     chillnnTraining_404_resourceNotFound = "chillnnTraining_404_resourceNotFound",
     chillnnTraining_500_systemError = "chillnnTraining_500_systemError"
 }
+export declare type HotelMast = {
+    hotelID: Scalars['ID'];
+    hotelName: Scalars['String'];
+};
+export declare type HotelMastInput = {
+    hotelID: Scalars['ID'];
+    hotelName: Scalars['String'];
+};
 export declare type RecordMast = {
     recordID: Scalars['ID'];
     cleanerID: Scalars['ID'];
-    room: Scalars['String'];
+    cleaningRoomID: Scalars['ID'];
     startAt: Scalars['AWSTimestamp'];
     finishedAt: Scalars['AWSTimestamp'];
     createdAt: Scalars['AWSTimestamp'];
@@ -46,7 +54,7 @@ export declare type RecordMast = {
 export declare type RecordMastInput = {
     recordID: Scalars['ID'];
     cleanerID: Scalars['ID'];
-    room: Scalars['String'];
+    cleaningRoomID: Scalars['ID'];
     startAt: Scalars['AWSTimestamp'];
     finishedAt: Scalars['AWSTimestamp'];
     createdAt: Scalars['AWSTimestamp'];
@@ -57,6 +65,20 @@ export declare enum Role {
     manager = "manager",
     cleaner = "cleaner"
 }
+export declare type RoomMast = {
+    roomID: Scalars['ID'];
+    roomName: Scalars['String'];
+    roomIcon?: Maybe<S3Object>;
+    createdAt: Scalars['AWSTimestamp'];
+    hotelID: Scalars['ID'];
+};
+export declare type RoomMastInput = {
+    roomID: Scalars['ID'];
+    roomName: Scalars['String'];
+    roomIcon?: Maybe<S3ObjectInput>;
+    createdAt: Scalars['AWSTimestamp'];
+    hotelID: Scalars['ID'];
+};
 export declare type S3Object = {
     url: Scalars['AWSURL'];
     bucket: Scalars['String'];
@@ -91,6 +113,7 @@ export declare type UserMast = {
     role: Scalars['String'];
     createdAt: Scalars['AWSTimestamp'];
     updatedAt: Scalars['AWSTimestamp'];
+    hotelID: Scalars['ID'];
 };
 export declare type UserMastInput = {
     userID: Scalars['ID'];
@@ -100,4 +123,5 @@ export declare type UserMastInput = {
     role: Scalars['String'];
     createdAt: Scalars['AWSTimestamp'];
     updatedAt: Scalars['AWSTimestamp'];
+    hotelID: Scalars['ID'];
 };

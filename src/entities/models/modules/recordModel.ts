@@ -4,12 +4,12 @@ import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
 export class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], room: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int']): RecordMast {
+    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int']): RecordMast {
         return {
             recordID: generateUUID(),
             cleanerID,
             createdAt: new Date().getTime(),
-            room,
+            cleaningRoomID,
             startAt,
             finishedAt,
             ifScored: false,
@@ -32,11 +32,11 @@ export class RecordModel extends BaseModel<RecordMast> {
     // ============================================
     // getter / setter
     // ============================================
-    get room() {
-        return this.mast.room;
+    get cleaningRoomID() {
+        return this.mast.cleaningRoomID;
     }
-    set room(input: string) {
-        this.mast.room = input;
+    set cleaningRoomID(input: string) {
+        this.mast.cleaningRoomID = input;
     }
     get startAt() {
         return this.mast.startAt;
@@ -76,6 +76,7 @@ export class RecordModel extends BaseModel<RecordMast> {
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
 
+    // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true
         this.mast = await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast)

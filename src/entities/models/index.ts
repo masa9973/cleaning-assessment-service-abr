@@ -3,8 +3,10 @@ import { RepositoryContainer } from '../repositories';
 import { UserModel } from './modules/userModel';
 import { RecordModel } from './modules/recordModel';
 import { BaseModel, ModelOption } from './modules/_baseModel';
-import { ManagerModel } from './modules/managerModel';
 import { ScoreModel } from './modules/scoreModel';
+import { HotelMast, RoomMast } from '..';
+import { RoomModel } from './modules/RoomModel';
+import { HotelModel } from './modules/hotelModel';
 
 export * from './modules/userModel';
 export * from './modules/recordModel';
@@ -16,19 +18,19 @@ export class ModelFactory {
         return new UserModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
     }
 
-    public ManagerModel(mast: UserMast, option?: ModelOption) {
-        return new ManagerModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
-    }
-
-    public CleanerModel(mast: UserMast, option?: ModelOption) {
-        return new UserModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
-    }
-
     public RecordModel(mast: RecordMast, option?: ModelOption) {
         return new RecordModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
     }
 
     public ScoreModel(mast: ScoreMast, option?: ModelOption) {
         return new ScoreModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
+    }
+
+    public RoomModel(mast: RoomMast, option?: ModelOption) {
+        return new RoomModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
+    }
+
+    public HotelModel(mast: HotelMast, option?: ModelOption) {
+        return new HotelModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
     }
 }

@@ -15,12 +15,16 @@ __exportStar(require("./modules/S3Repository"), exports);
 __exportStar(require("./modules/recordMastRepository"), exports);
 __exportStar(require("./modules/userMastRepository"), exports);
 __exportStar(require("./modules/scoreMastRepository"), exports);
+__exportStar(require("./modules/hotelMastRepository"), exports);
+__exportStar(require("./modules/roomMastRepository"), exports);
 class RepositoryContainer {
-    constructor(s3Repository, userMastRepository, recordMastRepository, scoreMastRepository) {
+    constructor(s3Repository, userMastRepository, recordMastRepository, scoreMastRepository, hotelMastRepository, roomMastRepository) {
         this.s3Repository = s3Repository;
         this.userMastRepository = userMastRepository;
         this.recordMastRepository = recordMastRepository;
         this.scoreMastRepository = scoreMastRepository;
+        this.hotelMastRepository = hotelMastRepository;
+        this.roomMastRepository = roomMastRepository;
     }
 }
 exports.RepositoryContainer = RepositoryContainer;

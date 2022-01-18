@@ -2,12 +2,12 @@ import { RecordMast, Scalars } from '../..';
 import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 export declare class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], room: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int']): RecordMast;
+    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int']): RecordMast;
     get recordID(): string;
     get cleanerID(): string;
     get createdAt(): number;
-    get room(): string;
-    set room(input: string);
+    get cleaningRoomID(): string;
+    set cleaningRoomID(input: string);
     get startAt(): number;
     set startAt(input: number);
     get finishedAt(): number;

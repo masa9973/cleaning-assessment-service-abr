@@ -1,7 +1,7 @@
 type RecordMast {
     recordID: ID!
     cleanerID: ID!
-    room: String!
+    cleaningRoomID: ID!
     startAt: AWSTimestamp!
     finishedAt: AWSTimestamp!
     createdAt: AWSTimestamp!
@@ -12,7 +12,7 @@ type RecordMast {
 input RecordMastInput {
     recordID: ID!
     cleanerID: ID!
-    room: String!
+    cleaningRoomID: ID!
     startAt: AWSTimestamp!
     finishedAt: AWSTimestamp!
     createdAt: AWSTimestamp!

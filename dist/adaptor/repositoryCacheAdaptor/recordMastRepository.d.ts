@@ -9,6 +9,7 @@ export declare class RecordMastRepositoryCacheAdaptor implements IRecordMastRepo
     addRecord(input: RecordMast): Promise<RecordMast>;
     updateRecordMast(input: RecordMast): Promise<RecordMast>;
     fetchRecordsByCleanerID(userID: string): Promise<RecordMast[]>;
+    fetchRecordsByRoomID(cleaningRoomID: string): Promise<RecordMast[]>;
     fetchAllRecords(): Promise<RecordMast[]>;
     private addCacheEach;
     private addCacheBulk;

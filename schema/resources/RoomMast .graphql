@@ -1,0 +1,15 @@
+type RoomMast {
+    roomID: ID!
+    roomName: String!
+    roomIcon: S3Object
+    createdAt: AWSTimestamp!
+    hotelID: ID!
+}
+
+input RoomMastInput {
+    roomID: ID!
+    roomName: String!
+    roomIcon: S3ObjectInput
+    createdAt: AWSTimestamp!
+    hotelID: ID!
+}

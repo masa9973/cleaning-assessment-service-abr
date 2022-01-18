@@ -27,6 +27,12 @@ class RecordMastRepositoryCacheAdaptor {
         this.addCacheBulk(userID, res);
         return res.sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    async fetchRecordsByRoomID(cleaningRoomID) {
+        // バグ起きたらここかくにん
+        const res = await this.repository.fetchRecordsByRoomID(cleaningRoomID);
+        this.addCacheBulk(cleaningRoomID, res);
+        return res.sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
     async fetchAllRecords() {
         const cache = this.fetchCacheRecordsAll();
         if (cache)

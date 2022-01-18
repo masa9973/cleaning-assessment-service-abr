@@ -4,12 +4,12 @@ exports.RecordModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RecordModel extends _baseModel_1.BaseModel {
-    static getBlanc(cleanerID, room, startAt, finishedAt, cleaningTime) {
+    static getBlanc(cleanerID, cleaningRoomID, startAt, finishedAt, cleaningTime) {
         return {
             recordID: util_1.generateUUID(),
             cleanerID,
             createdAt: new Date().getTime(),
-            room,
+            cleaningRoomID,
             startAt,
             finishedAt,
             ifScored: false,
@@ -31,11 +31,11 @@ class RecordModel extends _baseModel_1.BaseModel {
     // ============================================
     // getter / setter
     // ============================================
-    get room() {
-        return this.mast.room;
+    get cleaningRoomID() {
+        return this.mast.cleaningRoomID;
     }
-    set room(input) {
-        this.mast.room = input;
+    set cleaningRoomID(input) {
+        this.mast.cleaningRoomID = input;
     }
     get startAt() {
         return this.mast.startAt;
@@ -73,6 +73,7 @@ class RecordModel extends _baseModel_1.BaseModel {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
+    // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true;
         this.mast = await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast);

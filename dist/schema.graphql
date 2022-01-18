@@ -23,10 +23,20 @@ enum ErrorCode {
   chillnnTraining_500_systemError
 }
 
+type HotelMast {
+  hotelID: ID!
+  hotelName: String!
+}
+
+input HotelMastInput {
+  hotelID: ID!
+  hotelName: String!
+}
+
 type RecordMast {
   recordID: ID!
   cleanerID: ID!
-  room: String!
+  cleaningRoomID: ID!
   startAt: AWSTimestamp!
   finishedAt: AWSTimestamp!
   createdAt: AWSTimestamp!
@@ -37,7 +47,7 @@ type RecordMast {
 input RecordMastInput {
   recordID: ID!
   cleanerID: ID!
-  room: String!
+  cleaningRoomID: ID!
   startAt: AWSTimestamp!
   finishedAt: AWSTimestamp!
   createdAt: AWSTimestamp!
@@ -48,6 +58,22 @@ input RecordMastInput {
 enum Role {
   manager
   cleaner
+}
+
+type RoomMast {
+  roomID: ID!
+  roomName: String!
+  roomIcon: S3Object
+  createdAt: AWSTimestamp!
+  hotelID: ID!
+}
+
+input RoomMastInput {
+  roomID: ID!
+  roomName: String!
+  roomIcon: S3ObjectInput
+  createdAt: AWSTimestamp!
+  hotelID: ID!
 }
 
 type S3Object {
@@ -88,6 +114,7 @@ type UserMast {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
+  hotelID: ID!
 }
 
 input UserMastInput {
@@ -98,4 +125,5 @@ input UserMastInput {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
+  hotelID: ID!
 }

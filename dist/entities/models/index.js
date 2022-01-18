@@ -14,8 +14,9 @@ exports.ModelFactory = void 0;
 const userModel_1 = require("./modules/userModel");
 const recordModel_1 = require("./modules/recordModel");
 const _baseModel_1 = require("./modules/_baseModel");
-const managerModel_1 = require("./modules/managerModel");
 const scoreModel_1 = require("./modules/scoreModel");
+const RoomModel_1 = require("./modules/RoomModel");
+const hotelModel_1 = require("./modules/hotelModel");
 __exportStar(require("./modules/userModel"), exports);
 __exportStar(require("./modules/recordModel"), exports);
 __exportStar(require("./modules/scoreModel"), exports);
@@ -26,17 +27,17 @@ class ModelFactory {
     UserModel(mast, option) {
         return new userModel_1.UserModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
     }
-    ManagerModel(mast, option) {
-        return new managerModel_1.ManagerModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
-    }
-    CleanerModel(mast, option) {
-        return new userModel_1.UserModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
-    }
     RecordModel(mast, option) {
         return new recordModel_1.RecordModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
     }
     ScoreModel(mast, option) {
         return new scoreModel_1.ScoreModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
+    }
+    RoomModel(mast, option) {
+        return new RoomModel_1.RoomModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
+    }
+    HotelModel(mast, option) {
+        return new hotelModel_1.HotelModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
     }
 }
 exports.ModelFactory = ModelFactory;

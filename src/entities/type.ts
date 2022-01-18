@@ -37,10 +37,20 @@ export enum ErrorCode {
   chillnnTraining_500_systemError = 'chillnnTraining_500_systemError'
 }
 
+export type HotelMast = {
+  hotelID: Scalars['ID'];
+  hotelName: Scalars['String'];
+};
+
+export type HotelMastInput = {
+  hotelID: Scalars['ID'];
+  hotelName: Scalars['String'];
+};
+
 export type RecordMast = {
   recordID: Scalars['ID'];
   cleanerID: Scalars['ID'];
-  room: Scalars['String'];
+  cleaningRoomID: Scalars['ID'];
   startAt: Scalars['AWSTimestamp'];
   finishedAt: Scalars['AWSTimestamp'];
   createdAt: Scalars['AWSTimestamp'];
@@ -51,7 +61,7 @@ export type RecordMast = {
 export type RecordMastInput = {
   recordID: Scalars['ID'];
   cleanerID: Scalars['ID'];
-  room: Scalars['String'];
+  cleaningRoomID: Scalars['ID'];
   startAt: Scalars['AWSTimestamp'];
   finishedAt: Scalars['AWSTimestamp'];
   createdAt: Scalars['AWSTimestamp'];
@@ -63,6 +73,22 @@ export enum Role {
   manager = 'manager',
   cleaner = 'cleaner'
 }
+
+export type RoomMast = {
+  roomID: Scalars['ID'];
+  roomName: Scalars['String'];
+  roomIcon?: Maybe<S3Object>;
+  createdAt: Scalars['AWSTimestamp'];
+  hotelID: Scalars['ID'];
+};
+
+export type RoomMastInput = {
+  roomID: Scalars['ID'];
+  roomName: Scalars['String'];
+  roomIcon?: Maybe<S3ObjectInput>;
+  createdAt: Scalars['AWSTimestamp'];
+  hotelID: Scalars['ID'];
+};
 
 export type S3Object = {
   url: Scalars['AWSURL'];
@@ -102,6 +128,7 @@ export type UserMast = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
+  hotelID: Scalars['ID'];
 };
 
 export type UserMastInput = {
@@ -112,4 +139,5 @@ export type UserMastInput = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
+  hotelID: Scalars['ID'];
 };
