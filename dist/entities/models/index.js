@@ -20,6 +20,8 @@ const hotelModel_1 = require("./modules/hotelModel");
 __exportStar(require("./modules/userModel"), exports);
 __exportStar(require("./modules/recordModel"), exports);
 __exportStar(require("./modules/scoreModel"), exports);
+__exportStar(require("./modules/hotelModel"), exports);
+__exportStar(require("./modules/roomModel"), exports);
 class ModelFactory {
     constructor(repositoryContainer) {
         this.repositoryContainer = repositoryContainer;
