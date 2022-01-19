@@ -11,7 +11,7 @@ export * from './modules/userModel';
 export * from './modules/recordModel';
 export * from './modules/scoreModel';
 export * from './modules/hotelModel';
-export * from './modules/roomModel';
+export * from './modules/RoomModel';
 export declare class ModelFactory {
     private repositoryContainer;
     constructor(repositoryContainer: RepositoryContainer);

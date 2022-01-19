@@ -21,7 +21,7 @@ __exportStar(require("./modules/userModel"), exports);
 __exportStar(require("./modules/recordModel"), exports);
 __exportStar(require("./modules/scoreModel"), exports);
 __exportStar(require("./modules/hotelModel"), exports);
-__exportStar(require("./modules/roomModel"), exports);
+__exportStar(require("./modules/RoomModel"), exports);
 class ModelFactory {
     constructor(repositoryContainer) {
         this.repositoryContainer = repositoryContainer;
