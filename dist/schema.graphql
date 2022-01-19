@@ -42,6 +42,7 @@ type RecordMast {
   createdAt: AWSTimestamp!
   ifScored: Boolean!
   cleaningTime: Int!
+  hotelID: ID!
 }
 
 input RecordMastInput {
@@ -53,6 +54,7 @@ input RecordMastInput {
   createdAt: AWSTimestamp!
   ifScored: Boolean!
   cleaningTime: Int!
+  hotelID: ID!
 }
 
 enum Role {

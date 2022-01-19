@@ -21,6 +21,9 @@ export class UserModel extends BaseModel<UserMast> {
             return this.repositoryContainer.s3Repository.getSampleImage().url;
         }
     }
+    get hotelID() {
+        return this.mast.hotelID;
+    }
     // ============================================
     // getter / setter
     // ============================================

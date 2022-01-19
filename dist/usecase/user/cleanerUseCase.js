@@ -36,7 +36,8 @@ class CleanerUsecase {
         }
         else {
             const userID = this.modelFactory.UserModel(me).userID;
-            return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0, 0), {
+            const hotelID = this.modelFactory.UserModel(me).hotelID;
+            return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0, 0, hotelID), {
                 isNew: true,
             });
         }

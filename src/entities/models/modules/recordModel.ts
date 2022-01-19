@@ -4,7 +4,7 @@ import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
 export class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int']): RecordMast {
+    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int'], hotelID: Scalars['ID']): RecordMast {
         return {
             recordID: generateUUID(),
             cleanerID,
@@ -14,6 +14,7 @@ export class RecordModel extends BaseModel<RecordMast> {
             finishedAt,
             ifScored: false,
             cleaningTime,
+            hotelID,
         };
     }
 

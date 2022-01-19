@@ -56,6 +56,7 @@ export type RecordMast = {
   createdAt: Scalars['AWSTimestamp'];
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
+  hotelID: Scalars['ID'];
 };
 
 export type RecordMastInput = {
@@ -67,6 +68,7 @@ export type RecordMastInput = {
   createdAt: Scalars['AWSTimestamp'];
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
+  hotelID: Scalars['ID'];
 };
 
 export enum Role {

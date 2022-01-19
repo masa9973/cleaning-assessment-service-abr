@@ -23,6 +23,9 @@ class UserModel extends _baseModel_1.BaseModel {
             return this.repositoryContainer.s3Repository.getSampleImage().url;
         }
     }
+    get hotelID() {
+        return this.mast.hotelID;
+    }
     // ============================================
     // getter / setter
     // ============================================

@@ -35,7 +35,8 @@ export class CleanerUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
             const userID = this.modelFactory.UserModel(me).userID;
-            return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0), {
+            const hotelID = this.modelFactory.UserModel(me).hotelID;
+            return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0, hotelID), {
                 isNew: true,
             });
         }

@@ -50,6 +50,7 @@ export declare type RecordMast = {
     createdAt: Scalars['AWSTimestamp'];
     ifScored: Scalars['Boolean'];
     cleaningTime: Scalars['Int'];
+    hotelID: Scalars['ID'];
 };
 export declare type RecordMastInput = {
     recordID: Scalars['ID'];
@@ -60,6 +61,7 @@ export declare type RecordMastInput = {
     createdAt: Scalars['AWSTimestamp'];
     ifScored: Scalars['Boolean'];
     cleaningTime: Scalars['Int'];
+    hotelID: Scalars['ID'];
 };
 export declare enum Role {
     manager = "manager",

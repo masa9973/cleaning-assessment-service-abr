@@ -4,7 +4,7 @@ exports.RecordModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RecordModel extends _baseModel_1.BaseModel {
-    static getBlanc(cleanerID, cleaningRoomID, startAt, finishedAt, cleaningTime) {
+    static getBlanc(cleanerID, cleaningRoomID, startAt, finishedAt, cleaningTime, hotelID) {
         return {
             recordID: util_1.generateUUID(),
             cleanerID,
@@ -14,6 +14,7 @@ class RecordModel extends _baseModel_1.BaseModel {
             finishedAt,
             ifScored: false,
             cleaningTime,
+            hotelID,
         };
     }
     // ============================================
