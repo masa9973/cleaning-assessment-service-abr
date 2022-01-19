@@ -1,8 +1,13 @@
 import { Scalars, HotelMast } from '../..';
-import { generateUUID } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class HotelModel extends BaseModel<HotelMast> {
+    static getBlanc(hotelID: Scalars['ID'], hotelName: Scalars['String']): HotelMast {
+        return {
+            hotelID,
+            hotelName,
+        }
+    }
     get hotelID() {
         return this.mast.hotelID;
     }
@@ -13,7 +18,6 @@ export class HotelModel extends BaseModel<HotelMast> {
         this.mast.hotelName = input;
     }
     async register() {
-        this.mast.hotelID = generateUUID()
         this.mast = await this.repositoryContainer.hotelMastRepository.addHotel(this.mast)
     }
 }

@@ -4,7 +4,7 @@ exports.RecordModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RecordModel extends _baseModel_1.BaseModel {
-    static getBlanc(cleanerID, cleaningRoomID, startAt, finishedAt, cleaningTime, hotelID) {
+    static getBlanc(cleanerID, cleaningRoomID, startAt, finishedAt, cleaningTime, recordHotelID) {
         return {
             recordID: util_1.generateUUID(),
             cleanerID,
@@ -14,7 +14,7 @@ class RecordModel extends _baseModel_1.BaseModel {
             finishedAt,
             ifScored: false,
             cleaningTime,
-            hotelID,
+            recordHotelID,
         };
     }
     // ============================================
@@ -61,6 +61,12 @@ class RecordModel extends _baseModel_1.BaseModel {
     }
     set cleaningTime(input) {
         this.mast.cleaningTime = input;
+    }
+    get recordHotelID() {
+        return this.mast.recordHotelID;
+    }
+    set recordHotelID(input) {
+        this.mast.recordHotelID = input;
     }
     /* 清掃記録の登録を行う */
     async register() {

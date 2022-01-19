@@ -56,7 +56,7 @@ export type RecordMast = {
   createdAt: Scalars['AWSTimestamp'];
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
-  hotelID: Scalars['ID'];
+  recordHotelID: Scalars['ID'];
 };
 
 export type RecordMastInput = {
@@ -68,7 +68,7 @@ export type RecordMastInput = {
   createdAt: Scalars['AWSTimestamp'];
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
-  hotelID: Scalars['ID'];
+  recordHotelID: Scalars['ID'];
 };
 
 export enum Role {
@@ -81,7 +81,7 @@ export type RoomMast = {
   roomName: Scalars['String'];
   roomIcon?: Maybe<S3Object>;
   createdAt: Scalars['AWSTimestamp'];
-  hotelID: Scalars['ID'];
+  roomHotelID: Scalars['ID'];
 };
 
 export type RoomMastInput = {
@@ -89,7 +89,7 @@ export type RoomMastInput = {
   roomName: Scalars['String'];
   roomIcon?: Maybe<S3ObjectInput>;
   createdAt: Scalars['AWSTimestamp'];
-  hotelID: Scalars['ID'];
+  roomHotelID: Scalars['ID'];
 };
 
 export type S3Object = {
@@ -130,7 +130,7 @@ export type UserMast = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
-  hotelID: Scalars['ID'];
+  userHotelID?: Maybe<Scalars['ID']>;
 };
 
 export type UserMastInput = {
@@ -141,5 +141,5 @@ export type UserMastInput = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
-  hotelID: Scalars['ID'];
+  userHotelID?: Maybe<Scalars['ID']>;
 };

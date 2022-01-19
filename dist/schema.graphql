@@ -42,7 +42,7 @@ type RecordMast {
   createdAt: AWSTimestamp!
   ifScored: Boolean!
   cleaningTime: Int!
-  hotelID: ID!
+  recordHotelID: ID!
 }
 
 input RecordMastInput {
@@ -54,7 +54,7 @@ input RecordMastInput {
   createdAt: AWSTimestamp!
   ifScored: Boolean!
   cleaningTime: Int!
-  hotelID: ID!
+  recordHotelID: ID!
 }
 
 enum Role {
@@ -67,7 +67,7 @@ type RoomMast {
   roomName: String!
   roomIcon: S3Object
   createdAt: AWSTimestamp!
-  hotelID: ID!
+  roomHotelID: ID!
 }
 
 input RoomMastInput {
@@ -75,7 +75,7 @@ input RoomMastInput {
   roomName: String!
   roomIcon: S3ObjectInput
   createdAt: AWSTimestamp!
-  hotelID: ID!
+  roomHotelID: ID!
 }
 
 type S3Object {
@@ -116,7 +116,7 @@ type UserMast {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
-  hotelID: ID!
+  userHotelID: ID
 }
 
 input UserMastInput {
@@ -127,5 +127,5 @@ input UserMastInput {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
-  hotelID: ID!
+  userHotelID: ID
 }

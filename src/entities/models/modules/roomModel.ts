@@ -3,12 +3,12 @@ import { generateUUID } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class RoomModel extends BaseModel<RoomMast> {
-    static getBlanc(roomName: Scalars['String'], hotelID: Scalars['ID']):RoomMast {
+    static getBlanc(roomName: Scalars['String'], roomHotelID: Scalars['ID']):RoomMast {
         return {
             roomID: generateUUID(),
             roomName,
             createdAt: new Date().getTime(),
-            hotelID,
+            roomHotelID,
         }
     }
     // ============================================
@@ -19,9 +19,6 @@ export class RoomModel extends BaseModel<RoomMast> {
     }
     get createdAt() {
         return this.mast.createdAt;
-    }
-    get hotelID() {
-        return this.mast.hotelID
     }
     get userIcon() {
         if (this.mast.roomIcon) {
@@ -39,6 +36,12 @@ export class RoomModel extends BaseModel<RoomMast> {
     set roomName(input: string) {
         this.mast.roomName = input;
     }
+    get roomHotelID() {
+        return this.mast.roomHotelID
+    }
+    set roomHotelID(input: string) {
+        this.mast.roomHotelID
+    }
     /**
      * アイコン画像をセットする
      * @param file
@@ -54,8 +57,8 @@ export class RoomModel extends BaseModel<RoomMast> {
     }
 
     // 施設に紐づく部屋を取得する
-    async fetchRoomsByHotelID(hotelID: Scalars['ID']): Promise<RoomModel[]> {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(hotelID)
+    async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
         return res.map((item) => this.modelFactory.RoomModel(item))
     }
 }

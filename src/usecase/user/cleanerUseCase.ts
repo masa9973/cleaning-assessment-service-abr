@@ -1,11 +1,15 @@
 import { ErrorCode, RepositoryContainer, Scalars } from '../../entities';
-import { ModelFactory } from '../../entities/models';
+import { HotelModel, ModelFactory } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
 
 export class CleanerUsecase {
     constructor(private repositoryContainer: RepositoryContainer, private modelFactory: ModelFactory) {}
 
+
+    // =======================
+    // user
+    // =======================
     async fetchMyUserModel() {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -28,6 +32,9 @@ export class CleanerUsecase {
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
+    // =======================
+    // record
+    // =======================
     // 新しいレコードを作成
     async createNewRecord(): Promise<RecordModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
@@ -35,16 +42,20 @@ export class CleanerUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
             const userID = this.modelFactory.UserModel(me).userID;
-            const hotelID = this.modelFactory.UserModel(me).hotelID;
-            return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0, hotelID), {
-                isNew: true,
-            });
+            const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof recordHotelID === "string" ) {
+                return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0, recordHotelID), {
+                    isNew: true,
+                });
+            } else {
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            }
         }
     }
 
     // 全レコードを取得
-    async fetchAllRecordsByHotelID(hotelID: Scalars['ID']) {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(hotelID);
+    async fetchAllRecordsByHotelID(recordHotelID: Scalars['ID']) {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
@@ -54,5 +65,24 @@ export class CleanerUsecase {
         return records.map((item) => this.modelFactory.RecordModel(item))
     }
 
-    
+    // =======================
+    // hotel
+    // =======================
+    // hotelを登録
+    async createNewHotel(hotelName: Scalars['String']): Promise<HotelModel> {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        if (!me) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        } else {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID
+            if (typeof hotelID === "string" ) {
+
+                return this.modelFactory.HotelModel(HotelModel.getBlanc(hotelID, hotelName), {
+                    isNew: true,
+                })
+            } else {
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            }
+        }
+    }
 }

@@ -23,9 +23,6 @@ class UserModel extends _baseModel_1.BaseModel {
             return this.repositoryContainer.s3Repository.getSampleImage().url;
         }
     }
-    get hotelID() {
-        return this.mast.hotelID;
-    }
     // ============================================
     // getter / setter
     // ============================================
@@ -46,6 +43,12 @@ class UserModel extends _baseModel_1.BaseModel {
     }
     set role(input) {
         this.mast.role = input;
+    }
+    get userHotelID() {
+        return this.mast.userHotelID || '';
+    }
+    set userHotelID(input) {
+        this.mast.userHotelID = input;
     }
     // ============================================
     // validation

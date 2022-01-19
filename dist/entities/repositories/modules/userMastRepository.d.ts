@@ -4,5 +4,5 @@ export interface IUserMastRepository {
     updateUserMast(input: UserMast): Promise<UserMast>;
     fetchMyUserMast(): Promise<UserMast | null>;
     fetchUserMastByUserID(userID: Scalars['ID']): Promise<UserMast | null>;
-    fetchAllUserByHotelID(hotelID: Scalars['ID']): Promise<UserMast[]>;
+    fetchAllUserByHotelID(userHotelID: Scalars['ID']): Promise<UserMast[]>;
 }

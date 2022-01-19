@@ -21,9 +21,6 @@ export class UserModel extends BaseModel<UserMast> {
             return this.repositoryContainer.s3Repository.getSampleImage().url;
         }
     }
-    get hotelID() {
-        return this.mast.hotelID;
-    }
     // ============================================
     // getter / setter
     // ============================================
@@ -44,6 +41,12 @@ export class UserModel extends BaseModel<UserMast> {
     }
     set role(input: string) {
         this.mast.role = input;
+    }
+    get userHotelID() {
+        return this.mast.userHotelID || ''
+    }
+    set userHotelID(input: string) {
+        this.mast.userHotelID = input;
     }
     // ============================================
     // validation

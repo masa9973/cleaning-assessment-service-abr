@@ -4,7 +4,7 @@ import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
 export class RecordModel extends BaseModel<RecordMast> {
-    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int'], hotelID: Scalars['ID']): RecordMast {
+    static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int'], recordHotelID: Scalars['ID']): RecordMast {
         return {
             recordID: generateUUID(),
             cleanerID,
@@ -14,7 +14,7 @@ export class RecordModel extends BaseModel<RecordMast> {
             finishedAt,
             ifScored: false,
             cleaningTime,
-            hotelID,
+            recordHotelID,
         };
     }
 
@@ -63,6 +63,13 @@ export class RecordModel extends BaseModel<RecordMast> {
     set cleaningTime(input: number) {
         this.mast.cleaningTime = input;
     }
+    get recordHotelID() {
+        return this.mast.recordHotelID
+    }
+    set recordHotelID(input: string) {
+        this.mast.recordHotelID = input;
+    }
+
     /* 清掃記録の登録を行う */
     async register() {
         this.mast.createdAt = new Date().getTime();

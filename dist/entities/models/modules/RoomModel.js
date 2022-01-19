@@ -4,12 +4,12 @@ exports.RoomModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RoomModel extends _baseModel_1.BaseModel {
-    static getBlanc(roomName, hotelID) {
+    static getBlanc(roomName, roomHotelID) {
         return {
             roomID: util_1.generateUUID(),
             roomName,
             createdAt: new Date().getTime(),
-            hotelID,
+            roomHotelID,
         };
     }
     // ============================================
@@ -20,9 +20,6 @@ class RoomModel extends _baseModel_1.BaseModel {
     }
     get createdAt() {
         return this.mast.createdAt;
-    }
-    get hotelID() {
-        return this.mast.hotelID;
     }
     get userIcon() {
         if (this.mast.roomIcon) {
@@ -41,6 +38,12 @@ class RoomModel extends _baseModel_1.BaseModel {
     set roomName(input) {
         this.mast.roomName = input;
     }
+    get roomHotelID() {
+        return this.mast.roomHotelID;
+    }
+    set roomHotelID(input) {
+        this.mast.roomHotelID;
+    }
     /**
      * アイコン画像をセットする
      * @param file
@@ -55,8 +58,8 @@ class RoomModel extends _baseModel_1.BaseModel {
         this.mast = await this.repositoryContainer.roomMastRepository.addRoom(this.mast);
     }
     // 施設に紐づく部屋を取得する
-    async fetchRoomsByHotelID(hotelID) {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(hotelID);
+    async fetchRoomsByHotelID(roomHotelID) {
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
         return res.map((item) => this.modelFactory.RoomModel(item));
     }
 }

@@ -5,13 +5,14 @@ export declare class UserModel extends BaseModel<UserMast> {
     get createdAt(): number;
     get updatedAt(): number;
     get userIcon(): string;
-    get hotelID(): string;
     get name(): string;
     set name(input: string);
     get email(): string;
     set email(input: string);
     get role(): string;
     set role(input: string);
+    get userHotelID(): string;
+    set userHotelID(input: string);
     get isRegisterble(): boolean;
     /**
      * アイコン画像をセットする

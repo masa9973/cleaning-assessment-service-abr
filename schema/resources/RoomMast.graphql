@@ -3,7 +3,7 @@ type RoomMast {
     roomName: String!
     roomIcon: S3Object
     createdAt: AWSTimestamp!
-    hotelID: ID!
+    roomHotelID: ID!
 }
 
 input RoomMastInput {
@@ -11,5 +11,5 @@ input RoomMastInput {
     roomName: String!
     roomIcon: S3ObjectInput
     createdAt: AWSTimestamp!
-    hotelID: ID!
+    roomHotelID: ID!
 }
