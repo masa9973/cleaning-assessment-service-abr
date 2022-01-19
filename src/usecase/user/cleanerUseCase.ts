@@ -1,5 +1,4 @@
-import { fail } from 'assert';
-import { ErrorCode, RecordMast, RepositoryContainer, Role, Scalars } from '../../entities';
+import { ErrorCode, RepositoryContainer, Scalars } from '../../entities';
 import { ModelFactory } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
@@ -24,8 +23,8 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
-    async fetchAllUser() {
-        const users = await this.repositoryContainer.userMastRepository.fetchAllUser();
+    async fetchAllUserByHotelID(hotelID: Scalars['ID']) {
+        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(hotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
@@ -35,7 +34,6 @@ export class CleanerUsecase {
         if (!me) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            // if (this.modelFactory.UserModel(me).role === 'cleaner') {}
             const userID = this.modelFactory.UserModel(me).userID;
             return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0), {
                 isNew: true,
@@ -44,8 +42,8 @@ export class CleanerUsecase {
     }
 
     // 全レコードを取得
-    async fetchAllRecords() {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
+    async fetchAllRecordsByHotelID(hotelID: Scalars['ID']) {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(hotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
@@ -54,4 +52,6 @@ export class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item))
     }
+
+    
 }

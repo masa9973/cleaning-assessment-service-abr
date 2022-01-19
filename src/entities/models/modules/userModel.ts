@@ -1,5 +1,4 @@
-import { RecordMast, Role, UserMast } from '../..';
-import { RecordModel } from './recordModel';
+import { UserMast } from '../..';
 import { BaseModel } from './_baseModel';
 
 export class UserModel extends BaseModel<UserMast> {
