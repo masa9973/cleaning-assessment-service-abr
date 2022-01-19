@@ -4,5 +4,5 @@ export interface IRecordMastRepository {
     updateRecordMast(input: RecordMast): Promise<RecordMast>;
     fetchRecordsByCleanerID(cleanerID: Scalars['ID']): Promise<RecordMast[]>;
     fetchRecordsByRoomID(cleaningRoomID: Scalars['ID']): Promise<RecordMast[]>;
-    fetchAllRecords(): Promise<RecordMast[]>;
+    fetchAllRecordsByHotelID(hotelID: Scalars['ID']): Promise<RecordMast[]>;
 }

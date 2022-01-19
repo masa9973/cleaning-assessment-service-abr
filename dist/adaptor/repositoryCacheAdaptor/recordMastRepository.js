@@ -33,11 +33,11 @@ class RecordMastRepositoryCacheAdaptor {
         this.addCacheBulk(cleaningRoomID, res);
         return res.sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
-    async fetchAllRecords() {
+    async fetchAllRecordsByHotelID(hotelID) {
         const cache = this.fetchCacheRecordsAll();
         if (cache)
             return cache;
-        const res = await this.repository.fetchAllRecords();
+        const res = await this.repository.fetchAllRecordsByHotelID(hotelID);
         this.updateCacheBulk(res);
         return res;
     }

@@ -46,10 +46,10 @@ export class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
         return res.sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
 
-    async fetchAllRecords(): Promise<RecordMast[]> {
+    async fetchAllRecordsByHotelID(hotelID: string): Promise<RecordMast[]> {
         const cache = this.fetchCacheRecordsAll();
         if (cache) return cache;
-        const res = await this.repository.fetchAllRecords();
+        const res = await this.repository.fetchAllRecordsByHotelID(hotelID);
         this.updateCacheBulk(res);
         return res;
     }

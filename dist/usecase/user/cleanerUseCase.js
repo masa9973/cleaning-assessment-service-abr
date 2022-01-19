@@ -24,8 +24,8 @@ class CleanerUsecase {
         }
         return this.modelFactory.UserModel(user);
     }
-    async fetchAllUser() {
-        const users = await this.repositoryContainer.userMastRepository.fetchAllUser();
+    async fetchAllUserByHotelID(hotelID) {
+        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(hotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     // 新しいレコードを作成
@@ -35,7 +35,6 @@ class CleanerUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         else {
-            // if (this.modelFactory.UserModel(me).role === 'cleaner') {}
             const userID = this.modelFactory.UserModel(me).userID;
             return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc(userID, '', 0, 0, 0), {
                 isNew: true,
@@ -43,8 +42,8 @@ class CleanerUsecase {
         }
     }
     // 全レコードを取得
-    async fetchAllRecords() {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecords();
+    async fetchAllRecordsByHotelID(hotelID) {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(hotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     // 任意のユーザーのレコードを取得

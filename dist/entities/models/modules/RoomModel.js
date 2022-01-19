@@ -1,8 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomModel = void 0;
+const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RoomModel extends _baseModel_1.BaseModel {
+    static getBlanc(roomName, hotelID) {
+        return {
+            roomID: util_1.generateUUID(),
+            roomName,
+            createdAt: new Date().getTime(),
+            hotelID,
+        };
+    }
     // ============================================
     // getter
     // ============================================
@@ -15,6 +24,14 @@ class RoomModel extends _baseModel_1.BaseModel {
     get hotelID() {
         return this.mast.hotelID;
     }
+    get userIcon() {
+        if (this.mast.roomIcon) {
+            return this.mast.roomIcon.url;
+        }
+        else {
+            return this.repositoryContainer.s3Repository.getSampleImage().url;
+        }
+    }
     // ============================================
     // getters / setters
     // ============================================
@@ -23,6 +40,14 @@ class RoomModel extends _baseModel_1.BaseModel {
     }
     set roomName(input) {
         this.mast.roomName = input;
+    }
+    /**
+     * アイコン画像をセットする
+     * @param file
+     */
+    async setIcon(file) {
+        const path = `room/${this.roomID}/iconImage/${new Date().getTime()}`;
+        this.mast.roomIcon = await this.repositoryContainer.s3Repository.addFile(path, file);
     }
     // 清掃部屋の登録を行う（マネージャー）
     async register() {

@@ -52,11 +52,11 @@ class UserMastRepositoryCacheAdaptor {
         this.updateCacheEach(userID, res);
         return res;
     }
-    async fetchAllUser() {
+    async fetchAllUserByHotelID(hotelID) {
         const cache = this.fetchCacheUserAll();
         if (cache)
             return cache;
-        const res = await this.repository.fetchAllUser();
+        const res = await this.repository.fetchAllUserByHotelID(hotelID);
         this.updateCacheBulk(res);
         return res;
     }

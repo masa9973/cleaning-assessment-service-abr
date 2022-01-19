@@ -44,10 +44,10 @@ export class UserMastRepositoryCacheAdaptor implements IUserMastRepository {
         this.updateCacheEach(userID, res);
         return res;
     }
-    async fetchAllUser(): Promise<UserMast[]> {
+    async fetchAllUserByHotelID(hotelID: string): Promise<UserMast[]> {
         const cache = this.fetchCacheUserAll();
         if (cache) return cache;
-        const res = await this.repository.fetchAllUser();
+        const res = await this.repository.fetchAllUserByHotelID(hotelID);
         this.updateCacheBulk(res);
         return res;
     }
