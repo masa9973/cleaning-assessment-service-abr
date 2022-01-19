@@ -13,6 +13,7 @@ export class HotelModel extends BaseModel<HotelMast> {
         this.mast.hotelName = input;
     }
     async register() {
+        this.mast.hotelID = generateUUID()
         this.mast = await this.repositoryContainer.hotelMastRepository.addHotel(this.mast)
     }
 }
