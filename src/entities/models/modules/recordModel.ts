@@ -24,9 +24,6 @@ export class RecordModel extends BaseModel<RecordMast> {
     get recordID() {
         return this.mast.recordID;
     }
-    get cleanerID() {
-        return this.mast.cleanerID;
-    }
     get createdAt() {
         return this.mast.createdAt;
     }
@@ -68,6 +65,12 @@ export class RecordModel extends BaseModel<RecordMast> {
     }
     set recordHotelID(input: string) {
         this.mast.recordHotelID = input;
+    }
+    get cleanerID() {
+        return this.mast.cleanerID;
+    }
+    set cleanerID(input: string) {
+        this.mast.cleanerID = input;
     }
 
     /* 清掃記録の登録を行う */
