@@ -57,10 +57,5 @@ class RoomModel extends _baseModel_1.BaseModel {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.roomMastRepository.addRoom(this.mast);
     }
-    // 施設に紐づく部屋を取得する
-    async fetchRoomsByHotelID(roomHotelID) {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
-        return res.map((item) => this.modelFactory.RoomModel(item));
-    }
 }
 exports.RoomModel = RoomModel;

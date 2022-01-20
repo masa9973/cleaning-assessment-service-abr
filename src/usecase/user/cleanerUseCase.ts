@@ -35,7 +35,6 @@ export class CleanerUsecase {
     // =======================
     // record
     // =======================
-    // 新しいレコードを作成
     async createNewRecord(): Promise<RecordModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -52,14 +51,10 @@ export class CleanerUsecase {
             }
         }
     }
-
-    // 全レコードを取得
     async fetchAllRecordsByHotelID(recordHotelID: Scalars['ID']) {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
-
-    // 任意のユーザーのレコードを取得
     async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item))
@@ -82,6 +77,11 @@ export class CleanerUsecase {
                 throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
             }
         }
+    }
+    // 施設に紐づく部屋を取得する
+    async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
+        return res.map((item) => this.modelFactory.RoomModel(item))
     }
 
     // =======================

@@ -35,7 +35,6 @@ class CleanerUsecase {
     // =======================
     // record
     // =======================
-    // 新しいレコードを作成
     async createNewRecord() {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
@@ -54,12 +53,10 @@ class CleanerUsecase {
             }
         }
     }
-    // 全レコードを取得
     async fetchAllRecordsByHotelID(recordHotelID) {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
-    // 任意のユーザーのレコードを取得
     async fetchRecordsByCleanerID(userID) {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
         return records.map((item) => this.modelFactory.RecordModel(item));
@@ -83,6 +80,11 @@ class CleanerUsecase {
                 throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
+    }
+    // 施設に紐づく部屋を取得する
+    async fetchRoomsByHotelID(roomHotelID) {
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
+        return res.map((item) => this.modelFactory.RoomModel(item));
     }
     // =======================
     // hotel

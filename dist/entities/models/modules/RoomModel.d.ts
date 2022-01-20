@@ -15,5 +15,4 @@ export declare class RoomModel extends BaseModel<RoomMast> {
      */
     setIcon(file: File): Promise<void>;
     register(): Promise<void>;
-    fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]>;
 }
