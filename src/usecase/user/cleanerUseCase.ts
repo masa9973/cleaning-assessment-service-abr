@@ -40,10 +40,9 @@ export class CleanerUsecase {
         if (!me) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            const userID = this.modelFactory.UserModel(me).userID;
             const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
             if (typeof recordHotelID === "string" ) {
-                return this.modelFactory.RecordModel(RecordModel.getBlanc(userID, '', 0, 0, 0, recordHotelID), {
+                return this.modelFactory.RecordModel(RecordModel.getBlanc('', '', 0, 0, 0, recordHotelID), {
                     isNew: true,
                 });
             } else {
