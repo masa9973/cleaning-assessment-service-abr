@@ -1,5 +1,5 @@
 import { ErrorCode, RepositoryContainer, Scalars } from '../../entities';
-import { HotelModel, ModelFactory } from '../../entities/models';
+import { HotelModel, ModelFactory, RoomModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
 
@@ -27,8 +27,8 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
-    async fetchAllUserByHotelID(hotelID: Scalars['ID']) {
-        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(hotelID);
+    async fetchAllUserByHotelID(userHotelID: Scalars['ID']) {
+        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
@@ -63,6 +63,25 @@ export class CleanerUsecase {
     async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item))
+    }
+    // =======================
+    // room
+    // =======================
+    async createNewRoom(roomName: Scalars['String']): Promise<RoomModel> {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        if (!me) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        } else {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID
+            if (typeof hotelID === "string" ) {
+
+                return this.modelFactory.RoomModel(RoomModel.getBlanc(roomName, hotelID), {
+                    isNew: true,
+                })
+            } else {
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            }
+        }
     }
 
     // =======================

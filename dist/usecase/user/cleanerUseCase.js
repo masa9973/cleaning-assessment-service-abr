@@ -28,8 +28,8 @@ class CleanerUsecase {
         }
         return this.modelFactory.UserModel(user);
     }
-    async fetchAllUserByHotelID(hotelID) {
-        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(hotelID);
+    async fetchAllUserByHotelID(userHotelID) {
+        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     // =======================
@@ -63,6 +63,26 @@ class CleanerUsecase {
     async fetchRecordsByCleanerID(userID) {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
         return records.map((item) => this.modelFactory.RecordModel(item));
+    }
+    // =======================
+    // room
+    // =======================
+    async createNewRoom(roomName) {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
+        if (!me) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        else {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof hotelID === "string") {
+                return this.modelFactory.RoomModel(models_1.RoomModel.getBlanc(roomName, hotelID), {
+                    isNew: true,
+                });
+            }
+            else {
+                throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+            }
+        }
     }
     // =======================
     // hotel
