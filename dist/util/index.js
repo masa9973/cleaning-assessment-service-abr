@@ -13,3 +13,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./modules/ChillnnTrainingError"), exports);
 __exportStar(require("./modules/Comparator"), exports);
 __exportStar(require("./modules/IDGenerator"), exports);
+__exportStar(require("./modules/TimeStampToStringTime"), exports);
