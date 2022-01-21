@@ -116,7 +116,7 @@ type UserMast {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
-  userHotelID: ID
+  userHotelID: ID!
 }
 
 input UserMastInput {
@@ -127,5 +127,5 @@ input UserMastInput {
   role: String!
   createdAt: AWSTimestamp!
   updatedAt: AWSTimestamp!
-  userHotelID: ID
+  userHotelID: ID!
 }

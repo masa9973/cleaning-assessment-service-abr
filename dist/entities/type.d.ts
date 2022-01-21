@@ -115,7 +115,7 @@ export declare type UserMast = {
     role: Scalars['String'];
     createdAt: Scalars['AWSTimestamp'];
     updatedAt: Scalars['AWSTimestamp'];
-    userHotelID?: Maybe<Scalars['ID']>;
+    userHotelID: Scalars['ID'];
 };
 export declare type UserMastInput = {
     userID: Scalars['ID'];
@@ -125,5 +125,5 @@ export declare type UserMastInput = {
     role: Scalars['String'];
     createdAt: Scalars['AWSTimestamp'];
     updatedAt: Scalars['AWSTimestamp'];
-    userHotelID?: Maybe<Scalars['ID']>;
+    userHotelID: Scalars['ID'];
 };

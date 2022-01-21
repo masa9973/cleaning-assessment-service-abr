@@ -130,7 +130,7 @@ export type UserMast = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
-  userHotelID?: Maybe<Scalars['ID']>;
+  userHotelID: Scalars['ID'];
 };
 
 export type UserMastInput = {
@@ -141,5 +141,5 @@ export type UserMastInput = {
   role: Scalars['String'];
   createdAt: Scalars['AWSTimestamp'];
   updatedAt: Scalars['AWSTimestamp'];
-  userHotelID?: Maybe<Scalars['ID']>;
+  userHotelID: Scalars['ID'];
 };

@@ -44,7 +44,7 @@ export class UserModel extends BaseModel<UserMast> {
         this.mast.role = input;
     }
     get userHotelID() {
-        return this.mast.userHotelID || ''
+        return this.mast.userHotelID
     }
     set userHotelID(input: string) {
         this.mast.userHotelID = input;
