@@ -1,4 +1,5 @@
 import { UserMast } from '../..';
+import { generateUUID } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class UserModel extends BaseModel<UserMast> {
@@ -69,11 +70,12 @@ export class UserModel extends BaseModel<UserMast> {
     /**
      * ユーザー情報を新規登録、または更新する
      */
-     async register() {
+    async register() {
         if (this.isRegisterble) {
             const now = new Date().getTime();
             if (this.isNew) {
                 this.mast.createdAt = now;
+                this.mast.userHotelID = generateUUID();
                 this.mast.updatedAt = now;
                 await this.repositoryContainer.userMastRepository.addUserMast(this.mast);
             } else {
@@ -83,4 +85,7 @@ export class UserModel extends BaseModel<UserMast> {
             this.isNew = false;
         }
     }
+
+    // hotelIDを紐付ける関数
+
 }

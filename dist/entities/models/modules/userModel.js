@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
+const __1 = require("../../..");
 const _baseModel_1 = require("./_baseModel");
 class UserModel extends _baseModel_1.BaseModel {
     // ============================================
@@ -75,6 +76,7 @@ class UserModel extends _baseModel_1.BaseModel {
             const now = new Date().getTime();
             if (this.isNew) {
                 this.mast.createdAt = now;
+                this.mast.userHotelID = __1.generateUUID();
                 this.mast.updatedAt = now;
                 await this.repositoryContainer.userMastRepository.addUserMast(this.mast);
             }
