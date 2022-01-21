@@ -11,6 +11,7 @@ export declare class CleanerUsecase {
     createNewRecord(): Promise<RecordModel>;
     fetchAllRecordsByHotelID(recordHotelID: Scalars['ID']): Promise<RecordModel[]>;
     fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]>;
+    fetchRecordByRecordID(recordID: Scalars['ID']): Promise<RecordModel>;
     createNewRoom(roomName: Scalars['String']): Promise<RoomModel>;
     fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]>;
     createNewHotel(hotelName: Scalars['String']): Promise<HotelModel>;

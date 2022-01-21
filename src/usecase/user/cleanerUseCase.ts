@@ -58,6 +58,10 @@ export class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item))
     }
+    async fetchRecordByRecordID(recordID: Scalars['ID']) {
+        const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID)
+        return this.modelFactory.RecordModel(record)
+    }
     // =======================
     // room
     // =======================
