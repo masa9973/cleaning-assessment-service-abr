@@ -1,4 +1,4 @@
-import { ErrorCode, RepositoryContainer, Scalars } from '../../entities';
+import { ErrorCode, RepositoryContainer, RoomMast, Scalars } from '../../entities';
 import { HotelModel, ModelFactory, RoomModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
@@ -88,6 +88,13 @@ export class CleanerUsecase {
     async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
         return res.map((item) => this.modelFactory.RoomModel(item))
+    }
+    async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomMast | null> {
+        const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID)
+        if (!room) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
+        return this.modelFactory.RoomModel(room)        
     }
 
     // =======================

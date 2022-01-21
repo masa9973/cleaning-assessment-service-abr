@@ -92,6 +92,13 @@ class CleanerUsecase {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
         return res.map((item) => this.modelFactory.RoomModel(item));
     }
+    async fetchRoomByRoomID(roomID) {
+        const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
+        if (!room) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return this.modelFactory.RoomModel(room);
+    }
     // =======================
     // hotel
     // =======================
