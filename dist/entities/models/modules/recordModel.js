@@ -92,7 +92,7 @@ class RecordModel extends _baseModel_1.BaseModel {
     // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true;
-        this.mast = await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast);
+        this.mast = await this.repositoryContainer.recordMastRepository.updateRecord(this.mast);
     }
 }
 exports.RecordModel = RecordModel;
