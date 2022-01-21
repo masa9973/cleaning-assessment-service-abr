@@ -73,12 +73,9 @@ export class UserModel extends BaseModel<UserMast> {
     async register() {
         if (this.isRegisterble) {
             const now = new Date().getTime();
-            const ID = generateUUID()
             if (this.isNew) {
                 this.mast.createdAt = now;
-                this.mast.userHotelID = ID;
                 this.mast.updatedAt = now;
-                console.log('uuid', this.mast.userHotelID)
                 await this.repositoryContainer.userMastRepository.addUserMast(this.mast);
             } else {
                 this.mast.updatedAt = now;
