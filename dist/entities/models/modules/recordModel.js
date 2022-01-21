@@ -80,7 +80,7 @@ class RecordModel extends _baseModel_1.BaseModel {
             this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
         }
         else {
-            await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast);
+            await this.repositoryContainer.recordMastRepository.updateRecord(this.mast);
         }
         this.isNew = false;
     }
