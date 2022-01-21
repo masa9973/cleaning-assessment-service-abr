@@ -62,6 +62,9 @@ class CleanerUsecase {
     }
     async fetchRecordByRecordID(recordID) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
+        if (!record) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
         return this.modelFactory.RecordModel(record);
     }
     // =======================

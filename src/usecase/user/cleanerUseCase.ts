@@ -60,6 +60,9 @@ export class CleanerUsecase {
     }
     async fetchRecordByRecordID(recordID: Scalars['ID']) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID)
+        if (!record) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
         return this.modelFactory.RecordModel(record)
     }
     // =======================
