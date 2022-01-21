@@ -75,10 +75,15 @@ export class RecordModel extends BaseModel<RecordMast> {
 
     /* 清掃記録の登録を行う */
     async register() {
-        this.mast.createdAt = new Date().getTime();
-        this.mast.ifScored = false;
-        this.mast.cleaningTime = this.mast.finishedAt - this.mast.startAt;
-        this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
+        if (this.isNew) {
+            this.mast.createdAt = new Date().getTime();
+            this.mast.ifScored = false;
+            this.mast.cleaningTime = this.mast.finishedAt - this.mast.startAt;
+            this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
+        } else {
+            await this.repositoryContainer.recordMastRepository.updateRecordMast(this.mast)
+        }
+        this.isNew = false
     }
 
     /* 評価の取得を行う */
