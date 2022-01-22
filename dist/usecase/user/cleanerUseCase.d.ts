@@ -1,4 +1,4 @@
-import { RepositoryContainer, RoomMast, Scalars } from '../../entities';
+import { RepositoryContainer, Scalars } from '../../entities';
 import { HotelModel, ModelFactory, RoomModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 export declare class CleanerUsecase {
@@ -14,6 +14,6 @@ export declare class CleanerUsecase {
     fetchRecordByRecordID(recordID: Scalars['ID']): Promise<RecordModel>;
     createNewRoom(roomName: Scalars['String']): Promise<RoomModel>;
     fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]>;
-    fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomMast | null>;
+    fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null>;
     createNewHotel(hotelName: Scalars['String']): Promise<HotelModel>;
 }

@@ -89,7 +89,7 @@ export class CleanerUsecase {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
         return res.map((item) => this.modelFactory.RoomModel(item))
     }
-    async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomMast | null> {
+    async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null> {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID)
         if (!room) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
