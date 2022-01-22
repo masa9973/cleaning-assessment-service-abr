@@ -81,6 +81,7 @@ export class RecordModel extends BaseModel<RecordMast> {
             this.mast.cleaningTime = this.mast.finishedAt - this.mast.startAt;
             this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
         } else {
+            this.mast.cleaningTime = this.mast.finishedAt - this.mast.startAt;
             await this.repositoryContainer.recordMastRepository.updateRecord(this.mast)
         }
         this.isNew = false
