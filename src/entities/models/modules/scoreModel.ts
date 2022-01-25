@@ -38,6 +38,12 @@ export class ScoreModel extends BaseModel<ScoreMast> {
     set score(input: number) {
         this.mast.score = input;
     }
+    get scoreItemID() {
+        return this.mast.scoreItemID
+    }
+    set scoreItemID(input: string) {
+        this.mast.scoreItemID = input
+    }
 
     /* 清掃スコアの登録を行う */
     async register() {

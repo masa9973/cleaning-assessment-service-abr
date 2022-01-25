@@ -8,5 +8,7 @@ export declare class ScoreModel extends BaseModel<ScoreMast> {
     get createdAt(): number;
     get score(): number;
     set score(input: number);
+    get scoreItemID(): string;
+    set scoreItemID(input: string);
     register(): Promise<void>;
 }
