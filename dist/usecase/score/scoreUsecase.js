@@ -17,7 +17,7 @@ class ScoreUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         const userID = this.modelFactory.UserModel(me).userID;
-        this.recordModel.switchIfScored();
+        // this.recordModel.switchIfScored();
         return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0, ''), {
             isNew: true,
         });

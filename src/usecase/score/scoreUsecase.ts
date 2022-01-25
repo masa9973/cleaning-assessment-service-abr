@@ -13,7 +13,7 @@ export class ScoreUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         const userID = this.modelFactory.UserModel(me).userID;
-        this.recordModel.switchIfScored();
+        // this.recordModel.switchIfScored();
         return this.modelFactory.ScoreModel(ScoreModel.getBlanc(this.recordModel.recordID, userID, 0, ''), {
             isNew: true,
         });
