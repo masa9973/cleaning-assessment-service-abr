@@ -92,11 +92,18 @@ input S3ObjectInput {
   region: String!
 }
 
-input ScoreItemMast {
-  createdAt: AWSTimestamp!
-  scoreItemHotelID: ID!
+type ScoreItemMast {
   scoreItemID: ID!
   scoreItemName: ID!
+  createdAt: AWSTimestamp!
+  scoreItemHotelID: ID!
+}
+
+input ScoreItemMastInput {
+  scoreItemID: ID!
+  scoreItemName: ID!
+  createdAt: AWSTimestamp!
+  scoreItemHotelID: ID!
 }
 
 type ScoreMast {

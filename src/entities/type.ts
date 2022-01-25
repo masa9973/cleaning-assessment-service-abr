@@ -107,10 +107,17 @@ export type S3ObjectInput = {
 };
 
 export type ScoreItemMast = {
-  createdAt: Scalars['AWSTimestamp'];
-  scoreItemHotelID: Scalars['ID'];
   scoreItemID: Scalars['ID'];
   scoreItemName: Scalars['ID'];
+  createdAt: Scalars['AWSTimestamp'];
+  scoreItemHotelID: Scalars['ID'];
+};
+
+export type ScoreItemMastInput = {
+  scoreItemID: Scalars['ID'];
+  scoreItemName: Scalars['ID'];
+  createdAt: Scalars['AWSTimestamp'];
+  scoreItemHotelID: Scalars['ID'];
 };
 
 export type ScoreMast = {

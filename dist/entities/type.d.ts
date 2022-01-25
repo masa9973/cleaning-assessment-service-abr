@@ -94,10 +94,16 @@ export declare type S3ObjectInput = {
     region: Scalars['String'];
 };
 export declare type ScoreItemMast = {
-    createdAt: Scalars['AWSTimestamp'];
-    scoreItemHotelID: Scalars['ID'];
     scoreItemID: Scalars['ID'];
     scoreItemName: Scalars['ID'];
+    createdAt: Scalars['AWSTimestamp'];
+    scoreItemHotelID: Scalars['ID'];
+};
+export declare type ScoreItemMastInput = {
+    scoreItemID: Scalars['ID'];
+    scoreItemName: Scalars['ID'];
+    createdAt: Scalars['AWSTimestamp'];
+    scoreItemHotelID: Scalars['ID'];
 };
 export declare type ScoreMast = {
     recordID: Scalars['ID'];

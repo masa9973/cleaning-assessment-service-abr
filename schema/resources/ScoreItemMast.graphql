@@ -5,7 +5,7 @@ type ScoreItemMast {
     scoreItemHotelID: ID!
 }
 
-input ScoreItemMast {
+input ScoreItemMastInput {
     scoreItemID: ID!
     scoreItemName: ID!
     createdAt: AWSTimestamp!
