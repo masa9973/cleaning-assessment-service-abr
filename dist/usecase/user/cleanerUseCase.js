@@ -126,9 +126,6 @@ class CleanerUsecase {
     }
     async fetchScoreItemByScoreItemID(scoreItemID) {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
-        if (!scoreItem) {
-            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
         return this.modelFactory.ScoreItemModel(scoreItem);
     }
     // =======================

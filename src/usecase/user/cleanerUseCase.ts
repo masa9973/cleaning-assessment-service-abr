@@ -123,10 +123,7 @@ export class CleanerUsecase {
 
     async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID)
-        if (!scoreItem) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
-        }
-        return this.modelFactory.ScoreItemModel(scoreItem)
+        return this.modelFactory.ScoreItemModel(scoreItem!)
     }
 
     // =======================
