@@ -4,13 +4,14 @@ exports.ScoreModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class ScoreModel extends _baseModel_1.BaseModel {
-    static getBlanc(recordID, scorerUserID, score) {
+    static getBlanc(recordID, scorerUserID, score, scoreItemID) {
         return {
             recordID,
             scoreID: util_1.generateUUID(),
             scorerUserID,
             createdAt: new Date().getTime(),
             score,
+            scoreItemID,
         };
     }
     // ============================================

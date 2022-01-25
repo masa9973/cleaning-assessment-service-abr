@@ -106,12 +106,20 @@ export type S3ObjectInput = {
   region: Scalars['String'];
 };
 
+export type ScoreItemMast = {
+  createdAt: Scalars['AWSTimestamp'];
+  scoreItemHotelID: Scalars['ID'];
+  scoreItemID: Scalars['ID'];
+  scoreItemName: Scalars['ID'];
+};
+
 export type ScoreMast = {
   recordID: Scalars['ID'];
   scoreID: Scalars['ID'];
   scorerUserID: Scalars['ID'];
   score: Scalars['Int'];
   createdAt: Scalars['AWSTimestamp'];
+  scoreItemID: Scalars['ID'];
 };
 
 export type ScoreMastInput = {
@@ -120,6 +128,7 @@ export type ScoreMastInput = {
   scorerUserID: Scalars['ID'];
   score: Scalars['Int'];
   createdAt: Scalars['AWSTimestamp'];
+  scoreItemID: Scalars['ID'];
 };
 
 export type UserMast = {

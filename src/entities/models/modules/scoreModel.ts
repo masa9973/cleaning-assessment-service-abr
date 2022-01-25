@@ -3,13 +3,14 @@ import { generateUUID } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class ScoreModel extends BaseModel<ScoreMast> {
-    static getBlanc(recordID: Scalars['ID'], scorerUserID: Scalars['ID'], score: Scalars['Int']) {
+    static getBlanc(recordID: Scalars['ID'], scorerUserID: Scalars['ID'], score: Scalars['Int'], scoreItemID: Scalars['ID']): ScoreMast {
         return {
             recordID,
             scoreID: generateUUID(),
             scorerUserID,
             createdAt: new Date().getTime(),
             score,
+            scoreItemID,
         }
     }
 

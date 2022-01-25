@@ -4,6 +4,7 @@ type  ScoreMast {
     scorerUserID: ID!
     score: Int!
     createdAt: AWSTimestamp!
+    scoreItemID: ID!
 }
 
 input ScoreMastInput {
@@ -12,4 +13,5 @@ input ScoreMastInput {
     scorerUserID: ID!
     score: Int!
     createdAt: AWSTimestamp!
+    scoreItemID: ID!
 }

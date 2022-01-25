@@ -44,7 +44,7 @@ export class UserModel extends BaseModel<UserMast> {
         this.mast.role = input;
     }
     get userHotelID() {
-        return this.mast.userHotelID
+        return this.mast.userHotelID;
     }
     set userHotelID(input: string) {
         this.mast.userHotelID = input;
@@ -62,7 +62,7 @@ export class UserModel extends BaseModel<UserMast> {
      * アイコン画像をセットする
      * @param file
      */
-     async setIcon(file: File) {
+    async setIcon(file: File) {
         const path = `user/${this.userID}/iconImage/${new Date().getTime()}`;
         this.mast.userIcon = await this.repositoryContainer.s3Repository.addFile(path, file);
     }
@@ -86,5 +86,4 @@ export class UserModel extends BaseModel<UserMast> {
     }
 
     // hotelIDを紐付ける関数
-
 }

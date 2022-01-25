@@ -1,6 +1,7 @@
 import { ErrorCode, RepositoryContainer, RoomMast, Scalars } from '../../entities';
 import { HotelModel, ModelFactory, RoomModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
+import { ScoreItemModel } from '../../entities/models/modules/scoreItemModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
 
 export class CleanerUsecase {
@@ -95,6 +96,37 @@ export class CleanerUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
         }
         return this.modelFactory.RoomModel(room)        
+    }
+    // =======================
+    // scoreItem
+    // =======================
+    async createNewScoreItem(scoreItemName: Scalars['String']): Promise<ScoreItemModel> {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        if (!me) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        } else {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID
+            if (typeof hotelID === "string" ) {
+                return this.modelFactory.ScoreItemModel(ScoreItemModel.getBlanc(scoreItemName, hotelID), {
+                    isNew: true,
+                })
+            } else {
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            }
+        }
+    }
+
+    async fetchScoreItemsByHotelID(scoreItemHotelID: Scalars['ID']): Promise<ScoreItemModel[]> {
+        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID)
+        return res.map((item) => this.modelFactory.ScoreItemModel(item))
+    }
+
+    async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
+        const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID)
+        if (!scoreItem) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
+        return this.modelFactory.ScoreItemModel(scoreItem)
     }
 
     // =======================

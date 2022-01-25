@@ -4,6 +4,7 @@ exports.CleanerUsecase = void 0;
 const entities_1 = require("../../entities");
 const models_1 = require("../../entities/models");
 const recordModel_1 = require("../../entities/models/modules/recordModel");
+const scoreItemModel_1 = require("../../entities/models/modules/scoreItemModel");
 const util_1 = require("../../util");
 class CleanerUsecase {
     constructor(repositoryContainer, modelFactory) {
@@ -98,6 +99,37 @@ class CleanerUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         return this.modelFactory.RoomModel(room);
+    }
+    // =======================
+    // scoreItem
+    // =======================
+    async createNewScoreItem(scoreItemName) {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
+        if (!me) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        else {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof hotelID === "string") {
+                return this.modelFactory.ScoreItemModel(scoreItemModel_1.ScoreItemModel.getBlanc(scoreItemName, hotelID), {
+                    isNew: true,
+                });
+            }
+            else {
+                throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+            }
+        }
+    }
+    async fetchScoreItemsByHotelID(scoreItemHotelID) {
+        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID);
+        return res.map((item) => this.modelFactory.ScoreItemModel(item));
+    }
+    async fetchScoreItemByScoreItemID(scoreItemID) {
+        const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
+        if (!scoreItem) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return this.modelFactory.ScoreItemModel(scoreItem);
     }
     // =======================
     // hotel

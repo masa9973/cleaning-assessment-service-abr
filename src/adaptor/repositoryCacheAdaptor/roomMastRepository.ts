@@ -5,12 +5,6 @@
 //     [roomID: string]: RoomMast | 'blanc' | undefined
 // }
 
-// type HotelCache = {
-//     [hotelID: string]: {
-//         [roomHotelID: string]: RoomMast,
-//     } | null
-// }
-
 // export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
 //     private roomCache: RoomCache = {}
 

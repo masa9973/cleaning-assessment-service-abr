@@ -4,15 +4,17 @@ import { UserModel } from './modules/userModel';
 import { RecordModel } from './modules/recordModel';
 import { BaseModel, ModelOption } from './modules/_baseModel';
 import { ScoreModel } from './modules/scoreModel';
-import { HotelMast, RoomMast } from '..';
+import { HotelMast, RoomMast, ScoreItemMast } from '..';
 import { RoomModel } from './modules/RoomModel';
 import { HotelModel } from './modules/hotelModel';
+import { ScoreItemModel } from './modules/scoreItemModel';
 
 export * from './modules/userModel';
 export * from './modules/recordModel';
 export * from './modules/scoreModel';
 export * from './modules/hotelModel'
 export * from './modules/RoomModel'
+export * from './modules/scoreItemModel'
 
 export class ModelFactory {
     constructor(private repositoryContainer: RepositoryContainer) {}
@@ -34,5 +36,9 @@ export class ModelFactory {
 
     public HotelModel(mast: HotelMast, option?: ModelOption) {
         return new HotelModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption());
+    }
+
+    public ScoreItemModel(mast: ScoreItemMast, option?: ModelOption) {
+        return new ScoreItemModel(mast, this.repositoryContainer, this, option || BaseModel.baseModelOption())
     }
 }

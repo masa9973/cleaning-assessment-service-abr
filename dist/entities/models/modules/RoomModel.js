@@ -21,7 +21,7 @@ class RoomModel extends _baseModel_1.BaseModel {
     get createdAt() {
         return this.mast.createdAt;
     }
-    get userIcon() {
+    get roomIcon() {
         if (this.mast.roomIcon) {
             return this.mast.roomIcon.url;
         }
@@ -42,7 +42,7 @@ class RoomModel extends _baseModel_1.BaseModel {
         return this.mast.roomHotelID;
     }
     set roomHotelID(input) {
-        this.mast.roomHotelID;
+        this.mast.roomHotelID = input;
     }
     /**
      * アイコン画像をセットする

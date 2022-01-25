@@ -1,0 +1,13 @@
+type ScoreItemMast {
+    scoreItemID: ID!
+    scoreItemName: ID!
+    createdAt: AWSTimestamp!
+    scoreItemHotelID: ID!
+}
+
+input ScoreItemMast {
+    scoreItemID: ID!
+    scoreItemName: ID!
+    createdAt: AWSTimestamp!
+    scoreItemHotelID: ID!
+}

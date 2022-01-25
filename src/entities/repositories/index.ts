@@ -4,6 +4,7 @@ import { IRecordMastRepository } from './modules/recordMastRepository'
 import { IScoreMastRepository } from './modules/scoreMastRepository'
 import { IHotelMastRepository } from './modules/hotelMastRepository'
 import { IRoomMastRepository } from './modules/roomMastRepository'
+import { IScoreItemMastRepository } from './modules/scoreItemMastRepository'
 
 export * from './modules/S3Repository'
 export * from './modules/recordMastRepository'
@@ -11,6 +12,7 @@ export * from './modules/userMastRepository'
 export * from './modules/scoreMastRepository'
 export * from './modules/hotelMastRepository'
 export * from './modules/roomMastRepository'
+export * from './modules/scoreItemMastRepository'
 
 export class RepositoryContainer{
     constructor(
@@ -20,5 +22,6 @@ export class RepositoryContainer{
         public scoreMastRepository: IScoreMastRepository,
         public hotelMastRepository: IHotelMastRepository,
         public roomMastRepository: IRoomMastRepository,
+        public scoreItemMastRepository: IScoreItemMastRepository
     ) {}
 }

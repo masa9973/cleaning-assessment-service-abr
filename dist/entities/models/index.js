@@ -17,11 +17,13 @@ const _baseModel_1 = require("./modules/_baseModel");
 const scoreModel_1 = require("./modules/scoreModel");
 const RoomModel_1 = require("./modules/RoomModel");
 const hotelModel_1 = require("./modules/hotelModel");
+const scoreItemModel_1 = require("./modules/scoreItemModel");
 __exportStar(require("./modules/userModel"), exports);
 __exportStar(require("./modules/recordModel"), exports);
 __exportStar(require("./modules/scoreModel"), exports);
 __exportStar(require("./modules/hotelModel"), exports);
 __exportStar(require("./modules/RoomModel"), exports);
+__exportStar(require("./modules/scoreItemModel"), exports);
 class ModelFactory {
     constructor(repositoryContainer) {
         this.repositoryContainer = repositoryContainer;
@@ -40,6 +42,9 @@ class ModelFactory {
     }
     HotelModel(mast, option) {
         return new hotelModel_1.HotelModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
+    }
+    ScoreItemModel(mast, option) {
+        return new scoreItemModel_1.ScoreItemModel(mast, this.repositoryContainer, this, option || _baseModel_1.BaseModel.baseModelOption());
     }
 }
 exports.ModelFactory = ModelFactory;

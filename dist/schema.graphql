@@ -92,12 +92,20 @@ input S3ObjectInput {
   region: String!
 }
 
+input ScoreItemMast {
+  createdAt: AWSTimestamp!
+  scoreItemHotelID: ID!
+  scoreItemID: ID!
+  scoreItemName: ID!
+}
+
 type ScoreMast {
   recordID: ID!
   scoreID: ID!
   scorerUserID: ID!
   score: Int!
   createdAt: AWSTimestamp!
+  scoreItemID: ID!
 }
 
 input ScoreMastInput {
@@ -106,6 +114,7 @@ input ScoreMastInput {
   scorerUserID: ID!
   score: Int!
   createdAt: AWSTimestamp!
+  scoreItemID: ID!
 }
 
 type UserMast {

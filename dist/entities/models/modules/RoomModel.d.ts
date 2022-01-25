@@ -4,7 +4,7 @@ export declare class RoomModel extends BaseModel<RoomMast> {
     static getBlanc(roomName: Scalars['String'], roomHotelID: Scalars['ID']): RoomMast;
     get roomID(): string;
     get createdAt(): number;
-    get userIcon(): string;
+    get roomIcon(): string;
     get roomName(): string;
     set roomName(input: string);
     get roomHotelID(): string;
