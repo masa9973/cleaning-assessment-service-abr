@@ -21,5 +21,6 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     set cleanerID(input: string);
     register(): Promise<void>;
     fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]>;
+    fetchScores(): Promise<ScoreModel[]>;
     switchIfScored(): Promise<void>;
 }

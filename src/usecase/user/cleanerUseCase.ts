@@ -1,12 +1,11 @@
 import { ErrorCode, RepositoryContainer, RoomMast, Scalars } from '../../entities';
-import { HotelModel, ModelFactory, RoomModel } from '../../entities/models';
+import { HotelModel, ModelFactory, RoomModel, ScoreModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ScoreItemModel } from '../../entities/models/modules/scoreItemModel';
 import { ChillnnTrainingError, compareNumDesc } from '../../util';
 
 export class CleanerUsecase {
     constructor(private repositoryContainer: RepositoryContainer, private modelFactory: ModelFactory) {}
-
 
     // =======================
     // user
@@ -42,12 +41,12 @@ export class CleanerUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
             const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof recordHotelID === "string" ) {
+            if (typeof recordHotelID === 'string') {
                 return this.modelFactory.RecordModel(RecordModel.getBlanc('', '', 0, 0, 0, recordHotelID), {
                     isNew: true,
                 });
             } else {
-                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
     }
@@ -56,74 +55,82 @@ export class CleanerUsecase {
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
     async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
-        return records.map((item) => this.modelFactory.RecordModel(item))
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
+        return records.map((item) => this.modelFactory.RecordModel(item));
     }
     async fetchRecordByRecordID(recordID: Scalars['ID']) {
-        const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID)
+        const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
         if (!record) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
-        return this.modelFactory.RecordModel(record)
+        return this.modelFactory.RecordModel(record);
     }
     // =======================
     // room
     // =======================
     async createNewRoom(roomName: Scalars['String']): Promise<RoomModel> {
-        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            const hotelID = this.modelFactory.UserModel(me).userHotelID
-            if (typeof hotelID === "string" ) {
-
+            const hotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.RoomModel(RoomModel.getBlanc(roomName, hotelID), {
                     isNew: true,
-                })
+                });
             } else {
-                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
     }
     // 施設に紐づく部屋を取得する
     async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
-        return res.map((item) => this.modelFactory.RoomModel(item))
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
+        return res.map((item) => this.modelFactory.RoomModel(item));
     }
     async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null> {
-        const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID)
+        const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
         if (!room) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
-        return this.modelFactory.RoomModel(room)        
+        return this.modelFactory.RoomModel(room);
     }
+
+    // =======================
+    // score
+    // =======================
+    async fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]> {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
+        return res.map((item) => this.modelFactory.ScoreModel(item));
+    }
+
     // =======================
     // scoreItem
     // =======================
     async createNewScoreItem(scoreItemName: Scalars['String']): Promise<ScoreItemModel> {
-        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            const hotelID = this.modelFactory.UserModel(me).userHotelID
-            if (typeof hotelID === "string" ) {
+            const hotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.ScoreItemModel(ScoreItemModel.getBlanc(scoreItemName, hotelID), {
                     isNew: true,
-                })
+                });
             } else {
-                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
     }
 
     async fetchScoreItemsByHotelID(scoreItemHotelID: Scalars['ID']): Promise<ScoreItemModel[]> {
-        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID)
-        return res.map((item) => this.modelFactory.ScoreItemModel(item))
+        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID);
+        return res.map((item) => this.modelFactory.ScoreItemModel(item));
     }
 
     async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
-        const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID)
-        return this.modelFactory.ScoreItemModel(scoreItem!)
+        const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
+        return this.modelFactory.ScoreItemModel(scoreItem!);
     }
 
     // =======================
@@ -131,18 +138,17 @@ export class CleanerUsecase {
     // =======================
     // hotelを登録
     async createNewHotel(hotelName: Scalars['String']): Promise<HotelModel> {
-        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         } else {
-            const hotelID = this.modelFactory.UserModel(me).userHotelID
-            if (typeof hotelID === "string" ) {
-
+            const hotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.HotelModel(HotelModel.getBlanc(hotelID, hotelName), {
                     isNew: true,
-                })
+                });
             } else {
-                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
     }

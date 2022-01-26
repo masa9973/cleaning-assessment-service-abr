@@ -90,6 +90,11 @@ class RecordModel extends _baseModel_1.BaseModel {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
+    // この清掃の評価を取得する
+    async fetchScores() {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(this.recordID);
+        return res.map((item) => this.modelFactory.ScoreModel(item));
+    }
     // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true;

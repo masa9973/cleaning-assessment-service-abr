@@ -43,7 +43,7 @@ class CleanerUsecase {
         }
         else {
             const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof recordHotelID === "string") {
+            if (typeof recordHotelID === 'string') {
                 return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc('', '', 0, 0, 0, recordHotelID), {
                     isNew: true,
                 });
@@ -78,7 +78,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.RoomModel(models_1.RoomModel.getBlanc(roomName, hotelID), {
                     isNew: true,
                 });
@@ -101,6 +101,13 @@ class CleanerUsecase {
         return this.modelFactory.RoomModel(room);
     }
     // =======================
+    // score
+    // =======================
+    async fetchScoresByRecordID(recordID) {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
+        return res.map((item) => this.modelFactory.ScoreModel(item));
+    }
+    // =======================
     // scoreItem
     // =======================
     async createNewScoreItem(scoreItemName) {
@@ -110,7 +117,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.ScoreItemModel(scoreItemModel_1.ScoreItemModel.getBlanc(scoreItemName, hotelID), {
                     isNew: true,
                 });
@@ -139,7 +146,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.HotelModel(models_1.HotelModel.getBlanc(hotelID, hotelName), {
                     isNew: true,
                 });
