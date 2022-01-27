@@ -117,4 +117,11 @@ export class UserModel extends BaseModel<UserMast> {
         const filteredRecords = records.filter((item) => item.cleaningTime === 0)
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
+
+    // 未評価のレコードを取得する
+    async fetchUnscoredRecords(): Promise<RecordModel[]> {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
+        const filteredRecords = records.filter((record) => !record.ifScored && !!record.cleaningTime)
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+    }
 }
