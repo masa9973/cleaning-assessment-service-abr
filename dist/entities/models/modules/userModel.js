@@ -107,5 +107,11 @@ class UserModel extends _baseModel_1.BaseModel {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
         return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // アサイン済みのレコードを取得する
+    async fetchAssignedRecords() {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
 }
 exports.UserModel = UserModel;

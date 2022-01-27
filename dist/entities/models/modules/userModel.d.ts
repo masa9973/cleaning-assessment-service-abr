@@ -28,4 +28,5 @@ export declare class UserModel extends BaseModel<UserMast> {
     fetchSameHotelCleaner(): Promise<UserModel[]>;
     fetchSameHotelScoreItems(): Promise<import("./scoreItemModel").ScoreItemModel[]>;
     fetchRecords(): Promise<RecordModel[]>;
+    fetchAssignedRecords(): Promise<RecordModel[]>;
 }
