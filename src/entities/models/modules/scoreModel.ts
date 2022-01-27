@@ -47,7 +47,13 @@ export class ScoreModel extends BaseModel<ScoreMast> {
 
     /* 清掃スコアの登録を行う */
     async register() {
-        this.mast.createdAt = new Date().getTime();
-        this.mast = await this.repositoryContainer.scoreMastRepository.addScore(this.mast);
+        if (this.isNew) {
+
+            this.mast.createdAt = new Date().getTime();
+            this.mast = await this.repositoryContainer.scoreMastRepository.addScore(this.mast);
+        } else {
+            await this.repositoryContainer.scoreMastRepository.updateScore(this.mast);
+        }
+        this.isNew = false
     }
 }
