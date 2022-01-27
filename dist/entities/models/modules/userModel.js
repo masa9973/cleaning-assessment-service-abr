@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
+const __1 = require("../../..");
 const _baseModel_1 = require("./_baseModel");
 class UserModel extends _baseModel_1.BaseModel {
     // ============================================
@@ -84,6 +85,27 @@ class UserModel extends _baseModel_1.BaseModel {
             }
             this.isNew = false;
         }
+    }
+    // このユーザーと同じ所属の部屋を取得する
+    async fetchSameHotelRooms() {
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
+        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    // 自分と同じ所属のcleanerを取得する
+    async fetchSameHotelCleaner() {
+        const res = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(this.userHotelID);
+        const cleaners = res.filter((user) => user.role === 'cleaner');
+        return cleaners.map((item) => this.modelFactory.UserModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    // 自分と同じ所属のscoreItemを取得する
+    async fetchSameHotelScoreItems() {
+        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(this.userHotelID);
+        return res.map((item) => this.modelFactory.ScoreItemModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    // 自分のレコードを取得する
+    async fetchRecords() {
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
+        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
 }
 exports.UserModel = UserModel;

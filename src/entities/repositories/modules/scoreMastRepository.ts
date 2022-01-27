@@ -4,4 +4,5 @@ export interface IScoreMastRepository {
     addScore(input: ScoreMast): Promise<ScoreMast>
     updateScore(input: ScoreMast): Promise<ScoreMast>
     fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreMast[]>
+    fetchScoresByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreMast[]>
 }

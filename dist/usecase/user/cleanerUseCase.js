@@ -22,6 +22,7 @@ class CleanerUsecase {
         }
         return this.modelFactory.UserModel(me);
     }
+    // いる
     async fetchUserModelByUserID(userID) {
         const user = await this.repositoryContainer.userMastRepository.fetchUserMastByUserID(userID);
         if (!user) {
@@ -29,6 +30,7 @@ class CleanerUsecase {
         }
         return this.modelFactory.UserModel(user);
     }
+    // 多分なくていける
     async fetchAllUserByHotelID(userHotelID) {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
@@ -57,6 +59,7 @@ class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // いらない
     async fetchRecordsByCleanerID(userID) {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
         return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
@@ -88,7 +91,7 @@ class CleanerUsecase {
             }
         }
     }
-    // 施設に紐づく部屋を取得する
+    // いらない、施設に紐づく部屋を取得する
     async fetchRoomsByHotelID(roomHotelID) {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
         return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
@@ -103,6 +106,7 @@ class CleanerUsecase {
     // =======================
     // score
     // =======================
+    // いらない
     async fetchScoresByRecordID(recordID) {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
@@ -127,10 +131,12 @@ class CleanerUsecase {
             }
         }
     }
+    // いらない
     async fetchScoreItemsByHotelID(scoreItemHotelID) {
         const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID);
         return res.map((item) => this.modelFactory.ScoreItemModel(item));
     }
+    // いる
     async fetchScoreItemByScoreItemID(scoreItemID) {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
         return this.modelFactory.ScoreItemModel(scoreItem);
@@ -138,7 +144,7 @@ class CleanerUsecase {
     // =======================
     // hotel
     // =======================
-    // hotelを登録
+    // いらない、hotelを登録
     async createNewHotel(hotelName) {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
         if (!me) {

@@ -20,7 +20,6 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     get cleanerID(): string;
     set cleanerID(input: string);
     register(): Promise<void>;
-    fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]>;
     fetchScores(): Promise<ScoreModel[]>;
     switchIfScored(): Promise<void>;
 }

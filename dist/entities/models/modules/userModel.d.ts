@@ -1,3 +1,4 @@
+import { RecordModel } from '..';
 import { UserMast } from '../..';
 import { BaseModel } from './_baseModel';
 export declare class UserModel extends BaseModel<UserMast> {
@@ -23,4 +24,8 @@ export declare class UserModel extends BaseModel<UserMast> {
      * ユーザー情報を新規登録、または更新する
      */
     register(): Promise<void>;
+    fetchSameHotelRooms(): Promise<import("./RoomModel").RoomModel[]>;
+    fetchSameHotelCleaner(): Promise<UserModel[]>;
+    fetchSameHotelScoreItems(): Promise<import("./scoreItemModel").ScoreItemModel[]>;
+    fetchRecords(): Promise<RecordModel[]>;
 }

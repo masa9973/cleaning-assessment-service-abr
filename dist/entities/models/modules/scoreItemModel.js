@@ -33,9 +33,15 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
     set scoreItemName(input) {
         this.mast.scoreItemName = input;
     }
+    // 評価項目を登録する
     async register() {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast);
+    }
+    // この評価項目を持つスコアを取得する（追加）
+    async fetchScores() {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
+        return res.map((item) => this.modelFactory.ScoreModel(item));
     }
 }
 exports.ScoreItemModel = ScoreItemModel;

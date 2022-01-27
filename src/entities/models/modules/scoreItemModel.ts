@@ -1,3 +1,5 @@
+import { ADDRGETNETWORKPARAMS } from 'dns';
+import { ScoreModel } from '..';
 import { Scalars, ScoreItemMast } from '../..';
 import { generateUUID } from '../../..';
 import { BaseModel } from './_baseModel';
@@ -33,8 +35,15 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
         this.mast.scoreItemName = input
     }
 
+    // 評価項目を登録する
     async register() {
         this.mast.createdAt = new Date().getTime()
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast)
+    }
+
+    // この評価項目を持つスコアを取得する（追加）
+    async fetchScores(): Promise<ScoreModel[]> {
+        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID)
+        return res.map((item) => this.modelFactory.ScoreModel(item))
     }
 }

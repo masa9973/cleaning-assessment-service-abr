@@ -85,11 +85,6 @@ class RecordModel extends _baseModel_1.BaseModel {
         }
         this.isNew = false;
     }
-    /* 評価の取得を行う */
-    async fetchScoresByRecordID(recordID) {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
-        return res.map((item) => this.modelFactory.ScoreModel(item));
-    }
     // この清掃の評価を取得する
     async fetchScores() {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(this.recordID);

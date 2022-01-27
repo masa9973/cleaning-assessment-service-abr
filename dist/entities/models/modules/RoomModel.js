@@ -52,7 +52,7 @@ class RoomModel extends _baseModel_1.BaseModel {
         const path = `room/${this.roomID}/iconImage/${new Date().getTime()}`;
         this.mast.roomIcon = await this.repositoryContainer.s3Repository.addFile(path, file);
     }
-    // 清掃部屋の登録を行う（マネージャー）
+    // 清掃部屋の登録を行う
     async register() {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.roomMastRepository.addRoom(this.mast);

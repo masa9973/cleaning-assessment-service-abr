@@ -20,6 +20,7 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(me);
     }
 
+    // いる
     async fetchUserModelByUserID(userID: Scalars['ID']) {
         const user = await this.repositoryContainer.userMastRepository.fetchUserMastByUserID(userID);
         if (!user) {
@@ -28,6 +29,7 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
+    // 多分なくていける
     async fetchAllUserByHotelID(userHotelID: Scalars['ID']) {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
@@ -55,6 +57,8 @@ export class CleanerUsecase {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
+
+    // いらない
     async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID)
         return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
@@ -85,11 +89,13 @@ export class CleanerUsecase {
             }
         }
     }
-    // 施設に紐づく部屋を取得する
+
+    // いらない、施設に紐づく部屋を取得する
     async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID)
         return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
+
     async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null> {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID)
         if (!room) {
@@ -101,6 +107,7 @@ export class CleanerUsecase {
     // =======================
     // score
     // =======================
+    // いらない
     async fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
@@ -125,11 +132,13 @@ export class CleanerUsecase {
         }
     }
 
+    // いらない
     async fetchScoreItemsByHotelID(scoreItemHotelID: Scalars['ID']): Promise<ScoreItemModel[]> {
         const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID)
         return res.map((item) => this.modelFactory.ScoreItemModel(item))
     }
 
+    // いる
     async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID)
         return this.modelFactory.ScoreItemModel(scoreItem!)
@@ -138,7 +147,7 @@ export class CleanerUsecase {
     // =======================
     // hotel
     // =======================
-    // hotelを登録
+    // いらない、hotelを登録
     async createNewHotel(hotelName: Scalars['String']): Promise<HotelModel> {
         const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
         if (!me) {

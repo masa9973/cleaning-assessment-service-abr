@@ -1,3 +1,4 @@
+import { ScoreModel } from '..';
 import { Scalars, ScoreItemMast } from '../..';
 import { BaseModel } from './_baseModel';
 export declare class ScoreItemModel extends BaseModel<ScoreItemMast> {
@@ -9,4 +10,5 @@ export declare class ScoreItemModel extends BaseModel<ScoreItemMast> {
     get scoreItemName(): string;
     set scoreItemName(input: string);
     register(): Promise<void>;
+    fetchScores(): Promise<ScoreModel[]>;
 }

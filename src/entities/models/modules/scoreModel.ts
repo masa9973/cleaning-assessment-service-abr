@@ -11,7 +11,7 @@ export class ScoreModel extends BaseModel<ScoreMast> {
             createdAt: new Date().getTime(),
             score,
             scoreItemID,
-        }
+        };
     }
 
     // ============================================
@@ -39,21 +39,20 @@ export class ScoreModel extends BaseModel<ScoreMast> {
         this.mast.score = input;
     }
     get scoreItemID() {
-        return this.mast.scoreItemID
+        return this.mast.scoreItemID;
     }
     set scoreItemID(input: string) {
-        this.mast.scoreItemID = input
+        this.mast.scoreItemID = input;
     }
 
     /* 清掃スコアの登録を行う */
     async register() {
         if (this.isNew) {
-
             this.mast.createdAt = new Date().getTime();
             this.mast = await this.repositoryContainer.scoreMastRepository.addScore(this.mast);
         } else {
             await this.repositoryContainer.scoreMastRepository.updateScore(this.mast);
         }
-        this.isNew = false
+        this.isNew = false;
     }
 }
