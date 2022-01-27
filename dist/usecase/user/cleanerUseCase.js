@@ -43,7 +43,7 @@ class CleanerUsecase {
         }
         else {
             const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof recordHotelID === 'string') {
+            if (typeof recordHotelID === "string") {
                 return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc('', '', 0, 0, 0, recordHotelID), {
                     isNew: true,
                 });
@@ -59,7 +59,7 @@ class CleanerUsecase {
     }
     async fetchRecordsByCleanerID(userID) {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
-        return records.map((item) => this.modelFactory.RecordModel(item));
+        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     async fetchRecordByRecordID(recordID) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
@@ -78,7 +78,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === 'string') {
+            if (typeof hotelID === "string") {
                 return this.modelFactory.RoomModel(models_1.RoomModel.getBlanc(roomName, hotelID), {
                     isNew: true,
                 });
@@ -91,7 +91,7 @@ class CleanerUsecase {
     // 施設に紐づく部屋を取得する
     async fetchRoomsByHotelID(roomHotelID) {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
-        return res.map((item) => this.modelFactory.RoomModel(item));
+        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     async fetchRoomByRoomID(roomID) {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
@@ -105,7 +105,7 @@ class CleanerUsecase {
     // =======================
     async fetchScoresByRecordID(recordID) {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
-        return res.map((item) => this.modelFactory.ScoreModel(item));
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
     // =======================
     // scoreItem
@@ -117,7 +117,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === 'string') {
+            if (typeof hotelID === "string") {
                 return this.modelFactory.ScoreItemModel(scoreItemModel_1.ScoreItemModel.getBlanc(scoreItemName, hotelID), {
                     isNew: true,
                 });
@@ -146,7 +146,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === 'string') {
+            if (typeof hotelID === "string") {
                 return this.modelFactory.HotelModel(models_1.HotelModel.getBlanc(hotelID, hotelName), {
                     isNew: true,
                 });
