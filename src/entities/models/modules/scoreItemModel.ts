@@ -1,4 +1,3 @@
-import { ADDRGETNETWORKPARAMS } from 'dns';
 import { ScoreModel } from '..';
 import { Scalars, ScoreItemMast } from '../..';
 import { generateUUID } from '../../..';
