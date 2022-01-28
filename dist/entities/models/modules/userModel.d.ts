@@ -1,5 +1,5 @@
 import { RecordModel } from '..';
-import { UserMast } from '../..';
+import { Scalars, UserMast } from '../..';
 import { BaseModel } from './_baseModel';
 export declare class UserModel extends BaseModel<UserMast> {
     get userID(): string;
@@ -32,4 +32,5 @@ export declare class UserModel extends BaseModel<UserMast> {
     fetchUnscoredRecords(): Promise<RecordModel[]>;
     fetchScoredRecords(): Promise<RecordModel[]>;
     recordsToAverageTime(records: RecordModel[]): Promise<void>;
+    roomIDToTimeArray(roomID: Scalars['ID']): Promise<number[]>;
 }

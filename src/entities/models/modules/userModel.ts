@@ -1,6 +1,6 @@
 import { RecordModel } from '..';
-import { UserMast } from '../..';
-import { compareNumDesc, generateUUID } from '../../..';
+import { ErrorCode, Scalars, UserMast } from '../..';
+import { ChillnnTrainingError, compareNumDesc, generateUUID } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class UserModel extends BaseModel<UserMast> {
@@ -141,4 +141,20 @@ export class UserModel extends BaseModel<UserMast> {
             timeResults[i] = records;
         }
     }
+
+    // roomID入れたらこのユーザーのroomIDの清掃時間の配列を返す
+    async roomIDToTimeArray(roomID: Scalars['ID']) {
+        const records = await this.fetchScoredRecords()
+        // record.ifScored === true && record.roomID === roomID でいい？
+        const roomRecords = records.filter((record) => record.cleaningRoomID === roomID)
+        const cleaningTimeResults = [];
+        for (let i = 0; i < roomRecords.length; i++) {
+            cleaningTimeResults[i] = roomRecords[i].cleaningTime;
+        }
+        if (cleaningTimeResults.length === 0) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return cleaningTimeResults
+    }
+
 }

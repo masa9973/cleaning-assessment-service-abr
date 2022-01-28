@@ -166,7 +166,6 @@ class CleanerUsecase {
     // いる
     recordsToAverageStringTime(records) {
         const scoredRecords = records.filter((record) => record.ifScored === true);
-        // ここいらんかも
         const timeResults = [];
         for (let i = 0; i < scoredRecords.length; i++) {
             timeResults[i] = scoredRecords[i].cleaningTime;
@@ -176,6 +175,18 @@ class CleanerUsecase {
         }
         const averageResultTime = timeResults.reduce((a, b) => a + b) / timeResults.length;
         return util_1.millisecondToStringTime(averageResultTime);
+    }
+    // レコードを入れたらその清掃時間の配列を返す関数（グラフ用）
+    recordsToTimeArray(records) {
+        const scoredRecords = records.filter((item) => item.ifScored === true);
+        const timeResults = [];
+        for (let i = 0; i < scoredRecords.length; i++) {
+            timeResults[i] = scoredRecords[i].cleaningTime;
+        }
+        if (timeResults.length === 0) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return timeResults;
     }
     // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
     // いらんかも
