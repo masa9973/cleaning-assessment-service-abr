@@ -88,57 +88,57 @@ export class UserModel extends BaseModel<UserMast> {
 
     // このユーザーと同じ所属の部屋を取得する
     async fetchSameHotelRooms() {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID)
-        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
+        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // 自分と同じ所属のcleanerを取得する
     async fetchSameHotelCleaner() {
-        const res = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(this.userHotelID)
-        const cleaners = res.filter((user) => user.role === 'cleaner')
-        return cleaners.map((item) => this.modelFactory.UserModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const res = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(this.userHotelID);
+        const cleaners = res.filter((user) => user.role === 'cleaner');
+        return cleaners.map((item) => this.modelFactory.UserModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // 自分と同じ所属のscoreItemを取得する
     async fetchSameHotelScoreItems() {
-        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(this.userHotelID)
-        return res.map((item) => this.modelFactory.ScoreItemModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(this.userHotelID);
+        return res.map((item) => this.modelFactory.ScoreItemModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // 自分のレコードを取得する
     async fetchRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID)
-        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
+        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // アサイン済みのレコードを取得する
     async fetchAssignedRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
-        const filteredRecords = records.filter((item) => item.cleaningTime === 0)
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // このユーザーの未評価のレコードを取得する
     async fetchUnscoredRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
-        const filteredRecords = records.filter((record) => !record.ifScored && !!record.cleaningTime)
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = records.filter((record) => !record.ifScored && !!record.cleaningTime);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // このユーザーの評価済みレコードを取得する
     async fetchScoredRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
-        const filteredRecords = records.filter((record) => record.ifScored === true)
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = records.filter((record) => record.ifScored === true);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
-        
+
     // いらん気がする、このユーザーのレコードの配列を入れたら平均時間を返す関数（途中）
-    async recordsToAvarageTime(records: RecordModel[]) {
-        const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
-        const filteredRecords = userRecords.filter((record) => record.ifScored === true)
-        const timeResults = []
+    async recordsToAverageTime(records: RecordModel[]) {
+        const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = userRecords.filter((record) => record.ifScored === true);
+        const timeResults = [];
         for (let i = 0; i < records.length; i++) {
-            timeResults[i] = records
+            timeResults[i] = records;
         }
     }
 }

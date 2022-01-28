@@ -45,7 +45,7 @@ class CleanerUsecase {
         }
         else {
             const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof recordHotelID === "string") {
+            if (typeof recordHotelID === 'string') {
                 return this.modelFactory.RecordModel(recordModel_1.RecordModel.getBlanc('', '', 0, 0, 0, recordHotelID), {
                     isNew: true,
                 });
@@ -81,7 +81,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.RoomModel(models_1.RoomModel.getBlanc(roomName, hotelID), {
                     isNew: true,
                 });
@@ -121,7 +121,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.ScoreItemModel(scoreItemModel_1.ScoreItemModel.getBlanc(scoreItemName, hotelID), {
                     isNew: true,
                 });
@@ -152,7 +152,7 @@ class CleanerUsecase {
         }
         else {
             const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === "string") {
+            if (typeof hotelID === 'string') {
                 return this.modelFactory.HotelModel(models_1.HotelModel.getBlanc(hotelID, hotelName), {
                     isNew: true,
                 });
@@ -164,7 +164,7 @@ class CleanerUsecase {
     }
     // レコードの文字列平均時間を返す関数
     // いる
-    recordsToAvarageStringTime(records) {
+    recordsToAverageStringTime(records) {
         const scoredRecords = records.filter((record) => record.ifScored === true);
         // ここいらんかも
         const timeResults = [];
@@ -179,7 +179,7 @@ class CleanerUsecase {
     }
     // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
     // いらんかも
-    async roomIDAndUserIDToAvarageStringTime(userID, roomID) {
+    async roomIDAndUserIDToAverageStringTime(userID, roomID) {
         const user = await this.fetchUserModelByUserID(userID);
         const scoredRecords = await user.fetchScoredRecords();
         const recordsByRoomID = scoredRecords.filter((item) => item.cleaningRoomID === roomID);
@@ -190,11 +190,11 @@ class CleanerUsecase {
         if (cleaningTimeResults.length === 0) {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
-        const avarageTime = cleaningTimeResults.reduce((a, b) => a + b) / cleaningTimeResults.length;
-        return util_1.millisecondToStringTime(avarageTime);
+        const averageTime = cleaningTimeResults.reduce((a, b) => a + b) / cleaningTimeResults.length;
+        return util_1.millisecondToStringTime(averageTime);
     }
     // 項目IDとユーザーIDを入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    async scoreItemIDAndUserIDToAvarageScore(userID, scoreItemID) {
+    async scoreItemIDAndUserIDToAverageScore(userID, scoreItemID) {
         // ここでレコードIDで一意に特定したい
         const user = await this.fetchUserModelByUserID(userID);
         const scoredRecords = await user.fetchScoredRecords();
@@ -218,8 +218,7 @@ class CleanerUsecase {
         if (selectedScoresValues.length === 0) {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
-        return selectedScoresValues.reduce((a, b) => a + b) /
-            selectedScoresValues.length;
+        return selectedScoresValues.reduce((a, b) => a + b) / selectedScoresValues.length;
     }
 }
 exports.CleanerUsecase = CleanerUsecase;

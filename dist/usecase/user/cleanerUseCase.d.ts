@@ -21,7 +21,7 @@ export declare class CleanerUsecase {
     fetchScoreItemsByHotelID(scoreItemHotelID: Scalars['ID']): Promise<ScoreItemModel[]>;
     fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null>;
     createNewHotel(hotelName: Scalars['String']): Promise<HotelModel>;
-    recordsToAvarageStringTime(records: RecordModel[]): string;
-    roomIDAndUserIDToAvarageStringTime(userID: Scalars['ID'], roomID: Scalars['ID']): Promise<string>;
-    scoreItemIDAndUserIDToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']): Promise<number>;
+    recordsToAverageStringTime(records: RecordModel[]): string;
+    roomIDAndUserIDToAverageStringTime(userID: Scalars['ID'], roomID: Scalars['ID']): Promise<string>;
+    scoreItemIDAndUserIDToAverageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']): Promise<number>;
 }

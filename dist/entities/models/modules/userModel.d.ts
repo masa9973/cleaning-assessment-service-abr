@@ -31,5 +31,5 @@ export declare class UserModel extends BaseModel<UserMast> {
     fetchAssignedRecords(): Promise<RecordModel[]>;
     fetchUnscoredRecords(): Promise<RecordModel[]>;
     fetchScoredRecords(): Promise<RecordModel[]>;
-    recordsToAvarageTime(records: RecordModel[]): Promise<void>;
+    recordsToAverageTime(records: RecordModel[]): Promise<void>;
 }

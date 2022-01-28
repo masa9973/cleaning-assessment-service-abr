@@ -126,7 +126,7 @@ class UserModel extends _baseModel_1.BaseModel {
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
     // いらん気がする、このユーザーのレコードの配列を入れたら平均時間を返す関数（途中）
-    async recordsToAvarageTime(records) {
+    async recordsToAverageTime(records) {
         const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
         const filteredRecords = userRecords.filter((record) => record.ifScored === true);
         const timeResults = [];
