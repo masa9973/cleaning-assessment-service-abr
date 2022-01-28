@@ -180,12 +180,29 @@ export class CleanerUsecase {
         return millisecondToStringTime(averageResultTime)
     }
 
-    // 項目を入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    public async scoreItemIDToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
+    // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
+    public async roomIDAndUserIDToAvarageStringTime(userID: Scalars['ID'], roomID: Scalars['ID']) {
+        const user = await this.fetchUserModelByUserID(userID)
+        const scoredRecords = await user.fetchScoredRecords()
+        const recordsByRoomID = scoredRecords.filter(
+            (item) => item.cleaningRoomID === roomID
+        )
+        const cleaningTimeResults = []
+        for (let i = 0; i < recordsByRoomID.length; i++) {
+            cleaningTimeResults[i] = recordsByRoomID[i].cleaningTime
+        }
+        if (cleaningTimeResults.length === 0) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
+        const avarageTime = cleaningTimeResults.reduce((a, b) => a + b) / cleaningTimeResults.length
+        return millisecondToStringTime(avarageTime)
+    }
+
+    // 項目IDとユーザーIDを入れたらそのユーザーの特定の項目の平均スコアを返す関数
+    public async scoreItemIDAndUserIDToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
         // ここでレコードIDで一意に特定したい
         const user = await this.fetchUserModelByUserID(userID)
         const scoredRecords = await user.fetchScoredRecords()
-        scoredRecords.map((item) => item.fetchScores())
         const scoredRecordIDs = []
         // このIDのスコアが一括で欲しい
         for (let i=0;i<scoredRecords.length;i++) {
