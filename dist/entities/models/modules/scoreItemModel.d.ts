@@ -11,4 +11,5 @@ export declare class ScoreItemModel extends BaseModel<ScoreItemMast> {
     set scoreItemName(input: string);
     register(): Promise<void>;
     fetchScores(): Promise<ScoreModel[]>;
+    createNewScore(recordID: Scalars['ID']): Promise<ScoreModel>;
 }

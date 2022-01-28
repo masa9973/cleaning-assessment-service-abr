@@ -1,6 +1,6 @@
 import { ScoreModel } from '..';
-import { Scalars, ScoreItemMast } from '../..';
-import { compareNumDesc, generateUUID } from '../../..';
+import { ErrorCode, Scalars, ScoreItemMast } from '../..';
+import { ChillnnTrainingError, compareNumDesc, generateUUID } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class ScoreItemModel extends BaseModel<ScoreItemMast> {
@@ -45,5 +45,18 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
     async fetchScores(): Promise<ScoreModel[]> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID)
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+    }
+
+    // レコードIDを入れてスコアを作成する
+    // ここスコア作れたら良くない？
+    async createNewScore(recordID: Scalars['ID']):Promise<ScoreModel> {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast()
+        if (!me) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        const userID = this.modelFactory.UserModel(me).userID;
+        return this.modelFactory.ScoreModel(ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID), {
+            isNew: true,
+        })
     }
 }

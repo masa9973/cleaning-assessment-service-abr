@@ -29,7 +29,7 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
-    // 多分なくていける
+    // いらない
     async fetchAllUserByHotelID(userHotelID: Scalars['ID']) {
         const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
         return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
@@ -107,7 +107,7 @@ export class CleanerUsecase {
     // =======================
     // score
     // =======================
-    // いらない
+    // いる
     async fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
@@ -166,6 +166,7 @@ export class CleanerUsecase {
     }
 
     // レコードの文字列平均時間を返す関数
+    // いる
     public recordsToAvarageStringTime(records: RecordModel[]):string {
         const scoredRecords = records.filter((record) => record.ifScored === true )
         // ここいらんかも
@@ -181,6 +182,7 @@ export class CleanerUsecase {
     }
 
     // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
+    // いらんかも
     public async roomIDAndUserIDToAvarageStringTime(userID: Scalars['ID'], roomID: Scalars['ID']) {
         const user = await this.fetchUserModelByUserID(userID)
         const scoredRecords = await user.fetchScoredRecords()

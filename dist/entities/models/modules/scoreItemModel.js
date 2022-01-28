@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScoreItemModel = void 0;
-const __1 = require("../../..");
+const __1 = require("..");
+const __2 = require("../..");
+const __3 = require("../../..");
 const _baseModel_1 = require("./_baseModel");
 class ScoreItemModel extends _baseModel_1.BaseModel {
     static getBlanc(scoreItemName, scoreItemHotelID) {
         return {
-            scoreItemID: __1.generateUUID(),
+            scoreItemID: __3.generateUUID(),
             scoreItemName,
             createdAt: new Date().getTime(),
             scoreItemHotelID,
@@ -42,7 +44,19 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
     // ここでレコードID入れたら一意に特定できる
     async fetchScores() {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __3.compareNumDesc(a.createdAt, b.createdAt));
+    }
+    // レコードIDを入れてスコアを作成する
+    // ここスコア作れたら良くない？
+    async createNewScore(recordID) {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
+        if (!me) {
+            throw new __3.ChillnnTrainingError(__2.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        const userID = this.modelFactory.UserModel(me).userID;
+        return this.modelFactory.ScoreModel(__1.ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID), {
+            isNew: true,
+        });
     }
 }
 exports.ScoreItemModel = ScoreItemModel;
