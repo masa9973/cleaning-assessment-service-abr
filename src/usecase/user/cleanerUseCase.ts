@@ -181,7 +181,7 @@ export class CleanerUsecase {
     }
 
     // 項目を入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    public async scoreItemToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
+    public async scoreItemIDToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
         // ここでレコードIDで一意に特定したい
         const user = await this.fetchUserModelByUserID(userID)
         const scoredRecords = await user.fetchScoredRecords()

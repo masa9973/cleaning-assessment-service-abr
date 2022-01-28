@@ -177,7 +177,7 @@ class CleanerUsecase {
         return util_1.millisecondToStringTime(averageResultTime);
     }
     // 項目を入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    async scoreItemToAvarageScore(userID, scoreItemID) {
+    async scoreItemIDToAvarageScore(userID, scoreItemID) {
         // ここでレコードIDで一意に特定したい
         const user = await this.fetchUserModelByUserID(userID);
         const scoredRecords = await user.fetchScoredRecords();
