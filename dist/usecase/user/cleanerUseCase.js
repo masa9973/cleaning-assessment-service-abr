@@ -162,5 +162,48 @@ class CleanerUsecase {
             }
         }
     }
+    // レコードの文字列平均時間を返す関数
+    recordsToAvarageStringTime(records) {
+        const scoredRecords = records.filter((record) => record.ifScored === true);
+        // ここいらんかも
+        const timeResults = [];
+        for (let i = 0; i < scoredRecords.length; i++) {
+            timeResults[i] = scoredRecords[i].cleaningTime;
+        }
+        if (timeResults.length === 0) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        const averageResultTime = timeResults.reduce((a, b) => a + b) / timeResults.length;
+        return util_1.millisecondToStringTime(averageResultTime);
+    }
+    // 項目を入れたらそのユーザーの特定の項目の平均スコアを返す関数
+    async scoreItemToAvarageScore(userID, scoreItemID) {
+        // ここでレコードIDで一意に特定したい
+        const user = await this.fetchUserModelByUserID(userID);
+        const scoredRecords = await user.fetchScoredRecords();
+        scoredRecords.map((item) => item.fetchScores());
+        const scoredRecordIDs = [];
+        // このIDのスコアが一括で欲しい
+        for (let i = 0; i < scoredRecords.length; i++) {
+            scoredRecordIDs[i] = scoredRecords[i].recordID;
+        }
+        const scoresFromID = [];
+        for (let i = 0; i < scoredRecordIDs.length; i++) {
+            scoresFromID[i] = await this.fetchScoresByRecordID(scoredRecordIDs[i]);
+        }
+        const scores = scoresFromID.reduce((a, b) => [...a, ...b], []);
+        // scores=このユーザーのスコアの一次元配列
+        // 受け取ったIDでフィルターをかける
+        const selectedItemScores = scores.filter((score) => score.scoreItemID === scoreItemID);
+        const selectedScoresValues = [];
+        for (let i = 0; i < selectedItemScores.length; i++) {
+            selectedScoresValues[i] = selectedItemScores[i].score;
+        }
+        if (selectedScoresValues.length === 0) {
+            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return selectedScoresValues.reduce((a, b) => a + b) /
+            selectedScoresValues.length;
+    }
 }
 exports.CleanerUsecase = CleanerUsecase;

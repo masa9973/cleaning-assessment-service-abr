@@ -1,6 +1,6 @@
 import { ScoreModel } from '..';
 import { Scalars, ScoreItemMast } from '../..';
-import { generateUUID } from '../../..';
+import { compareNumDesc, generateUUID } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class ScoreItemModel extends BaseModel<ScoreItemMast> {
@@ -41,8 +41,9 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
     }
 
     // この評価項目を持つスコアを取得する（追加）
+    // ここでレコードID入れたら一意に特定できる
     async fetchScores(): Promise<ScoreModel[]> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID)
-        return res.map((item) => this.modelFactory.ScoreModel(item))
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
 }

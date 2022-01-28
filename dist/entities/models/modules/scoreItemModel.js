@@ -39,9 +39,10 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast);
     }
     // この評価項目を持つスコアを取得する（追加）
+    // ここでレコードID入れたら一意に特定できる
     async fetchScores() {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
-        return res.map((item) => this.modelFactory.ScoreModel(item));
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __1.compareNumDesc(a.createdAt, b.createdAt));
     }
 }
 exports.ScoreItemModel = ScoreItemModel;

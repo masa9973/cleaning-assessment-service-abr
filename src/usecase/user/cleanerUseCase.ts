@@ -2,7 +2,7 @@ import { ErrorCode, RepositoryContainer, RoomMast, Scalars } from '../../entitie
 import { HotelModel, ModelFactory, RoomModel, ScoreModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ScoreItemModel } from '../../entities/models/modules/scoreItemModel';
-import { ChillnnTrainingError, compareNumDesc } from '../../util';
+import { ChillnnTrainingError, compareNumDesc, millisecondToStringTime } from '../../util';
 
 export class CleanerUsecase {
     constructor(private repositoryContainer: RepositoryContainer, private modelFactory: ModelFactory) {}
@@ -163,5 +163,52 @@ export class CleanerUsecase {
                 throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
             }
         }
+    }
+
+    // レコードの文字列平均時間を返す関数
+    public recordsToAvarageStringTime(records: RecordModel[]):string {
+        const scoredRecords = records.filter((record) => record.ifScored === true )
+        // ここいらんかも
+        const timeResults = []
+        for (let i = 0; i < scoredRecords.length; i++) {
+            timeResults[i] = scoredRecords[i].cleaningTime
+        }
+        if (timeResults.length === 0) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
+        const averageResultTime = timeResults.reduce((a,b)=>a+b)/timeResults.length
+        return millisecondToStringTime(averageResultTime)
+    }
+
+    // 項目を入れたらそのユーザーの特定の項目の平均スコアを返す関数
+    public async scoreItemToAvarageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
+        // ここでレコードIDで一意に特定したい
+        const user = await this.fetchUserModelByUserID(userID)
+        const scoredRecords = await user.fetchScoredRecords()
+        scoredRecords.map((item) => item.fetchScores())
+        const scoredRecordIDs = []
+        // このIDのスコアが一括で欲しい
+        for (let i=0;i<scoredRecords.length;i++) {
+            scoredRecordIDs[i] = scoredRecords[i].recordID
+        }
+        const scoresFromID = []
+        for (let i = 0; i < scoredRecordIDs.length; i++) {
+            scoresFromID[i] = await this.fetchScoresByRecordID(scoredRecordIDs[i])
+        }
+        const scores = scoresFromID.reduce((a, b) => [...a, ...b], [])
+        // scores=このユーザーのスコアの一次元配列
+        // 受け取ったIDでフィルターをかける
+        const selectedItemScores = scores.filter(
+            (score) => score.scoreItemID === scoreItemID
+        )
+        const selectedScoresValues = []
+        for (let i = 0; i < selectedItemScores.length; i++) {
+            selectedScoresValues[i] = selectedItemScores[i].score
+        }
+        if (selectedScoresValues.length === 0) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound)
+        }
+        return selectedScoresValues.reduce((a, b) => a + b) /
+        selectedScoresValues.length
     }
 }

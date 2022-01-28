@@ -132,4 +132,13 @@ export class UserModel extends BaseModel<UserMast> {
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
         
+    // このユーザーのレコードの配列を入れたら平均時間を返す関数
+    async recordsToAvarageTime(records: RecordModel[]) {
+        const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID)
+        const filteredRecords = userRecords.filter((record) => record.ifScored === true)
+        const timeResults = []
+        for (let i = 0; i < records.length; i++) {
+            timeResults[i] = records
+        }
+    }
 }
