@@ -96,11 +96,12 @@ class UserModel extends _baseModel_1.BaseModel {
     async fetchYetAssignRoom() {
         // 全部の部屋ID配列
         const allRoom = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
+        const res = allRoom.sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
         const allRoomID = [];
-        for (let i = 0; i < allRoom.length; i++) {
-            allRoomID[i] = allRoom[i].roomID;
+        for (let i = 0; i < res.length; i++) {
+            allRoomID[i] = res[i].roomID;
         }
-        if (allRoom.length === 0) {
+        if (res.length === 0) {
             throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         // 今日アサインした部屋ID配列
@@ -115,18 +116,6 @@ class UserModel extends _baseModel_1.BaseModel {
         // ここで差分を抜き出す
         const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1);
         return yetAssignRoomID;
-        // IDから部屋を取得できなかった
-        // const yetAssignRoom: RoomMast[] = []
-        // for (let i = 0; i < yetAssignRoomID.length; i++) {
-        //     yetAssignRoom[i] = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(yetAssignRoomID[i])
-        //     if (!yetAssignRoom[i]) {
-        //         throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        //     }
-        // }
-        // if (yetAssignRoomID.length === 0) {
-        //     throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        // }
-        // return yetAssignRoom.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
     // 自分と同じ所属のcleanerを取得する
     async fetchSameHotelCleaner() {
