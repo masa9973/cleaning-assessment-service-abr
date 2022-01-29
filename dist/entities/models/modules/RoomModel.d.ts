@@ -1,3 +1,4 @@
+import { RecordModel } from '..';
 import { Scalars, RoomMast } from '../..';
 import { BaseModel } from './_baseModel';
 export declare class RoomModel extends BaseModel<RoomMast> {
@@ -15,4 +16,5 @@ export declare class RoomModel extends BaseModel<RoomMast> {
      */
     setIcon(file: File): Promise<void>;
     register(): Promise<void>;
+    createNewRecord(): Promise<RecordModel>;
 }

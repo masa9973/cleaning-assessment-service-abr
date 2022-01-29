@@ -1,5 +1,6 @@
-import { Scalars, RoomMast } from '../..';
-import { generateUUID } from '../../../util';
+import { RecordModel } from '..';
+import { Scalars, RoomMast, ErrorCode } from '../..';
+import { ChillnnTrainingError, generateUUID } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class RoomModel extends BaseModel<RoomMast> {
@@ -56,5 +57,19 @@ export class RoomModel extends BaseModel<RoomMast> {
         this.mast = await this.repositoryContainer.roomMastRepository.addRoom(this.mast);
     }
 
-    
+    async createNewRecord(): Promise<RecordModel> {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
+        if (!me) {
+            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
+        } else {
+            const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof recordHotelID === 'string') {
+                return this.modelFactory.RecordModel(RecordModel.getBlanc('', this.roomID, 0, 0, 0, recordHotelID), {
+                    isNew: true,
+                });
+            } else {
+                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
+            }
+        }
+    }
 }

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomModel = void 0;
+const __1 = require("..");
+const __2 = require("../..");
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class RoomModel extends _baseModel_1.BaseModel {
@@ -56,6 +58,23 @@ class RoomModel extends _baseModel_1.BaseModel {
     async register() {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.roomMastRepository.addRoom(this.mast);
+    }
+    async createNewRecord() {
+        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
+        if (!me) {
+            throw new util_1.ChillnnTrainingError(__2.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        else {
+            const recordHotelID = this.modelFactory.UserModel(me).userHotelID;
+            if (typeof recordHotelID === 'string') {
+                return this.modelFactory.RecordModel(__1.RecordModel.getBlanc('', this.roomID, 0, 0, 0, recordHotelID), {
+                    isNew: true,
+                });
+            }
+            else {
+                throw new util_1.ChillnnTrainingError(__2.ErrorCode.chillnnTraining_404_resourceNotFound);
+            }
+        }
     }
 }
 exports.RoomModel = RoomModel;
