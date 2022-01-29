@@ -114,6 +114,13 @@ class UserModel extends _baseModel_1.BaseModel {
         const filteredRecords = records.filter((item) => item.cleaningTime === 0);
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // 今日アサイン済みのレコードを取得する
+    async fetchTodayAssignRecords() {
+        const today = __2.timeStampToDateString(new Date().getTime());
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
+        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
+    }
     // このユーザーの未評価のレコードを取得する
     async fetchUnscoredRecords() {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);

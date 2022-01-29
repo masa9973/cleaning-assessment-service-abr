@@ -1,6 +1,6 @@
 import { RecordModel } from '..';
 import { ErrorCode, Scalars, UserMast } from '../..';
-import { ChillnnTrainingError, compareNumDesc, generateUUID } from '../../..';
+import { ChillnnTrainingError, compareNumDesc, generateUUID, timeStampToDateString } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class UserModel extends BaseModel<UserMast> {
@@ -118,6 +118,14 @@ export class UserModel extends BaseModel<UserMast> {
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
+    // 今日アサイン済みのレコードを取得する
+    async fetchTodayAssignRecords(): Promise<RecordModel[]> {
+        const today = timeStampToDateString(new Date().getTime());
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
+        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
+    }
+
     // このユーザーの未評価のレコードを取得する
     async fetchUnscoredRecords(): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
@@ -144,9 +152,9 @@ export class UserModel extends BaseModel<UserMast> {
 
     // roomID入れたらこのユーザーのroomIDの清掃時間の配列を返す
     async roomIDToTimeArray(roomID: Scalars['ID']) {
-        const records = await this.fetchScoredRecords()
+        const records = await this.fetchScoredRecords();
         // record.ifScored === true && record.roomID === roomID でいい？
-        const roomRecords = records.filter((record) => record.cleaningRoomID === roomID)
+        const roomRecords = records.filter((record) => record.cleaningRoomID === roomID);
         const cleaningTimeResults = [];
         for (let i = 0; i < roomRecords.length; i++) {
             cleaningTimeResults[i] = roomRecords[i].cleaningTime;
@@ -154,7 +162,6 @@ export class UserModel extends BaseModel<UserMast> {
         if (cleaningTimeResults.length === 0) {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
-        return cleaningTimeResults
+        return cleaningTimeResults;
     }
-
 }
