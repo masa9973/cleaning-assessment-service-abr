@@ -94,6 +94,7 @@ export class CleanerUsecase {
         return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
+    // いる
     async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null> {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
         if (!room) {

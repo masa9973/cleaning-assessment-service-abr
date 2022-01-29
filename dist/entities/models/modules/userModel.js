@@ -92,6 +92,38 @@ class UserModel extends _baseModel_1.BaseModel {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
         return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // 今日まだアサインしてない部屋を取得する
+    async fetchYetAssignRoom() {
+        // 全部の部屋ID配列
+        const allRoom = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
+        const allRoomID = [];
+        for (let i = 0; i < allRoom.length; i++) {
+            allRoomID[i] = allRoom[i].roomID;
+        }
+        if (allRoom.length === 0) {
+            throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        // 今日アサインした部屋ID配列
+        const assignRecords = await this.fetchTodayAssignRecords();
+        const assignRoomID = [];
+        for (let i = 0; i < assignRecords.length; i++) {
+            assignRoomID[i] = assignRecords[i].cleaningRoomID;
+        }
+        if (assignRecords.length === 0) {
+            throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        // ここで差分を抜き出す
+        const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1);
+        // IDから部屋を取得
+        const yetAssignRoom = [];
+        for (let i = 0; i < yetAssignRoomID.length; i++) {
+            yetAssignRoom[i] = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(yetAssignRoomID[i]);
+        }
+        if (yetAssignRoomID.length === 0) {
+            throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
+        }
+        return yetAssignRoom.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
+    }
     // 自分と同じ所属のcleanerを取得する
     async fetchSameHotelCleaner() {
         const res = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(this.userHotelID);
@@ -107,12 +139,6 @@ class UserModel extends _baseModel_1.BaseModel {
     async fetchRecords() {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
         return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
-    }
-    // アサイン済みのレコードを取得する
-    async fetchAssignedRecords() {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
-        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
     }
     // 今日アサイン済みのレコードを取得する
     async fetchTodayAssignRecords() {
@@ -133,15 +159,6 @@ class UserModel extends _baseModel_1.BaseModel {
         const filteredRecords = records.filter((record) => record.ifScored === true);
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
     }
-    // いらん気がする、このユーザーのレコードの配列を入れたら平均時間を返す関数（途中）
-    async recordsToAverageTime(records) {
-        const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
-        const filteredRecords = userRecords.filter((record) => record.ifScored === true);
-        const timeResults = [];
-        for (let i = 0; i < records.length; i++) {
-            timeResults[i] = records;
-        }
-    }
     // roomID入れたらこのユーザーのroomIDの清掃時間の配列を返す
     async roomIDToTimeArray(roomID) {
         const records = await this.fetchScoredRecords();
@@ -155,6 +172,22 @@ class UserModel extends _baseModel_1.BaseModel {
             throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         return cleaningTimeResults;
+    }
+    // 多分いらないやつ
+    // いらん気がする、このユーザーのレコードの配列を入れたら平均時間を返す関数（途中）
+    async recordsToAverageTime(records) {
+        const userRecords = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = userRecords.filter((record) => record.ifScored === true);
+        const timeResults = [];
+        for (let i = 0; i < records.length; i++) {
+            timeResults[i] = records;
+        }
+    }
+    // アサイン済みのレコードを取得する
+    async fetchAssignedRecords() {
+        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
+        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
+        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
     }
 }
 exports.UserModel = UserModel;

@@ -96,6 +96,7 @@ class CleanerUsecase {
         const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
         return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
     }
+    // いる
     async fetchRoomByRoomID(roomID) {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
         if (!room) {

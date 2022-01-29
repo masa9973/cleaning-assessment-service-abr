@@ -25,13 +25,14 @@ export declare class UserModel extends BaseModel<UserMast> {
      */
     register(): Promise<void>;
     fetchSameHotelRooms(): Promise<import("./RoomModel").RoomModel[]>;
+    fetchYetAssignRoom(): Promise<import("./RoomModel").RoomModel[]>;
     fetchSameHotelCleaner(): Promise<UserModel[]>;
     fetchSameHotelScoreItems(): Promise<import("./scoreItemModel").ScoreItemModel[]>;
     fetchRecords(): Promise<RecordModel[]>;
-    fetchAssignedRecords(): Promise<RecordModel[]>;
     fetchTodayAssignRecords(): Promise<RecordModel[]>;
     fetchUnscoredRecords(): Promise<RecordModel[]>;
     fetchScoredRecords(): Promise<RecordModel[]>;
-    recordsToAverageTime(records: RecordModel[]): Promise<void>;
     roomIDToTimeArray(roomID: Scalars['ID']): Promise<number[]>;
+    recordsToAverageTime(records: RecordModel[]): Promise<void>;
+    fetchAssignedRecords(): Promise<RecordModel[]>;
 }
