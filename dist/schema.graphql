@@ -43,6 +43,7 @@ type RecordMast {
   ifScored: Boolean!
   cleaningTime: Int!
   recordHotelID: ID!
+  recordDate: String!
 }
 
 input RecordMastInput {
@@ -55,6 +56,7 @@ input RecordMastInput {
   ifScored: Boolean!
   cleaningTime: Int!
   recordHotelID: ID!
+  recordDate: String!
 }
 
 enum Role {

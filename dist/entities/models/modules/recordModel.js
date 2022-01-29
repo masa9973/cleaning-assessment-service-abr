@@ -15,6 +15,7 @@ class RecordModel extends _baseModel_1.BaseModel {
             ifScored: false,
             cleaningTime,
             recordHotelID,
+            recordDate: util_1.timeStampToDateString(new Date().getTime()),
         };
     }
     // ============================================
@@ -25,6 +26,9 @@ class RecordModel extends _baseModel_1.BaseModel {
     }
     get createdAt() {
         return this.mast.createdAt;
+    }
+    get recordDate() {
+        return this.mast.recordDate;
     }
     // ============================================
     // getter / setter

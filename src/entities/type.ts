@@ -57,6 +57,7 @@ export type RecordMast = {
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
   recordHotelID: Scalars['ID'];
+  recordDate: Scalars['String'];
 };
 
 export type RecordMastInput = {
@@ -69,6 +70,7 @@ export type RecordMastInput = {
   ifScored: Scalars['Boolean'];
   cleaningTime: Scalars['Int'];
   recordHotelID: Scalars['ID'];
+  recordDate: Scalars['String'];
 };
 
 export enum Role {

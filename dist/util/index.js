@@ -15,3 +15,4 @@ __exportStar(require("./modules/Comparator"), exports);
 __exportStar(require("./modules/IDGenerator"), exports);
 __exportStar(require("./modules/TimeStampToStringTime"), exports);
 __exportStar(require("./modules/millisecondToStringTime"), exports);
+__exportStar(require("./modules/TimeStampToDateString"), exports);

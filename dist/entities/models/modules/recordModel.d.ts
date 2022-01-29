@@ -5,6 +5,7 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     static getBlanc(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['String'], startAt: Scalars['AWSTimestamp'], finishedAt: Scalars['AWSTimestamp'], cleaningTime: Scalars['Int'], recordHotelID: Scalars['ID']): RecordMast;
     get recordID(): string;
     get createdAt(): number;
+    get recordDate(): string;
     get cleaningRoomID(): string;
     set cleaningRoomID(input: string);
     get startAt(): number;

@@ -1,5 +1,5 @@
 import { Scalars, ScoreMast } from '../..';
-import { generateUUID } from '../../../util';
+import { generateUUID, timeStampToDateString } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class ScoreModel extends BaseModel<ScoreMast> {

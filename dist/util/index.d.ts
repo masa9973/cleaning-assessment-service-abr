@@ -3,3 +3,4 @@ export * from './modules/Comparator';
 export * from './modules/IDGenerator';
 export * from './modules/TimeStampToStringTime';
 export * from './modules/millisecondToStringTime';
+export * from './modules/TimeStampToDateString';

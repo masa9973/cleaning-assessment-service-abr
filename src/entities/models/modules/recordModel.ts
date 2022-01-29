@@ -1,5 +1,5 @@
 import { RecordMast, Scalars } from '../..';
-import { generateUUID } from '../../../util';
+import { generateUUID, timeStampToDateString } from '../../../util';
 import { ScoreModel } from './scoreModel';
 import { BaseModel } from './_baseModel';
 
@@ -15,6 +15,7 @@ export class RecordModel extends BaseModel<RecordMast> {
             ifScored: false,
             cleaningTime,
             recordHotelID,
+            recordDate: timeStampToDateString(new Date().getTime()),
         };
     }
 
@@ -26,6 +27,9 @@ export class RecordModel extends BaseModel<RecordMast> {
     }
     get createdAt() {
         return this.mast.createdAt;
+    }
+    get recordDate() {
+        return this.mast.recordDate;
     }
     // ============================================
     // getter / setter
@@ -61,7 +65,7 @@ export class RecordModel extends BaseModel<RecordMast> {
         this.mast.cleaningTime = input;
     }
     get recordHotelID() {
-        return this.mast.recordHotelID
+        return this.mast.recordHotelID;
     }
     set recordHotelID(input: string) {
         this.mast.recordHotelID = input;
@@ -82,9 +86,9 @@ export class RecordModel extends BaseModel<RecordMast> {
             this.mast = await this.repositoryContainer.recordMastRepository.addRecord(this.mast);
         } else {
             this.mast.cleaningTime = this.mast.finishedAt - this.mast.startAt;
-            await this.repositoryContainer.recordMastRepository.updateRecord(this.mast)
+            await this.repositoryContainer.recordMastRepository.updateRecord(this.mast);
         }
-        this.isNew = false
+        this.isNew = false;
     }
 
     // この清掃の評価を取得する
@@ -95,7 +99,7 @@ export class RecordModel extends BaseModel<RecordMast> {
 
     // 評価したらifScoredの値を変更する
     async switchIfScored() {
-        this.mast.ifScored = true
-        this.mast = await this.repositoryContainer.recordMastRepository.updateRecord(this.mast)
+        this.mast.ifScored = true;
+        this.mast = await this.repositoryContainer.recordMastRepository.updateRecord(this.mast);
     }
 }
