@@ -1,4 +1,4 @@
-import { RecordModel } from '..';
+import { RecordModel, RoomModel } from '..';
 import { Scalars, UserMast } from '../..';
 import { BaseModel } from './_baseModel';
 export declare class UserModel extends BaseModel<UserMast> {
@@ -24,8 +24,8 @@ export declare class UserModel extends BaseModel<UserMast> {
      * ユーザー情報を新規登録、または更新する
      */
     register(): Promise<void>;
-    fetchSameHotelRooms(): Promise<import("./RoomModel").RoomModel[]>;
-    fetchYetAssignRoom(): Promise<import("./RoomModel").RoomModel[]>;
+    fetchSameHotelRooms(): Promise<RoomModel[]>;
+    fetchYetAssignRoom(): Promise<string[]>;
     fetchSameHotelCleaner(): Promise<UserModel[]>;
     fetchSameHotelScoreItems(): Promise<import("./scoreItemModel").ScoreItemModel[]>;
     fetchRecords(): Promise<RecordModel[]>;

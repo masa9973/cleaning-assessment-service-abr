@@ -1,0 +1,149 @@
+scalar AWSDate
+
+scalar AWSDateTime
+
+scalar AWSEmail
+
+scalar AWSIPAddress
+
+scalar AWSJSON
+
+scalar AWSPhone
+
+scalar AWSTime
+
+scalar AWSTimestamp
+
+scalar AWSURL
+
+enum ErrorCode {
+  chillnnTraining_400_badRequest
+  chillnnTraining_401_notSignIn
+  chillnnTraining_404_resourceNotFound
+  chillnnTraining_500_systemError
+}
+
+type HotelMast {
+  hotelID: ID!
+  hotelName: String!
+}
+
+input HotelMastInput {
+  hotelID: ID!
+  hotelName: String!
+}
+
+type RecordMast {
+  recordID: ID!
+  cleanerID: ID!
+  cleaningRoomID: ID!
+  startAt: AWSTimestamp!
+  finishedAt: AWSTimestamp!
+  createdAt: AWSTimestamp!
+  ifScored: Boolean!
+  cleaningTime: Int!
+  recordHotelID: ID!
+  recordDate: String!
+}
+
+input RecordMastInput {
+  recordID: ID!
+  cleanerID: ID!
+  cleaningRoomID: ID!
+  startAt: AWSTimestamp!
+  finishedAt: AWSTimestamp!
+  createdAt: AWSTimestamp!
+  ifScored: Boolean!
+  cleaningTime: Int!
+  recordHotelID: ID!
+  recordDate: String!
+}
+
+enum Role {
+  manager
+  cleaner
+}
+
+type RoomMast {
+  roomID: ID!
+  roomName: String!
+  roomIcon: S3Object
+  createdAt: AWSTimestamp!
+  roomHotelID: ID!
+}
+
+input RoomMastInput {
+  roomID: ID!
+  roomName: String!
+  roomIcon: S3ObjectInput
+  createdAt: AWSTimestamp!
+  roomHotelID: ID!
+}
+
+type S3Object {
+  url: AWSURL!
+  bucket: String!
+  key: String!
+  region: String!
+}
+
+input S3ObjectInput {
+  url: AWSURL!
+  bucket: String!
+  key: String!
+  region: String!
+}
+
+type ScoreItemMast {
+  scoreItemID: ID!
+  scoreItemName: ID!
+  createdAt: AWSTimestamp!
+  scoreItemHotelID: ID!
+}
+
+input ScoreItemMastInput {
+  scoreItemID: ID!
+  scoreItemName: ID!
+  createdAt: AWSTimestamp!
+  scoreItemHotelID: ID!
+}
+
+type ScoreMast {
+  recordID: ID!
+  scoreID: ID!
+  scorerUserID: ID!
+  score: Int!
+  createdAt: AWSTimestamp!
+  scoreItemID: ID!
+}
+
+input ScoreMastInput {
+  recordID: ID!
+  scoreID: ID!
+  scorerUserID: ID!
+  score: Int!
+  createdAt: AWSTimestamp!
+  scoreItemID: ID!
+}
+
+type UserMast {
+  userID: ID!
+  name: String!
+  email: String!
+  userIcon: S3Object
+  role: String!
+  createdAt: AWSTimestamp!
+  updatedAt: AWSTimestamp!
+  userHotelID: ID!
+}
+
+input UserMastInput {
+  userID: ID!
+  name: String!
+  email: String!
+  userIcon: S3ObjectInput
+  role: String!
+  createdAt: AWSTimestamp!
+  updatedAt: AWSTimestamp!
+  userHotelID: ID!
+}
