@@ -117,8 +117,9 @@ export class UserModel extends BaseModel<UserMast> {
 
     // ユーザーの特定の部屋の1ヶ月分の清掃記録を取得する
     async fetchUserMonthRecordsByRoomID(roomID: Scalars['ID']): Promise<RecordModel[]> {
-        const toTime = new Date().getTime()
-        const fromTime = toTime - 2592000000
+        const to = new Date().getTime()
+        const toTime = `${to}`
+        const fromTime = `${to - 2592000000}`
         const res = await this.repositoryContainer.recordMastRepository.fetchTermRecordsByCleanerIDAndRoomID(this.userID, roomID, fromTime, toTime)
         return res.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
