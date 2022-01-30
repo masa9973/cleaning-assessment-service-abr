@@ -110,9 +110,6 @@ class UserModel extends _baseModel_1.BaseModel {
         for (let i = 0; i < assignRecords.length; i++) {
             assignRoomID[i] = assignRecords[i].cleaningRoomID;
         }
-        if (assignRecords.length === 0) {
-            throw new __2.ChillnnTrainingError(__1.ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
         // ここで差分を抜き出す
         const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1);
         return yetAssignRoomID;
