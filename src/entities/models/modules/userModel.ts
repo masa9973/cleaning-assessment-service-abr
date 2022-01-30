@@ -105,7 +105,7 @@ export class UserModel extends BaseModel<UserMast> {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         // 今日アサインした部屋ID配列
-        const assignRecords = await this.fetchTodayAssignRecords()
+        const assignRecords = await this.fetchTodayAllAssignRecords()
         const assignRoomID: string | string[] = []
         for (let i = 0; i < assignRecords.length; i++) {
             assignRoomID[i] = assignRecords[i].cleaningRoomID
@@ -150,6 +150,13 @@ export class UserModel extends BaseModel<UserMast> {
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
         const filteredRecords = records.filter((item) => item.cleaningTime === 0);
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
+    }
+
+    // 今日アサイン済みのレコードを清掃完了していないものも含めて取得する
+    async fetchTodayAllAssignRecords(): Promise<RecordModel[]> {
+        const today = timeStampToDateString(new Date().getTime());
+        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
+        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
     
     // このユーザーの未評価のレコードを取得する
