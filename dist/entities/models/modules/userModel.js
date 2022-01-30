@@ -114,6 +114,13 @@ class UserModel extends _baseModel_1.BaseModel {
         const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1);
         return yetAssignRoomID;
     }
+    // ユーザーの特定の部屋の1ヶ月分の清掃記録を取得する
+    async fetchUserMonthRecordsByRoomID(roomID) {
+        const toTime = new Date().getTime();
+        const fromTime = toTime - 2592000000;
+        const res = await this.repositoryContainer.recordMastRepository.fetchTermRecordsByCleanerIDAndRoomID(this.userID, roomID, fromTime, toTime);
+        return res.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => __2.compareNumDesc(a.createdAt, b.createdAt));
+    }
     // 自分と同じ所属のcleanerを取得する
     async fetchSameHotelCleaner() {
         const res = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(this.userHotelID);

@@ -8,4 +8,5 @@ export interface IRecordMastRepository {
     fetchAllRecordsByHotelID(recordHotelID: Scalars['ID']): Promise<RecordMast[]>
     fetchRecordsByDate(recordHotelID: Scalars['ID'], recordDate: Scalars['String']): Promise<RecordMast[]>
     fetchRecordByRecordID(recordID: Scalars['ID']): Promise<RecordMast | null>
+    fetchTermRecordsByCleanerIDAndRoomID(cleanerID: Scalars['ID'], cleaningRoomID: Scalars['ID'], from: Scalars['AWSTimestamp'], to:Scalars['AWSTimestamp']): Promise<RecordMast[]>
 }

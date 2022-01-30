@@ -1,6 +1,6 @@
-import { RecordModel, RoomModel } from '..';
-import { ErrorCode, RoomMast, Scalars, UserMast } from '../..';
-import { ChillnnTrainingError, compareNumDesc, generateUUID, timeStampToDateString } from '../../..';
+import { RecordModel } from '..';
+import { ErrorCode, Scalars, UserMast } from '../..';
+import { ChillnnTrainingError, compareNumDesc, timeStampToDateString } from '../../..';
 import { BaseModel } from './_baseModel';
 
 export class UserModel extends BaseModel<UserMast> {
@@ -113,6 +113,14 @@ export class UserModel extends BaseModel<UserMast> {
         // ここで差分を抜き出す
         const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1)
         return yetAssignRoomID
+    }
+
+    // ユーザーの特定の部屋の1ヶ月分の清掃記録を取得する
+    async fetchUserMonthRecordsByRoomID(roomID: Scalars['ID']): Promise<RecordModel[]> {
+        const toTime = new Date().getTime()
+        const fromTime = toTime - 2592000000
+        const res = await this.repositoryContainer.recordMastRepository.fetchTermRecordsByCleanerIDAndRoomID(this.userID, roomID, fromTime, toTime)
+        return res.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // 自分と同じ所属のcleanerを取得する
