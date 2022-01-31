@@ -4,7 +4,7 @@ exports.ScoreModel = void 0;
 const util_1 = require("../../../util");
 const _baseModel_1 = require("./_baseModel");
 class ScoreModel extends _baseModel_1.BaseModel {
-    static getBlanc(recordID, scorerUserID, score, scoreItemID) {
+    static getBlanc(recordID, scorerUserID, score, scoreItemID, scoreCleanerID, scoreRoomID) {
         return {
             recordID,
             scoreID: util_1.generateUUID(),
@@ -12,6 +12,8 @@ class ScoreModel extends _baseModel_1.BaseModel {
             createdAt: new Date().getTime(),
             score,
             scoreItemID,
+            scoreCleanerID,
+            scoreRoomID
         };
     }
     // ============================================
@@ -43,6 +45,18 @@ class ScoreModel extends _baseModel_1.BaseModel {
     }
     set scoreItemID(input) {
         this.mast.scoreItemID = input;
+    }
+    get scoreCleanerID() {
+        return this.mast.scoreCleanerID;
+    }
+    set scoreCleanerID(input) {
+        this.mast.scoreCleanerID = input;
+    }
+    get scoreRoomID() {
+        return this.mast.scoreRoomID;
+    }
+    set scoreRoomID(input) {
+        this.mast.scoreRoomID = input;
     }
     /* 清掃スコアの登録を行う */
     async register() {

@@ -35,6 +35,5 @@ export declare class UserModel extends BaseModel<UserMast> {
     fetchUnscoredRecords(): Promise<RecordModel[]>;
     fetchScoredRecords(): Promise<RecordModel[]>;
     roomIDToTimeArray(roomID: Scalars['ID']): Promise<number[]>;
-    recordsToAverageTime(records: RecordModel[]): Promise<void>;
     fetchAssignedRecords(): Promise<RecordModel[]>;
 }

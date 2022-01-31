@@ -5,6 +5,8 @@ type  ScoreMast {
     score: Int!
     createdAt: AWSTimestamp!
     scoreItemID: ID!
+    scoreCleanerID: ID!
+    scoreRoomID: ID!
 }
 
 input ScoreMastInput {
@@ -14,4 +16,6 @@ input ScoreMastInput {
     score: Int!
     createdAt: AWSTimestamp!
     scoreItemID: ID!
+    scoreCleanerID: ID!
+    scoreRoomID: ID!
 }

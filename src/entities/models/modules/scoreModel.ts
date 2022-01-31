@@ -3,7 +3,7 @@ import { generateUUID, timeStampToDateString } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class ScoreModel extends BaseModel<ScoreMast> {
-    static getBlanc(recordID: Scalars['ID'], scorerUserID: Scalars['ID'], score: Scalars['Int'], scoreItemID: Scalars['ID']): ScoreMast {
+    static getBlanc(recordID: Scalars['ID'], scorerUserID: Scalars['ID'], score: Scalars['Int'], scoreItemID: Scalars['ID'], scoreCleanerID: Scalars['ID'],scoreRoomID: Scalars['ID']): ScoreMast {
         return {
             recordID,
             scoreID: generateUUID(),
@@ -11,6 +11,8 @@ export class ScoreModel extends BaseModel<ScoreMast> {
             createdAt: new Date().getTime(),
             score,
             scoreItemID,
+            scoreCleanerID,
+            scoreRoomID
         };
     }
 
@@ -43,6 +45,22 @@ export class ScoreModel extends BaseModel<ScoreMast> {
     }
     set scoreItemID(input: string) {
         this.mast.scoreItemID = input;
+    }
+
+    get scoreCleanerID() {
+        return this.mast.scoreCleanerID
+    }
+
+    set scoreCleanerID(input: string) {
+        this.mast.scoreCleanerID = input
+    }
+
+    get scoreRoomID() {
+        return this.mast.scoreRoomID
+    }
+
+    set scoreRoomID(input: string) {
+        this.mast.scoreRoomID = input
     }
 
     /* 清掃スコアの登録を行う */

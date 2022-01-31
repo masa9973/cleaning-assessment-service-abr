@@ -129,6 +129,8 @@ export type ScoreMast = {
   score: Scalars['Int'];
   createdAt: Scalars['AWSTimestamp'];
   scoreItemID: Scalars['ID'];
+  scoreCleanerID: Scalars['ID'];
+  scoreRoomID: Scalars['ID'];
 };
 
 export type ScoreMastInput = {
@@ -138,6 +140,8 @@ export type ScoreMastInput = {
   score: Scalars['Int'];
   createdAt: Scalars['AWSTimestamp'];
   scoreItemID: Scalars['ID'];
+  scoreCleanerID: Scalars['ID'];
+  scoreRoomID: Scalars['ID'];
 };
 
 export type UserMast = {

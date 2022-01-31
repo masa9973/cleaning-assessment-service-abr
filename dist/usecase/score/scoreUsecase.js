@@ -18,7 +18,7 @@ class ScoreUsecase {
         }
         const userID = this.modelFactory.UserModel(me).userID;
         // this.recordModel.switchIfScored();
-        return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0, ''), {
+        return this.modelFactory.ScoreModel(scoreModel_1.ScoreModel.getBlanc(this.recordModel.recordID, userID, 0, '', '', this.recordModel.cleaningRoomID), {
             isNew: true,
         });
     }

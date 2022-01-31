@@ -40,7 +40,7 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast)
     }
 
-    // この評価項目を持つスコアを取得する（追加）
+    // この評価項目を持つスコアを取得する
     // ここでレコードID入れたら一意に特定できる
     async fetchScores(): Promise<ScoreModel[]> {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID)
@@ -55,7 +55,7 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         const userID = this.modelFactory.UserModel(me).userID;
-        return this.modelFactory.ScoreModel(ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID), {
+        return this.modelFactory.ScoreModel(ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID, '', ''), {
             isNew: true,
         })
     }

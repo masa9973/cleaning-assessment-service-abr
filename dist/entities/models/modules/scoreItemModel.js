@@ -40,7 +40,7 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast);
     }
-    // この評価項目を持つスコアを取得する（追加）
+    // この評価項目を持つスコアを取得する
     // ここでレコードID入れたら一意に特定できる
     async fetchScores() {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
@@ -54,7 +54,7 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
             throw new __3.ChillnnTrainingError(__2.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         const userID = this.modelFactory.UserModel(me).userID;
-        return this.modelFactory.ScoreModel(__1.ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID), {
+        return this.modelFactory.ScoreModel(__1.ScoreModel.getBlanc(recordID, userID, 0, this.scoreItemID, '', ''), {
             isNew: true,
         });
     }

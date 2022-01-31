@@ -114,6 +114,8 @@ export declare type ScoreMast = {
     score: Scalars['Int'];
     createdAt: Scalars['AWSTimestamp'];
     scoreItemID: Scalars['ID'];
+    scoreCleanerID: Scalars['ID'];
+    scoreRoomID: Scalars['ID'];
 };
 export declare type ScoreMastInput = {
     recordID: Scalars['ID'];
@@ -122,6 +124,8 @@ export declare type ScoreMastInput = {
     score: Scalars['Int'];
     createdAt: Scalars['AWSTimestamp'];
     scoreItemID: Scalars['ID'];
+    scoreCleanerID: Scalars['ID'];
+    scoreRoomID: Scalars['ID'];
 };
 export declare type UserMast = {
     userID: Scalars['ID'];
