@@ -46,6 +46,13 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
         const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __3.compareNumDesc(a.createdAt, b.createdAt));
     }
+    async fetchUserMonthScoresByRoomID(userID, roomID) {
+        const to = new Date().getTime();
+        const toTime = `${to}`;
+        const fromTime = `${to - 2592000000}`;
+        const res = await this.repositoryContainer.scoreMastRepository.fetchTermScoresByCleanerIDAndRoomID(userID, roomID, fromTime, toTime);
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __3.compareNumDesc(a.createdAt, b.createdAt));
+    }
     // レコードIDを入れてスコアを作成する
     // ここスコア作れたら良くない？
     async createNewScore(recordID) {

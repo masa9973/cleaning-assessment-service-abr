@@ -22,6 +22,5 @@ export declare class RecordModel extends BaseModel<RecordMast> {
     set cleanerID(input: string);
     register(): Promise<void>;
     fetchScores(): Promise<ScoreModel[]>;
-    fetchUserMonthScoresByRoomID(userID: Scalars['ID'], roomID: Scalars['ID']): Promise<ScoreModel[]>;
     switchIfScored(): Promise<void>;
 }

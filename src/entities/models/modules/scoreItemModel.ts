@@ -47,6 +47,14 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
         return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
     }
 
+    async fetchUserMonthScoresByRoomID(userID: Scalars['ID'],roomID: Scalars['ID']): Promise<ScoreModel[]> {
+        const to = new Date().getTime()
+        const toTime = `${to}`
+        const fromTime = `${to - 2592000000}`
+        const res = await this.repositoryContainer.scoreMastRepository.fetchTermScoresByCleanerIDAndRoomID(userID, roomID, fromTime, toTime)
+        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
+    }
+
     // レコードIDを入れてスコアを作成する
     // ここスコア作れたら良くない？
     async createNewScore(recordID: Scalars['ID']):Promise<ScoreModel> {

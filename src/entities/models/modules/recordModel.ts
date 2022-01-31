@@ -98,13 +98,7 @@ export class RecordModel extends BaseModel<RecordMast> {
     }
 
     // グラフ用の評価を取得する
-    async fetchUserMonthScoresByRoomID(userID: Scalars['ID'],roomID: Scalars['ID']): Promise<ScoreModel[]> {
-        const to = new Date().getTime()
-        const toTime = `${to}`
-        const fromTime = `${to - 2592000000}`
-        const res = await this.repositoryContainer.scoreMastRepository.fetchTermScoresByCleanerIDAndRoomID(userID, roomID, fromTime, toTime)
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
+    
 
     // 評価したらifScoredの値を変更する
     async switchIfScored() {

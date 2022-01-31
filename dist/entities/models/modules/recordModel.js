@@ -95,13 +95,6 @@ class RecordModel extends _baseModel_1.BaseModel {
         return res.map((item) => this.modelFactory.ScoreModel(item));
     }
     // グラフ用の評価を取得する
-    async fetchUserMonthScoresByRoomID(userID, roomID) {
-        const to = new Date().getTime();
-        const toTime = `${to}`;
-        const fromTime = `${to - 2592000000}`;
-        const res = await this.repositoryContainer.scoreMastRepository.fetchTermScoresByCleanerIDAndRoomID(userID, roomID, fromTime, toTime);
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
-    }
     // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true;
