@@ -101,9 +101,6 @@ export class UserModel extends BaseModel<UserMast> {
         for (let i = 0; i < res.length; i++) {
             allRoomID[i] = res[i].roomID
         }
-        if (res.length === 0) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
         // 今日アサインした部屋ID配列
         const assignRecords = await this.fetchTodayAllAssignRecords()
         const assignRoomID: string | string[] = []
