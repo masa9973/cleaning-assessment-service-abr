@@ -28,12 +28,6 @@ export class CleanerUsecase {
         return this.modelFactory.UserModel(user);
     }
 
-    // いらない
-    async fetchAllUserByHotelID(userHotelID: Scalars['ID']) {
-        const users = await this.repositoryContainer.userMastRepository.fetchAllUserByHotelID(userHotelID);
-        return users.map((user) => this.modelFactory.UserModel(user)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-
     // =======================
     // record
     // =======================
@@ -57,11 +51,6 @@ export class CleanerUsecase {
         return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
-    // いらない
-    async fetchRecordsByCleanerID(userID: Scalars['ID']): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(userID);
-        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
     async fetchRecordByRecordID(recordID: Scalars['ID']) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
         if (!record) {
@@ -86,12 +75,6 @@ export class CleanerUsecase {
                 throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
             }
         }
-    }
-
-    // いらない、施設に紐づく部屋を取得する
-    async fetchRoomsByHotelID(roomHotelID: Scalars['ID']): Promise<RoomModel[]> {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(roomHotelID);
-        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
     // いる
@@ -131,36 +114,10 @@ export class CleanerUsecase {
         }
     }
 
-    // いらない
-    async fetchScoreItemsByHotelID(scoreItemHotelID: Scalars['ID']): Promise<ScoreItemModel[]> {
-        const res = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemsByHotelID(scoreItemHotelID);
-        return res.map((item) => this.modelFactory.ScoreItemModel(item));
-    }
-
     // いる
     async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
         return this.modelFactory.ScoreItemModel(scoreItem!);
-    }
-
-    // =======================
-    // hotel
-    // =======================
-    // いらない、hotelを登録
-    async createNewHotel(hotelName: Scalars['String']): Promise<HotelModel> {
-        const me = await this.repositoryContainer.userMastRepository.fetchMyUserMast();
-        if (!me) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        } else {
-            const hotelID = this.modelFactory.UserModel(me).userHotelID;
-            if (typeof hotelID === 'string') {
-                return this.modelFactory.HotelModel(HotelModel.getBlanc(hotelID, hotelName), {
-                    isNew: true,
-                });
-            } else {
-                throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-            }
-        }
     }
 
     // レコードの文字列平均時間を返す関数
