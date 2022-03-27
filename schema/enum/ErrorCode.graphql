@@ -3,4 +3,7 @@ enum ErrorCode {
     chillnnTraining_401_notSignIn
     chillnnTraining_404_resourceNotFound
     chillnnTraining_500_systemError
+    chillnnTraining_user_not_confirmed # 認証されてない
+    chillnnTraining_code_mismatch # 認証コードを誤っている
+    chillnnTraining_email_already_exists # すでに登録されてるメアドである
 }
