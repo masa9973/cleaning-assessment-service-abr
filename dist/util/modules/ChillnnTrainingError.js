@@ -18,4 +18,7 @@ const errorMessages = {
     chillnnTraining_401_notSignIn: 'サインインしていません',
     chillnnTraining_404_resourceNotFound: 'リソースが見つかりません',
     chillnnTraining_500_systemError: 'システムエラーです',
+    chillnnTraining_code_mismatch: '認証コードを間違えていませんか？',
+    chillnnTraining_email_already_exists: '既に登録したメールアドレスではありませんか？',
+    chillnnTraining_user_not_confirmed: 'コードによる認証はお済ませですか？',
 };

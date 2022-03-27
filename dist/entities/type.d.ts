@@ -31,7 +31,10 @@ export declare enum ErrorCode {
     chillnnTraining_400_badRequest = "chillnnTraining_400_badRequest",
     chillnnTraining_401_notSignIn = "chillnnTraining_401_notSignIn",
     chillnnTraining_404_resourceNotFound = "chillnnTraining_404_resourceNotFound",
-    chillnnTraining_500_systemError = "chillnnTraining_500_systemError"
+    chillnnTraining_500_systemError = "chillnnTraining_500_systemError",
+    chillnnTraining_user_not_confirmed = "chillnnTraining_user_not_confirmed",
+    chillnnTraining_code_mismatch = "chillnnTraining_code_mismatch",
+    chillnnTraining_email_already_exists = "chillnnTraining_email_already_exists"
 }
 export declare type HotelMast = {
     hotelID: Scalars['ID'];
