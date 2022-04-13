@@ -1,3 +1,4 @@
+// ホテルの設定をしたい時に使用する
 import { Scalars, HotelMast } from '../../type'
 
 export interface IHotelMastRepository {
