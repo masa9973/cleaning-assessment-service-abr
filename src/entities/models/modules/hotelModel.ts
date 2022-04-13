@@ -1,3 +1,4 @@
+// 現在使用していない、UserにIDつけて施設を識別している
 import { Scalars, HotelMast } from '../..';
 import { BaseModel } from './_baseModel';
 
