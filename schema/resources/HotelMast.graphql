@@ -1,9 +1,0 @@
-type HotelMast {
-    hotelID: ID!
-    hotelName: String!
-}
-
-input HotelMastInput {
-    hotelID: ID!
-    hotelName: String!
-}
