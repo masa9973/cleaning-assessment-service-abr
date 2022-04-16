@@ -5,7 +5,10 @@ import { ScoreItemModel } from '../../entities/models/modules/scoreItemModel';
 import { ChillnnTrainingError, compareNumDesc, millisecondToStringTime } from '../../util';
 
 export class CleanerUsecase {
-    constructor(private repositoryContainer: RepositoryContainer, private modelFactory: ModelFactory) {}
+    constructor(
+        private repositoryContainer: RepositoryContainer, //
+        private modelFactory: ModelFactory
+        ){}
 
     // =======================
     // user

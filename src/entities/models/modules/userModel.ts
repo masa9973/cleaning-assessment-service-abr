@@ -68,50 +68,6 @@ export class UserModel extends BaseModel<UserMast> {
         this.mast.userIcon = await this.repositoryContainer.s3Repository.addFile(path, file);
     }
 
-    /**
-     * ユーザー情報を新規登録、または更新する
-     */
-    async register() {
-        if (this.isRegisterble) {
-            const now = new Date().getTime();
-            if (this.isNew) {
-                this.mast.createdAt = now;
-                this.mast.updatedAt = now;
-                await this.repositoryContainer.userMastRepository.addUserMast(this.mast);
-            } else {
-                this.mast.updatedAt = now;
-                await this.repositoryContainer.userMastRepository.updateUserMast(this.mast);
-            }
-            this.isNew = false;
-        }
-    }
-
-    // このユーザーと同じ所属の部屋を取得する
-    async fetchSameHotelRooms() {
-        const res = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID);
-        return res.map((item) => this.modelFactory.RoomModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-
-    // 今日まだアサインしてない部屋を取得する
-    async fetchYetAssignRoom() {
-        // 全部の部屋ID配列
-        const allRoom = await this.repositoryContainer.roomMastRepository.fetchRoomsByHotelID(this.userHotelID)
-        const res = allRoom.sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-        const allRoomID = []
-        for (let i = 0; i < res.length; i++) {
-            allRoomID[i] = res[i].roomID
-        }
-        // 今日アサインした部屋ID配列
-        const assignRecords = await this.fetchTodayAllAssignRecords()
-        const assignRoomID: string | string[] = []
-        for (let i = 0; i < assignRecords.length; i++) {
-            assignRoomID[i] = assignRecords[i].cleaningRoomID
-        }
-        // ここで差分を抜き出す
-        const yetAssignRoomID = allRoomID.filter(i => assignRoomID.indexOf(i) == -1)
-        return yetAssignRoomID
-    }
-
     // ユーザーの特定の部屋の1ヶ月分の清掃記録を取得する
     async fetchUserMonthRecordsByRoomID(roomID: Scalars['ID']): Promise<RecordModel[]> {
         const to = new Date().getTime()
@@ -141,21 +97,6 @@ export class UserModel extends BaseModel<UserMast> {
     }
 
     
-    // 今日アサイン済みのレコードを取得する
-    async fetchTodayAssignRecords(): Promise<RecordModel[]> {
-        const today = timeStampToDateString(new Date().getTime());
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
-        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-
-    // 今日アサイン済みのレコードを清掃完了していないものも含めて取得する
-    async fetchTodayAllAssignRecords(): Promise<RecordModel[]> {
-        const today = timeStampToDateString(new Date().getTime());
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
-        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-    
     // このユーザーの未評価のレコードを取得する
     async fetchUnscoredRecords(): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
@@ -183,13 +124,5 @@ export class UserModel extends BaseModel<UserMast> {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         return cleaningTimeResults;
-    }
-
-    // 多分いらないやつ
-    // アサイン済みのレコードを取得する
-    async fetchAssignedRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
-        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 }
