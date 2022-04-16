@@ -26,16 +26,6 @@ enum ErrorCode {
   chillnnTraining_email_already_exists
 }
 
-type HotelMast {
-  hotelID: ID!
-  hotelName: String!
-}
-
-input HotelMastInput {
-  hotelID: ID!
-  hotelName: String!
-}
-
 type RecordMast {
   recordID: ID!
   cleanerID: ID!
@@ -70,17 +60,17 @@ enum Role {
 type RoomMast {
   roomID: ID!
   roomName: String!
-  roomIcon: S3Object
   createdAt: AWSTimestamp!
-  roomHotelID: ID!
+  hotelID: ID!
+  lastAssignedDate: String!
 }
 
 input RoomMastInput {
   roomID: ID!
   roomName: String!
-  roomIcon: S3ObjectInput
   createdAt: AWSTimestamp!
-  roomHotelID: ID!
+  hotelID: ID!
+  lastAssignedDate: String!
 }
 
 type S3Object {
@@ -101,14 +91,14 @@ type ScoreItemMast {
   scoreItemID: ID!
   scoreItemName: ID!
   createdAt: AWSTimestamp!
-  scoreItemHotelID: ID!
+  hotelID: ID!
 }
 
 input ScoreItemMastInput {
   scoreItemID: ID!
   scoreItemName: ID!
   createdAt: AWSTimestamp!
-  scoreItemHotelID: ID!
+  hotelID: ID!
 }
 
 type ScoreMast {

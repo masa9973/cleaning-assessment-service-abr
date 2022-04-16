@@ -40,16 +40,6 @@ export enum ErrorCode {
   chillnnTraining_email_already_exists = 'chillnnTraining_email_already_exists'
 }
 
-export type HotelMast = {
-  hotelID: Scalars['ID'];
-  hotelName: Scalars['String'];
-};
-
-export type HotelMastInput = {
-  hotelID: Scalars['ID'];
-  hotelName: Scalars['String'];
-};
-
 export type RecordMast = {
   recordID: Scalars['ID'];
   cleanerID: Scalars['ID'];
@@ -84,17 +74,17 @@ export enum Role {
 export type RoomMast = {
   roomID: Scalars['ID'];
   roomName: Scalars['String'];
-  roomIcon?: Maybe<S3Object>;
   createdAt: Scalars['AWSTimestamp'];
-  roomHotelID: Scalars['ID'];
+  hotelID: Scalars['ID'];
+  lastAssignedDate: Scalars['String'];
 };
 
 export type RoomMastInput = {
   roomID: Scalars['ID'];
   roomName: Scalars['String'];
-  roomIcon?: Maybe<S3ObjectInput>;
   createdAt: Scalars['AWSTimestamp'];
-  roomHotelID: Scalars['ID'];
+  hotelID: Scalars['ID'];
+  lastAssignedDate: Scalars['String'];
 };
 
 export type S3Object = {
@@ -115,14 +105,14 @@ export type ScoreItemMast = {
   scoreItemID: Scalars['ID'];
   scoreItemName: Scalars['ID'];
   createdAt: Scalars['AWSTimestamp'];
-  scoreItemHotelID: Scalars['ID'];
+  hotelID: Scalars['ID'];
 };
 
 export type ScoreItemMastInput = {
   scoreItemID: Scalars['ID'];
   scoreItemName: Scalars['ID'];
   createdAt: Scalars['AWSTimestamp'];
-  scoreItemHotelID: Scalars['ID'];
+  hotelID: Scalars['ID'];
 };
 
 export type ScoreMast = {

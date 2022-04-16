@@ -2,12 +2,12 @@ type ScoreItemMast {
     scoreItemID: ID!
     scoreItemName: ID!
     createdAt: AWSTimestamp!
-    scoreItemHotelID: ID!
+    hotelID: ID!
 }
 
 input ScoreItemMastInput {
     scoreItemID: ID!
     scoreItemName: ID!
     createdAt: AWSTimestamp!
-    scoreItemHotelID: ID!
+    hotelID: ID!
 }

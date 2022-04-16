@@ -4,12 +4,13 @@ import { ChillnnTrainingError, generateUUID } from '../../../util';
 import { BaseModel } from './_baseModel';
 
 export class RoomModel extends BaseModel<RoomMast> {
-    static getBlanc(roomName: Scalars['String'], roomHotelID: Scalars['ID']): RoomMast {
+    static getBlanc(roomName: Scalars['String'], hotelID: Scalars['ID']): RoomMast {
         return {
             roomID: generateUUID(),
             roomName,
             createdAt: new Date().getTime(),
-            roomHotelID,
+            hotelID,
+            lastAssignedDate: ''
         };
     }
     // ============================================
@@ -21,13 +22,6 @@ export class RoomModel extends BaseModel<RoomMast> {
     get createdAt() {
         return this.mast.createdAt;
     }
-    get roomIcon() {
-        if (this.mast.roomIcon) {
-            return this.mast.roomIcon.url;
-        } else {
-            return this.repositoryContainer.s3Repository.getSampleImage().url;
-        }
-    }
     // ============================================
     // getters / setters
     // ============================================
@@ -37,19 +31,11 @@ export class RoomModel extends BaseModel<RoomMast> {
     set roomName(input: string) {
         this.mast.roomName = input;
     }
-    get roomHotelID() {
-        return this.mast.roomHotelID;
+    get hotelID() {
+        return this.mast.hotelID;
     }
-    set roomHotelID(input: string) {
-        this.mast.roomHotelID = input;
-    }
-    /**
-     * アイコン画像をセットする
-     * @param file
-     */
-    async setIcon(file: File) {
-        const path = `room/${this.roomID}/iconImage/${new Date().getTime()}`;
-        this.mast.roomIcon = await this.repositoryContainer.s3Repository.addFile(path, file);
+    set hotelID(input: string) {
+        this.mast.hotelID = input;
     }
     // 清掃部屋の登録を行う
     async register() {

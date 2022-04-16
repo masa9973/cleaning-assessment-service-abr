@@ -1,15 +1,15 @@
 type RoomMast {
     roomID: ID!
     roomName: String!
-    roomIcon: S3Object
     createdAt: AWSTimestamp!
-    roomHotelID: ID!
+    hotelID: ID!
+    lastAssignedDate: String! # 最後にアサインした日
 }
 
 input RoomMastInput {
     roomID: ID!
     roomName: String!
-    roomIcon: S3ObjectInput
     createdAt: AWSTimestamp!
-    roomHotelID: ID!
+    hotelID: ID!
+    lastAssignedDate: String! # 最後にアサインした日
 }
