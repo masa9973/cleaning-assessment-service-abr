@@ -36,6 +36,14 @@ export declare enum ErrorCode {
     chillnnTraining_code_mismatch = "chillnnTraining_code_mismatch",
     chillnnTraining_email_already_exists = "chillnnTraining_email_already_exists"
 }
+export declare type HotelMast = {
+    hotelID: Scalars['ID'];
+    hotelName: Scalars['String'];
+};
+export declare type HotelMastInput = {
+    hotelID: Scalars['ID'];
+    hotelName: Scalars['String'];
+};
 export declare type RecordMast = {
     recordID: Scalars['ID'];
     cleanerID: Scalars['ID'];

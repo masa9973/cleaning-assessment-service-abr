@@ -40,6 +40,16 @@ export enum ErrorCode {
   chillnnTraining_email_already_exists = 'chillnnTraining_email_already_exists'
 }
 
+export type HotelMast = {
+  hotelID: Scalars['ID'];
+  hotelName: Scalars['String'];
+};
+
+export type HotelMastInput = {
+  hotelID: Scalars['ID'];
+  hotelName: Scalars['String'];
+};
+
 export type RecordMast = {
   recordID: Scalars['ID'];
   cleanerID: Scalars['ID'];
