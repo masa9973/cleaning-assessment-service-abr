@@ -2,33 +2,89 @@ import { BaseCacheAdaptor } from '..';
 import { IRecordMastRepository } from '../..';
 import { RecordMast } from '../../entities';
 
+type HotelIDCache = {
+    [hotelID: string]: {
+        mast: RecordMast,
+        createdAt: number
+    }
+}
+
+type CleanerIDCache = {
+    [cleanerID: string]: {
+        mast: RecordMast,
+        createdAt: number
+    }
+}
+
+type RoomIDCache = {
+    [roomID: string]: {
+        mast: RecordMast,
+        createdAt: number
+    }
+}
+
+type RecordIDCache = {
+    [recordID: string]: {
+        mast: RecordMast,
+        createdAt: number
+    }
+}
+
+type CleanerIDRoomIDCache = {
+    [cleanerID: string]: {
+        [roomID: string]: {
+            mast: RecordMast,
+            createdAt: number,
+        }
+    }
+}
+
 export class RecordMastRepositoryCacheAdaptor extends BaseCacheAdaptor implements IRecordMastRepository {
+    private hotelIDCache: HotelIDCache = {}
+    private cleanerIDCache: CleanerIDCache = {}
+    private roomIDCache: RoomIDCache = {}
+    private recordIDCache: RecordIDCache = {}
+    private cleanerIDRoomIDCache: CleanerIDRoomIDCache = {}
+
     cacheClear(): void {
+        this.hotelIDCache = {}
+        this.cleanerIDCache = {}
+        this.roomIDCache = {}
+        this.recordIDCache = {}
+        this.cleanerIDRoomIDCache = {}
+    }
+    async addRecord(input: RecordMast): Promise<RecordMast> {
+        const res = await this.addRecord(input)
+
+        return res
+    }
+    async updateRecord(input: RecordMast): Promise<RecordMast> {
         throw new Error('Method not implemented.');
     }
-    addRecord(input: RecordMast): Promise<RecordMast> {
+    async fetchRecordsByCleanerID(cleanerID: string): Promise<RecordMast[]> {
         throw new Error('Method not implemented.');
     }
-    updateRecord(input: RecordMast): Promise<RecordMast> {
+    async fetchRecordsByRoomID(cleaningRoomID: string): Promise<RecordMast[]> {
         throw new Error('Method not implemented.');
     }
-    fetchRecordsByCleanerID(cleanerID: string): Promise<RecordMast[]> {
+    async fetchAllRecordsByHotelID(recordHotelID: string): Promise<RecordMast[]> {
         throw new Error('Method not implemented.');
     }
-    fetchRecordsByRoomID(cleaningRoomID: string): Promise<RecordMast[]> {
+    async fetchRecordsByDate(recordHotelID: string, recordDate: string): Promise<RecordMast[]> {
         throw new Error('Method not implemented.');
     }
-    fetchAllRecordsByHotelID(recordHotelID: string): Promise<RecordMast[]> {
+    async fetchRecordByRecordID(recordID: string): Promise<RecordMast | null> {
         throw new Error('Method not implemented.');
     }
-    fetchRecordsByDate(recordHotelID: string, recordDate: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
-    }
-    fetchRecordByRecordID(recordID: string): Promise<RecordMast | null> {
-        throw new Error('Method not implemented.');
-    }
-    fetchTermRecordsByCleanerIDAndRoomID(cleanerID: string, cleaningRoomID: string, from: string, to: string): Promise<RecordMast[]> {
+    async fetchTermRecordsByCleanerIDAndRoomID(cleanerID: string, cleaningRoomID: string, from: string, to: string): Promise<RecordMast[]> {
         throw new Error('Method not implemented.');
     }
 
+    // private
+    private addHotelIDCache(input: RecordMast) {
+        this.hotelIDCache[input.recordHotelID] = {
+            mast: input,
+            createdAt: new Date().getTime()
+        } 
+    }
 }
