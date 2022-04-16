@@ -81,10 +81,27 @@ export class RecordMastRepositoryCacheAdaptor extends BaseCacheAdaptor implement
     }
 
     // private
-    private addHotelIDCache(input: RecordMast) {
+    private addCache(input: RecordMast) {
+        const now = new Date().getTime()
         this.hotelIDCache[input.recordHotelID] = {
             mast: input,
-            createdAt: new Date().getTime()
-        } 
+            createdAt: now
+        }
+        this.cleanerIDCache[input.cleanerID] = {
+            mast: input,
+            createdAt: now
+        }
+        this.roomIDCache[input.cleaningRoomID] = {
+            mast: input,
+            createdAt: now
+        }
+        this.recordIDCache[input.recordID] = {
+            mast: input,
+            createdAt: now
+        }
+        this.cleanerIDRoomIDCache[input.cleanerID][input.cleaningRoomID] = {
+            mast: input,
+            createdAt: now
+        }
     }
 }
