@@ -40,13 +40,7 @@ export class ScoreItemModel extends BaseModel<ScoreItemMast> {
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast)
     }
 
-    // この評価項目を持つスコアを取得する
-    // ここでレコードID入れたら一意に特定できる
-    async fetchScores(): Promise<ScoreModel[]> {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID)
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
-    }
-
+    // グラフ描画に使う（マネ、クリ）
     async fetchUserMonthScoresByRoomID(userID: Scalars['ID'],roomID: Scalars['ID']): Promise<ScoreModel[]> {
         const to = new Date().getTime()
         const toTime = `${to}`

@@ -40,12 +40,7 @@ class ScoreItemModel extends _baseModel_1.BaseModel {
         this.mast.createdAt = new Date().getTime();
         this.mast = await this.repositoryContainer.scoreItemMastRepository.addScoreItem(this.mast);
     }
-    // この評価項目を持つスコアを取得する
-    // ここでレコードID入れたら一意に特定できる
-    async fetchScores() {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByScoreItemID(this.scoreItemID);
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => __3.compareNumDesc(a.createdAt, b.createdAt));
-    }
+    // グラフ描画に使う（マネ、クリ）
     async fetchUserMonthScoresByRoomID(userID, roomID) {
         const to = new Date().getTime();
         const toTime = `${to}`;

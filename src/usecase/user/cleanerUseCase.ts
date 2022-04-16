@@ -1,5 +1,5 @@
 import { ErrorCode, RepositoryContainer, RoomMast, Scalars } from '../../entities';
-import { HotelModel, ModelFactory, RoomModel, ScoreModel } from '../../entities/models';
+import { ModelFactory, RoomModel, ScoreModel } from '../../entities/models';
 import { RecordModel } from '../../entities/models/modules/recordModel';
 import { ScoreItemModel } from '../../entities/models/modules/scoreItemModel';
 import { ChillnnTrainingError, compareNumDesc, millisecondToStringTime } from '../../util';
@@ -46,11 +46,12 @@ export class CleanerUsecase {
             }
         }
     }
-    async fetchAllRecordsByHotelID(recordHotelID: Scalars['ID']) {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
-        return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
 
+    /**
+     * 清掃時間の登録に使う（クリ）
+     * @param recordID 
+     * @returns 
+     */
     async fetchRecordByRecordID(recordID: Scalars['ID']) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
         if (!record) {
@@ -77,7 +78,11 @@ export class CleanerUsecase {
         }
     }
 
-    // いる
+    /**
+     * 部屋の名前を出すのに使う（マネ、クリ）
+     * @param roomID 
+     * @returns 
+     */
     async fetchRoomByRoomID(roomID: Scalars['ID']): Promise<RoomModel | null> {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
         if (!room) {
@@ -89,11 +94,6 @@ export class CleanerUsecase {
     // =======================
     // score
     // =======================
-    // いる
-    async fetchScoresByRecordID(recordID: Scalars['ID']): Promise<ScoreModel[]> {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
 
     // =======================
     // scoreItem
@@ -114,7 +114,11 @@ export class CleanerUsecase {
         }
     }
 
-    // いる
+    /**
+     * レコードのスコアを表示するのに使う（マネ、クリ）
+     * @param scoreItemID 
+     * @returns 
+     */
     async fetchScoreItemByScoreItemID(scoreItemID: Scalars['ID']): Promise<ScoreItemModel | null> {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
         return this.modelFactory.ScoreItemModel(scoreItem!);
@@ -146,50 +150,5 @@ export class CleanerUsecase {
             throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         return timeResults
-    }
-
-    // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
-    // いらんかも
-    public async roomIDAndUserIDToAverageStringTime(userID: Scalars['ID'], roomID: Scalars['ID']) {
-        const user = await this.fetchUserModelByUserID(userID);
-        const scoredRecords = await user.fetchScoredRecords();
-        const recordsByRoomID = scoredRecords.filter((item) => item.cleaningRoomID === roomID);
-        const cleaningTimeResults = [];
-        for (let i = 0; i < recordsByRoomID.length; i++) {
-            cleaningTimeResults[i] = recordsByRoomID[i].cleaningTime;
-        }
-        if (cleaningTimeResults.length === 0) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
-        const averageTime = cleaningTimeResults.reduce((a, b) => a + b) / cleaningTimeResults.length;
-        return millisecondToStringTime(averageTime);
-    }
-
-    // 項目IDとユーザーIDを入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    public async scoreItemIDAndUserIDToAverageScore(userID: Scalars['ID'], scoreItemID: Scalars['ID']) {
-        // ここでレコードIDで一意に特定したい
-        const user = await this.fetchUserModelByUserID(userID);
-        const scoredRecords = await user.fetchScoredRecords();
-        const scoredRecordIDs = [];
-        // このIDのスコアが一括で欲しい
-        for (let i = 0; i < scoredRecords.length; i++) {
-            scoredRecordIDs[i] = scoredRecords[i].recordID;
-        }
-        const scoresFromID = [];
-        for (let i = 0; i < scoredRecordIDs.length; i++) {
-            scoresFromID[i] = await this.fetchScoresByRecordID(scoredRecordIDs[i]);
-        }
-        const scores = scoresFromID.reduce((a, b) => [...a, ...b], []);
-        // scores=このユーザーのスコアの一次元配列
-        // 受け取ったIDでフィルターをかける
-        const selectedItemScores = scores.filter((score) => score.scoreItemID === scoreItemID);
-        const selectedScoresValues = [];
-        for (let i = 0; i < selectedItemScores.length; i++) {
-            selectedScoresValues[i] = selectedItemScores[i].score;
-        }
-        if (selectedScoresValues.length === 0) {
-            throw new ChillnnTrainingError(ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
-        return selectedScoresValues.reduce((a, b) => a + b) / selectedScoresValues.length;
     }
 }
