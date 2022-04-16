@@ -26,14 +26,21 @@ export declare class UserModel extends BaseModel<UserMast> {
     register(): Promise<void>;
     fetchSameHotelRooms(): Promise<import("./RoomModel").RoomModel[]>;
     fetchYetAssignRoom(): Promise<string[]>;
+    /**
+     * 清掃時間のグラフを作成するのに使う（マネ、クリ）
+     * @param roomID
+     * @returns
+     */
     fetchUserMonthRecordsByRoomID(roomID: Scalars['ID']): Promise<RecordModel[]>;
     fetchSameHotelCleaner(): Promise<UserModel[]>;
     fetchSameHotelScoreItems(): Promise<import("./scoreItemModel").ScoreItemModel[]>;
-    fetchRecords(): Promise<RecordModel[]>;
-    fetchTodayAssignRecords(): Promise<RecordModel[]>;
-    fetchTodayAllAssignRecords(): Promise<RecordModel[]>;
+    private fetchTodayAllAssignRecords;
+    /**
+     * スコア登録してない一覧を取得（マネ）
+     * @returns
+     */
     fetchUnscoredRecords(): Promise<RecordModel[]>;
-    fetchScoredRecords(): Promise<RecordModel[]>;
+    private fetchScoredRecords;
     roomIDToTimeArray(roomID: Scalars['ID']): Promise<number[]>;
     fetchAssignedRecords(): Promise<RecordModel[]>;
 }

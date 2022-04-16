@@ -112,7 +112,11 @@ export class UserModel extends BaseModel<UserMast> {
         return yetAssignRoomID
     }
 
-    // ユーザーの特定の部屋の1ヶ月分の清掃記録を取得する
+    /**
+     * 清掃時間のグラフを作成するのに使う（マネ、クリ）
+     * @param roomID 
+     * @returns 
+     */
     async fetchUserMonthRecordsByRoomID(roomID: Scalars['ID']): Promise<RecordModel[]> {
         const to = new Date().getTime()
         const toTime = `${to}`
@@ -134,29 +138,17 @@ export class UserModel extends BaseModel<UserMast> {
         return res.map((item) => this.modelFactory.ScoreItemModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
 
-    // 自分のレコードを取得する
-    async fetchRecords(): Promise<RecordModel[]> {
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByCleanerID(this.userID);
-        return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-
-    
-    // 今日アサイン済みのレコードを取得する
-    async fetchTodayAssignRecords(): Promise<RecordModel[]> {
-        const today = timeStampToDateString(new Date().getTime());
-        const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
-        const filteredRecords = records.filter((item) => item.cleaningTime === 0);
-        return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
-    }
-
     // 今日アサイン済みのレコードを清掃完了していないものも含めて取得する
-    async fetchTodayAllAssignRecords(): Promise<RecordModel[]> {
+    private async fetchTodayAllAssignRecords(): Promise<RecordModel[]> {
         const today = timeStampToDateString(new Date().getTime());
         const records = await this.repositoryContainer.recordMastRepository.fetchRecordsByDate(this.userHotelID, today);
         return records.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));
     }
     
-    // このユーザーの未評価のレコードを取得する
+    /**
+     * スコア登録してない一覧を取得（マネ）
+     * @returns 
+     */
     async fetchUnscoredRecords(): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
         const filteredRecords = records.filter((record) => !record.ifScored && !!record.cleaningTime);
@@ -164,7 +156,7 @@ export class UserModel extends BaseModel<UserMast> {
     }
     
     // このユーザーの評価済みレコードを取得する
-    async fetchScoredRecords(): Promise<RecordModel[]> {
+    private async fetchScoredRecords(): Promise<RecordModel[]> {
         const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(this.userHotelID);
         const filteredRecords = records.filter((record) => record.ifScored === true);
         return filteredRecords.map((item) => this.modelFactory.RecordModel(item)).sort((a, b) => compareNumDesc(a.createdAt, b.createdAt));

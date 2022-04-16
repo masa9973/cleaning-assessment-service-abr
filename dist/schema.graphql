@@ -26,16 +26,6 @@ enum ErrorCode {
   chillnnTraining_email_already_exists
 }
 
-type HotelMast {
-  hotelID: ID!
-  hotelName: String!
-}
-
-input HotelMastInput {
-  hotelID: ID!
-  hotelName: String!
-}
-
 type RecordMast {
   recordID: ID!
   cleanerID: ID!

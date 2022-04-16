@@ -10,7 +10,6 @@ export declare class ScoreItemModel extends BaseModel<ScoreItemMast> {
     get scoreItemName(): string;
     set scoreItemName(input: string);
     register(): Promise<void>;
-    fetchScores(): Promise<ScoreModel[]>;
     fetchUserMonthScoresByRoomID(userID: Scalars['ID'], roomID: Scalars['ID']): Promise<ScoreModel[]>;
     createNewScore(recordID: Scalars['ID']): Promise<ScoreModel>;
 }

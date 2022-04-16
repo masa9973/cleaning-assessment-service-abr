@@ -91,15 +91,6 @@ export class RecordModel extends BaseModel<RecordMast> {
         this.isNew = false;
     }
 
-    // この清掃の評価を取得する
-    async fetchScores(): Promise<ScoreModel[]> {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(this.recordID);
-        return res.map((item) => this.modelFactory.ScoreModel(item));
-    }
-
-    // グラフ用の評価を取得する
-    
-
     // 評価したらifScoredの値を変更する
     async switchIfScored() {
         this.mast.ifScored = true;

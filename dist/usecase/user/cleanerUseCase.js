@@ -50,10 +50,11 @@ class CleanerUsecase {
             }
         }
     }
-    async fetchAllRecordsByHotelID(recordHotelID) {
-        const records = await this.repositoryContainer.recordMastRepository.fetchAllRecordsByHotelID(recordHotelID);
-        return records.map((record) => this.modelFactory.RecordModel(record)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
-    }
+    /**
+     * 清掃時間の登録に使う（クリ）
+     * @param recordID
+     * @returns
+     */
     async fetchRecordByRecordID(recordID) {
         const record = await this.repositoryContainer.recordMastRepository.fetchRecordByRecordID(recordID);
         if (!record) {
@@ -81,7 +82,11 @@ class CleanerUsecase {
             }
         }
     }
-    // いる
+    /**
+     * 部屋の名前を出すのに使う（マネ、クリ）
+     * @param roomID
+     * @returns
+     */
     async fetchRoomByRoomID(roomID) {
         const room = await this.repositoryContainer.roomMastRepository.fetchRoomByRoomID(roomID);
         if (!room) {
@@ -92,11 +97,6 @@ class CleanerUsecase {
     // =======================
     // score
     // =======================
-    // いる
-    async fetchScoresByRecordID(recordID) {
-        const res = await this.repositoryContainer.scoreMastRepository.fetchScoresByRecordID(recordID);
-        return res.map((item) => this.modelFactory.ScoreModel(item)).sort((a, b) => util_1.compareNumDesc(a.createdAt, b.createdAt));
-    }
     // =======================
     // scoreItem
     // =======================
@@ -117,7 +117,11 @@ class CleanerUsecase {
             }
         }
     }
-    // いる
+    /**
+     * レコードのスコアを表示するのに使う（マネ、クリ）
+     * @param scoreItemID
+     * @returns
+     */
     async fetchScoreItemByScoreItemID(scoreItemID) {
         const scoreItem = await this.repositoryContainer.scoreItemMastRepository.fetchScoreItemByScoreItemID(scoreItemID);
         return this.modelFactory.ScoreItemModel(scoreItem);
@@ -147,49 +151,6 @@ class CleanerUsecase {
             throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
         }
         return timeResults;
-    }
-    // roomIDとユーザーID入れたらそのユーザーの部屋の平均清掃時間文字列を返す関数
-    // いらんかも
-    async roomIDAndUserIDToAverageStringTime(userID, roomID) {
-        const user = await this.fetchUserModelByUserID(userID);
-        const scoredRecords = await user.fetchScoredRecords();
-        const recordsByRoomID = scoredRecords.filter((item) => item.cleaningRoomID === roomID);
-        const cleaningTimeResults = [];
-        for (let i = 0; i < recordsByRoomID.length; i++) {
-            cleaningTimeResults[i] = recordsByRoomID[i].cleaningTime;
-        }
-        if (cleaningTimeResults.length === 0) {
-            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
-        const averageTime = cleaningTimeResults.reduce((a, b) => a + b) / cleaningTimeResults.length;
-        return util_1.millisecondToStringTime(averageTime);
-    }
-    // 項目IDとユーザーIDを入れたらそのユーザーの特定の項目の平均スコアを返す関数
-    async scoreItemIDAndUserIDToAverageScore(userID, scoreItemID) {
-        // ここでレコードIDで一意に特定したい
-        const user = await this.fetchUserModelByUserID(userID);
-        const scoredRecords = await user.fetchScoredRecords();
-        const scoredRecordIDs = [];
-        // このIDのスコアが一括で欲しい
-        for (let i = 0; i < scoredRecords.length; i++) {
-            scoredRecordIDs[i] = scoredRecords[i].recordID;
-        }
-        const scoresFromID = [];
-        for (let i = 0; i < scoredRecordIDs.length; i++) {
-            scoresFromID[i] = await this.fetchScoresByRecordID(scoredRecordIDs[i]);
-        }
-        const scores = scoresFromID.reduce((a, b) => [...a, ...b], []);
-        // scores=このユーザーのスコアの一次元配列
-        // 受け取ったIDでフィルターをかける
-        const selectedItemScores = scores.filter((score) => score.scoreItemID === scoreItemID);
-        const selectedScoresValues = [];
-        for (let i = 0; i < selectedItemScores.length; i++) {
-            selectedScoresValues[i] = selectedItemScores[i].score;
-        }
-        if (selectedScoresValues.length === 0) {
-            throw new util_1.ChillnnTrainingError(entities_1.ErrorCode.chillnnTraining_404_resourceNotFound);
-        }
-        return selectedScoresValues.reduce((a, b) => a + b) / selectedScoresValues.length;
     }
 }
 exports.CleanerUsecase = CleanerUsecase;
