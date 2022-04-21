@@ -26,11 +26,11 @@ type CleanerIDRoomIDCache = {
     }
 }
 
-export class RecordMastRepositoryCacheAdaptor extends BaseCacheAdaptor implements IRecordMastRepository {
+export class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
     constructor(
         private repository: IRecordMastRepository
     ){
-        super();
+        // super();
     }
     private hotelIDCaches: HotelIDCache[] = []
     private hotelIDRecordDateCaches: HotelIDRecordDateCache[] = []

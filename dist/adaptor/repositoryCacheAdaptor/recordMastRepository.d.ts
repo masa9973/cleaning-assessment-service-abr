@@ -1,7 +1,6 @@
-import { BaseCacheAdaptor } from '..';
 import { IRecordMastRepository } from '../..';
 import { RecordMast } from '../../entities';
-export declare class RecordMastRepositoryCacheAdaptor extends BaseCacheAdaptor implements IRecordMastRepository {
+export declare class RecordMastRepositoryCacheAdaptor implements IRecordMastRepository {
     private repository;
     constructor(repository: IRecordMastRepository);
     private hotelIDCaches;

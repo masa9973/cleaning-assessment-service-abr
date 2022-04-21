@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecordMastRepositoryCacheAdaptor = void 0;
-const __1 = require("..");
-class RecordMastRepositoryCacheAdaptor extends __1.BaseCacheAdaptor {
+class RecordMastRepositoryCacheAdaptor {
     constructor(repository) {
-        super();
         this.repository = repository;
         this.hotelIDCaches = [];
         this.hotelIDRecordDateCaches = [];
         this.cleanerIDCaches = [];
         this.recordIDCache = {};
         this.cleanerIDRoomIDCache = {};
+        // super();
     }
     cacheClear() {
         this.hotelIDCaches = [];
