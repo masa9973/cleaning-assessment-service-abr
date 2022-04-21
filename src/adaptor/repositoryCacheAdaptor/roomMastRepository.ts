@@ -17,7 +17,6 @@ export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
         this.addHotelIDCache(input)
         this.addRoomIDCache(input)
         return await this.repository.addRoom(input)
-        
     }
     async fetchRoomsByHotelID(roomHotelID: string): Promise<RoomMast[]> {
         if (this.hotelIDCache) {
@@ -37,6 +36,7 @@ export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
     }
 
     private addHotelIDCache(input: RoomMast) {
+        // ここ多分バグの原因
         this.hotelIDCache[input.roomHotelID] = input
     }
 
