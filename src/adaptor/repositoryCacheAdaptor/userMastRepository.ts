@@ -58,6 +58,7 @@ export class UserMastRepositoryCacheAdaptor implements IUserMastRepository {
     //
     // ===============================================================
     private myUserID: string | null = null;
+
     private updateCacheEach(userID: Scalars['ID'], user: UserMast | null) {
         this.userEachCache[userID] = user || 'blanc';
         if (this.userAllCache && user) {
