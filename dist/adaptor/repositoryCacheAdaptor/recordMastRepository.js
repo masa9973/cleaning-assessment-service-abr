@@ -3,69 +3,99 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecordMastRepositoryCacheAdaptor = void 0;
 const __1 = require("..");
 class RecordMastRepositoryCacheAdaptor extends __1.BaseCacheAdaptor {
-    constructor() {
-        super(...arguments);
-        this.hotelIDCache = {};
-        this.cleanerIDCache = {};
-        this.roomIDCache = {};
+    constructor(repository) {
+        super();
+        this.repository = repository;
+        this.hotelIDCaches = [];
+        this.hotelIDRecordDateCaches = [];
+        this.cleanerIDCaches = [];
         this.recordIDCache = {};
         this.cleanerIDRoomIDCache = {};
     }
     cacheClear() {
-        this.hotelIDCache = {};
-        this.cleanerIDCache = {};
-        this.roomIDCache = {};
+        this.hotelIDCaches = [];
+        this.hotelIDRecordDateCaches = [];
+        this.cleanerIDCaches = [];
         this.recordIDCache = {};
         this.cleanerIDRoomIDCache = {};
     }
     async addRecord(input) {
-        const res = await this.addRecord(input);
+        // 全キャッシュを保存
+        this.addHotelIDCache(input);
+        this.addHotelIDRecordDateCache(input);
+        this.addRecordIDCache(input);
+        const res = await this.repository.addRecord(input);
         return res;
     }
     async updateRecord(input) {
-        throw new Error('Method not implemented.');
-    }
-    async fetchRecordsByCleanerID(cleanerID) {
-        throw new Error('Method not implemented.');
-    }
-    async fetchRecordsByRoomID(cleaningRoomID) {
-        throw new Error('Method not implemented.');
+        this.addHotelIDCache(input);
+        this.addHotelIDRecordDateCache(input);
+        const res = await this.repository.updateRecord(input);
+        return res;
     }
     async fetchAllRecordsByHotelID(recordHotelID) {
-        throw new Error('Method not implemented.');
+        // キャッシュがあるならキャッシュを返す
+        if (this.hotelIDCaches) {
+            // キャッシュをRecordMastの型にする
+            return this.hotelIDCaches.map((item) => item[recordHotelID]);
+        }
+        // ないならキャッシュを追加
+        const res = await this.repository.fetchAllRecordsByHotelID(recordHotelID);
+        this.addHotelIDCaches(res);
+        return res;
     }
     async fetchRecordsByDate(recordHotelID, recordDate) {
-        throw new Error('Method not implemented.');
+        if (this.hotelIDRecordDateCaches) {
+            return this.hotelIDRecordDateCaches.map((item) => item[recordHotelID][recordDate]);
+        }
+        const res = await this.repository.fetchRecordsByDate(recordHotelID, recordDate);
+        this.addHotelIDRecordDateCaches(res);
+        return res;
     }
     async fetchRecordByRecordID(recordID) {
-        throw new Error('Method not implemented.');
+        if (this.recordIDCache) {
+            return this.recordIDCache[recordID];
+        }
+        const res = await this.repository.fetchRecordByRecordID(recordID);
+        this.addRecordIDCache(res);
+        return res;
     }
+    /**
+     * ここ時間ある時実装しよう
+     * @param cleanerID
+     * @param cleaningRoomID
+     * @param from
+     * @param to
+     * @returns
+     */
     async fetchTermRecordsByCleanerIDAndRoomID(cleanerID, cleaningRoomID, from, to) {
-        throw new Error('Method not implemented.');
+        const res = await this.repository.fetchTermRecordsByCleanerIDAndRoomID(cleanerID, cleaningRoomID, from, to);
+        return res;
     }
     // private
-    addCache(input) {
-        const now = new Date().getTime();
-        this.hotelIDCache[input.recordHotelID] = {
-            mast: input,
-            createdAt: now
+    addHotelIDCaches(input) {
+        input.map((item) => {
+            this.addHotelIDCache(item);
+        });
+    }
+    addHotelIDCache(input) {
+        this.hotelIDCaches.push({ [input.recordHotelID]: input });
+    }
+    addHotelIDRecordDateCache(input) {
+        const arg = {
+            [input.recordHotelID]: {
+                [input.recordDate]: input
+            }
         };
-        this.cleanerIDCache[input.cleanerID] = {
-            mast: input,
-            createdAt: now
-        };
-        this.roomIDCache[input.cleaningRoomID] = {
-            mast: input,
-            createdAt: now
-        };
-        this.recordIDCache[input.recordID] = {
-            mast: input,
-            createdAt: now
-        };
-        this.cleanerIDRoomIDCache[input.cleanerID][input.cleaningRoomID] = {
-            mast: input,
-            createdAt: now
-        };
+        this.hotelIDRecordDateCaches.push(arg);
+    }
+    addHotelIDRecordDateCaches(input) {
+        input.map((item) => {
+            this.addHotelIDRecordDateCache(item);
+        });
+    }
+    addRecordIDCache(input) {
+        this.recordIDCache[input.recordID] = input;
     }
 }
 exports.RecordMastRepositoryCacheAdaptor = RecordMastRepositoryCacheAdaptor;
