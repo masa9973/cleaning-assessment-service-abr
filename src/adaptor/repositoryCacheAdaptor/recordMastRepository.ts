@@ -2,106 +2,129 @@ import { BaseCacheAdaptor } from '..';
 import { IRecordMastRepository } from '../..';
 import { RecordMast } from '../../entities';
 
-type HotelIDCache = {
+type HotelIDRecordDateCache = {
     [hotelID: string]: {
-        mast: RecordMast,
-        createdAt: number
+        [recordDate: string]: RecordMast
     }
+}
+
+type HotelIDCache = {
+    [hotelID: string]: RecordMast
 }
 
 type CleanerIDCache = {
-    [cleanerID: string]: {
-        mast: RecordMast,
-        createdAt: number
-    }
-}
-
-type RoomIDCache = {
-    [roomID: string]: {
-        mast: RecordMast,
-        createdAt: number
-    }
+    [cleanerID: string]: RecordMast
 }
 
 type RecordIDCache = {
-    [recordID: string]: {
-        mast: RecordMast,
-        createdAt: number
-    }
+    [recordID: string]: RecordMast | null
 }
 
 type CleanerIDRoomIDCache = {
     [cleanerID: string]: {
-        [roomID: string]: {
-            mast: RecordMast,
-            createdAt: number,
-        }
+        [roomID: string]: RecordMast
     }
 }
 
 export class RecordMastRepositoryCacheAdaptor extends BaseCacheAdaptor implements IRecordMastRepository {
-    private hotelIDCache: HotelIDCache = {}
-    private cleanerIDCache: CleanerIDCache = {}
-    private roomIDCache: RoomIDCache = {}
+    constructor(
+        private repository: IRecordMastRepository
+    ){
+        super();
+    }
+    private hotelIDCaches: HotelIDCache[] = []
+    private hotelIDRecordDateCaches: HotelIDRecordDateCache[] = []
+    private cleanerIDCaches: CleanerIDCache[] = []
     private recordIDCache: RecordIDCache = {}
     private cleanerIDRoomIDCache: CleanerIDRoomIDCache = {}
-
     cacheClear(): void {
-        this.hotelIDCache = {}
-        this.cleanerIDCache = {}
-        this.roomIDCache = {}
+        this.hotelIDCaches = []
+        this.hotelIDRecordDateCaches  = []
+        this.cleanerIDCaches = []
         this.recordIDCache = {}
         this.cleanerIDRoomIDCache = {}
     }
     async addRecord(input: RecordMast): Promise<RecordMast> {
-        const res = await this.addRecord(input)
-
+        // 全キャッシュを保存
+        this.addHotelIDCache(input)
+        this.addHotelIDRecordDateCache(input)
+        this.addRecordIDCache(input)
+        const res = await this.repository.addRecord(input)
         return res
     }
     async updateRecord(input: RecordMast): Promise<RecordMast> {
-        throw new Error('Method not implemented.');
-    }
-    async fetchRecordsByCleanerID(cleanerID: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
-    }
-    async fetchRecordsByRoomID(cleaningRoomID: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
+        this.addHotelIDCache(input)
+        this.addHotelIDRecordDateCache(input)
+        const res = await this.repository.updateRecord(input)
+        return res
     }
     async fetchAllRecordsByHotelID(recordHotelID: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
+        // キャッシュがあるならキャッシュを返す
+        if (this.hotelIDCaches) {
+            // キャッシュをRecordMastの型にする
+            return this.hotelIDCaches.map((item) => item[recordHotelID])
+        }
+        // ないならキャッシュを追加
+        const res = await this.repository.fetchAllRecordsByHotelID(recordHotelID)
+        this.addHotelIDCaches(res)
+        return res
     }
     async fetchRecordsByDate(recordHotelID: string, recordDate: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
+        if (this.hotelIDRecordDateCaches) {
+            return this.hotelIDRecordDateCaches.map((item) => item[recordHotelID][recordDate])
+        }
+        const res = await this.repository.fetchRecordsByDate(recordHotelID, recordDate)
+        this.addHotelIDRecordDateCaches(res)
+        return res
     }
     async fetchRecordByRecordID(recordID: string): Promise<RecordMast | null> {
-        throw new Error('Method not implemented.');
+        if (this.recordIDCache) {
+            return this.recordIDCache[recordID]
+        }
+        const res = await this.repository.fetchRecordByRecordID(recordID)
+        this.addRecordIDCache(res)
+        return res
     }
+    /**
+     * ここ時間ある時実装しよう
+     * @param cleanerID 
+     * @param cleaningRoomID 
+     * @param from 
+     * @param to 
+     * @returns 
+     */
     async fetchTermRecordsByCleanerIDAndRoomID(cleanerID: string, cleaningRoomID: string, from: string, to: string): Promise<RecordMast[]> {
-        throw new Error('Method not implemented.');
+        const res = await this.repository.fetchTermRecordsByCleanerIDAndRoomID(cleanerID, cleaningRoomID, from, to)
+        return res
+    }
+    
+    // private
+    private addHotelIDCaches(input: RecordMast[]) {
+        input.map((item) => {
+            this.addHotelIDCache(item)
+        })
     }
 
-    // private
-    private addCache(input: RecordMast) {
-        const now = new Date().getTime()
-        this.hotelIDCache[input.recordHotelID] = {
-            mast: input,
-            createdAt: now
+    private addHotelIDCache(input: RecordMast) {
+        this.hotelIDCaches.push({[input.recordHotelID]: input})
+    }
+
+    private addHotelIDRecordDateCache(input: RecordMast) {
+        const arg: HotelIDRecordDateCache = {
+            [input.recordHotelID]: {
+                [input.recordDate]: input
+            }
         }
-        this.cleanerIDCache[input.cleanerID] = {
-            mast: input,
-            createdAt: now
-        }
-        this.roomIDCache[input.cleaningRoomID] = {
-            mast: input,
-            createdAt: now
-        }
-        this.recordIDCache[input.recordID] = {
-            mast: input,
-            createdAt: now
-        }
-        this.cleanerIDRoomIDCache[input.cleanerID][input.cleaningRoomID] = {
-            mast: input,
-            createdAt: now
-        }
+        this.hotelIDRecordDateCaches.push(arg)
+    }
+
+    private addHotelIDRecordDateCaches(input: RecordMast[]) {
+        input.map((item) => {
+            this.addHotelIDRecordDateCache(item)
+        })
+    }
+
+    private addRecordIDCache(input: RecordMast | null) {
+        this.recordIDCache[input!.recordID] = input
     }
 }
