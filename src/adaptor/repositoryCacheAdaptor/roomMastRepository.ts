@@ -2,12 +2,13 @@ import { compareNumDesc, IRoomMastRepository } from '../..';
 import { RoomMast } from '../../entities';
 
 type HotelIDCache = {
-    [hotelID: string]: RoomMast
+    [hotelID: string]: RoomMast | undefined;
 }
 
 type RoomIDCache = {
     [roomID: string]: RoomMast | null
 }
+// fetchCacheメソッドを実装、repositoryのメソッド内で定数のcacheを定義、キャッシュがない場合にfetchCacheでemptyを返すようにする
 export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
     constructor(private repository: IRoomMastRepository){}
     private hotelIDCache: HotelIDCache = {}
@@ -19,8 +20,8 @@ export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
         return await this.repository.addRoom(input)
     }
     async fetchRoomsByHotelID(roomHotelID: string): Promise<RoomMast[]> {
-        if (this.hotelIDCache) {
-            return this.fetchHotelIDCaches()
+        if (this.hotelIDCache[roomHotelID]) {
+            return []
         }
         const res = await this.repository.fetchRoomsByHotelID(roomHotelID)
         this.addHotelIDCaches(res)
@@ -36,7 +37,6 @@ export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
     }
 
     private addHotelIDCache(input: RoomMast) {
-        // ここ多分バグの原因
         this.hotelIDCache[input.roomHotelID] = input
     }
 
