@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomMastRepositoryCacheAdaptor = void 0;
 const __1 = require("../..");
+// fetchCacheメソッドを実装、repositoryのメソッド内で定数のcacheを定義、キャッシュがない場合にfetchCacheでemptyを返すようにする
 class RoomMastRepositoryCacheAdaptor {
     constructor(repository) {
         this.repository = repository;
@@ -14,8 +15,8 @@ class RoomMastRepositoryCacheAdaptor {
         return await this.repository.addRoom(input);
     }
     async fetchRoomsByHotelID(roomHotelID) {
-        if (this.hotelIDCache) {
-            return this.fetchHotelIDCaches();
+        if (this.hotelIDCache[roomHotelID]) {
+            return [];
         }
         const res = await this.repository.fetchRoomsByHotelID(roomHotelID);
         this.addHotelIDCaches(res);
