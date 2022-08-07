@@ -1,60 +1,74 @@
-import { compareNumDesc, IRoomMastRepository } from '../..';
-import { RoomMast } from '../../entities';
+import { IRoomMastRepository } from "../..";
+import { RoomMast } from "../../entities";
 
+// この構造だとadd時にキャッシュ追加ができない
 type HotelIDCache = {
-    [hotelID: string]: RoomMast | undefined;
-}
+    [hotelID: string]: {
+        masts: RoomMast[];
+        createdAt: number;
+    };
+};
 
 type RoomIDCache = {
-    [roomID: string]: RoomMast | null
-}
+    [roomID: string]: {
+        mast: RoomMast | null;
+        createdAt: number;
+    };
+};
 // fetchCacheメソッドを実装、repositoryのメソッド内で定数のcacheを定義、キャッシュがない場合にfetchCacheでemptyを返すようにする
 export class RoomMastRepositoryCacheAdaptor implements IRoomMastRepository {
-    constructor(private repository: IRoomMastRepository){}
-    private hotelIDCache: HotelIDCache = {}
-    private roomIDCache: RoomIDCache = {}
-
-    async addRoom(input: RoomMast): Promise<RoomMast> {
-        this.addHotelIDCache(input)
-        this.addRoomIDCache(input)
-        return await this.repository.addRoom(input)
+    constructor(private repository: IRoomMastRepository, private cacheTimeMilli: number) {}
+    private hotelIDCache: HotelIDCache = {};
+    private roomIDCache: RoomIDCache = {};
+    addRoom(input: RoomMast): Promise<RoomMast> {
+        return this.repository.addRoom(input); // 一旦こうしている addCache関数を作成するう
     }
     async fetchRoomsByHotelID(roomHotelID: string): Promise<RoomMast[]> {
-        if (this.hotelIDCache[roomHotelID]) {
-            return []
+        // キャッシュがあるならキャッシュを返す
+        const cache = this.fetchHotelIDCache(roomHotelID);
+        if (cache) {
+            return cache;
+        } else {
+            const res = await this.fetchHotelIDViaRepository(roomHotelID);
+            // キャッシュ追加
+            return res;
         }
-        const res = await this.repository.fetchRoomsByHotelID(roomHotelID)
-        this.addHotelIDCaches(res)
-        return res
     }
     async fetchRoomByRoomID(roomID: string): Promise<RoomMast | null> {
-        if (this.roomIDCache) {
-            return this.roomIDCache[roomID]
-        }
-        const res = await this.repository.fetchRoomByRoomID(roomID)
-        this.addRoomIDCache(res)
-        return res
-    }
-
-    private addHotelIDCache(input: RoomMast) {
-        this.hotelIDCache[input.roomHotelID] = input
-    }
-
-    private addHotelIDCaches(input: RoomMast[]) {
-        for (const mast of input) {
-            this.addHotelIDCache(mast)
+        const cache = this.fetchRoomIDCache(roomID);
+        if (cache) {
+            return cache;
+        } else {
+            const res = await this.repository.fetchRoomByRoomID(roomID);
+            // キャッシュを追加
+            return res;
         }
     }
 
-    private fetchHotelIDCaches() {
-        return Object.keys(this.hotelIDCache)
-                .map((key) => {
-                    return this.hotelIDCache[key] as RoomMast;
-                })
-                .sort((a, b) => compareNumDesc(a.createdAt, b.createdAt))
+    // private
+    private fetchRoomIDCache(roomID: string) {
+        if (this.roomIDCache[roomID]) {
+            // ここで生きてるかも判別したい
+            return this.roomIDCache[roomID].mast;
+        } else {
+            return null;
+        }
     }
 
-    private addRoomIDCache(input: RoomMast | null) {
-        this.roomIDCache[input!.roomID] = input
+    private fetchHotelIDCache(hotelID: string) {
+        if (this.hotelIDCache[hotelID]) {
+            return this.hotelIDCache[hotelID].masts;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * repositoryを使いたい関数
+     * @param hotelID
+     * @returns
+     */
+    private async fetchHotelIDViaRepository(hotelID: string) {
+        return await this.repository.fetchRoomsByHotelID(hotelID);
     }
 }
